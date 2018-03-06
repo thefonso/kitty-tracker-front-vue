@@ -4,10 +4,10 @@
     <form class="form-signin">
       <h2 class="form-signin-heading">Please sign in</h2>
       <label for="inputName" class="sr-only">Name</label>
-      <input id="inputName" class="form-control" placeholder="User name" required="" autofocus="" type="text" v-model="login.username">
+      <input id="inputName" class="form-control" placeholder="User name" required="" autofocus="" type="text" v-model="username">
       <label for="inputPassword" class="sr-only">Password</label>
-      <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" v-model="login.password">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" @click="signin">Sign in</button>
+      <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" v-model="password">
+      <button class="btn btn-lg btn-primary btn-block" type="submit" @click.prevent="signin">Sign in</button>
     </form>
 
   </div>
@@ -22,19 +22,24 @@ axios.defaults.xsrfHeaderName = 'X-CSRFToken'
 export default {
   data() {
     return {
-      login:{
-        username: '',
-        password: '',
-      }
+      username: '',
+      password: '',
     };
   },
   methods: {
     signin() {
-      axios.post('http://localhost:8000/api/v1/api-auth/login/',this.login)
-        .then(response => console.log(response));
-    }
+      axios.post('http://localhost:8000/api/v1/',
+        { name: this.username, password: this.password },
+        { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
+        .then(
+          (response) => console.log(response),
+        )
+        .catch(
+          (error) => console.log(error),
+        );
+    },
   },
-}
+};
 </script>
 
 <style scoped>
