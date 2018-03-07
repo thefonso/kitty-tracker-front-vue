@@ -1,45 +1,52 @@
 <template>
   <div class="container">
 
-    <form class="form-signin">
+    <form class="form-signin" @submit.prevent="login">
       <h2 class="form-signin-heading">Please sign in</h2>
+      <div class="alert alert-danger" v-if="error">{{ error }}</div>
       <label for="inputName" class="sr-only">Name</label>
-      <input id="inputName" class="form-control" placeholder="User name" required="" autofocus="" type="text" v-model="username">
+      <input id="inputName" class="form-control" placeholder="Username" required="" autofocus="" type="text" v-model="username">
       <label for="inputPassword" class="sr-only">Password</label>
       <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" v-model="password">
-      <button class="btn btn-lg btn-primary btn-block" type="submit" @click.prevent="signin">Sign in</button>
+      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
     </form>
 
   </div>
 </template>
 
 <script>
-import axios from 'axios';
-
-axios.defaults.xsrfCookieName = 'csrftoken'
-axios.defaults.xsrfHeaderName = 'X-CSRFToken'
-
-export default {
-  data() {
-    return {
-      username: '',
-      password: '',
-    };
-  },
-  methods: {
-    signin() {
-      axios.post('http://localhost:8000/api/v1/',
-        { name: this.username, password: this.password },
-        { headers: { 'X-Requested-With': 'XMLHttpRequest' } })
-        .then(
-          (response) => console.log(response),
-        )
-        .catch(
-          (error) => console.log(error),
-        );
+  export default {
+    name: 'Login',
+    data () {
+      return {
+        username: '',
+        password: '',
+        error: false
+      }
     },
-  },
-};
+    methods: {
+      login () {
+        this.$http.post('http://localhost:3000/api/v1/api-auth/obtain_token/', { username: this.username, password: this.password })
+          .then(request => this.loginSuccessful(request))
+          .catch(() => this.loginFailed())
+      },
+      loginSuccessful (req) {
+        if (!req.data.token) {
+          this.loginFailed()
+          return
+        }
+
+        localStorage.token = req.data.token
+        this.error = false
+
+        this.$router.replace(this.$route.query.redirect || '/cats')
+      },
+      loginFailed () {
+        this.error = 'Login failed!'
+        delete localStorage.token
+      }
+    }
+  }
 </script>
 
 <style scoped>
