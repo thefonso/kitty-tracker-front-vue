@@ -15,6 +15,8 @@
 </template>
 
 <script>
+  import axios from 'axios';
+
   export default {
     name: 'Login',
     data () {
@@ -26,7 +28,7 @@
     },
     methods: {
       login () {
-        this.$http.post('http://localhost:3000/api/v1/api-auth/obtain_token/', { username: this.username, password: this.password })
+        axios.post('http://localhost:8000/api/v1/auth/obtain_token/', { username: this.username, password: this.password })
           .then(request => this.loginSuccessful(request))
           .catch(() => this.loginFailed())
       },
