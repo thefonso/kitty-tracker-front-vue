@@ -1,0 +1,84 @@
+<template>
+  <div class="panel panel-default">
+    <div class="panel-body">
+      {{ cat.content }}
+    </div>
+    <div class="panel-footer">
+      <div v-if="editing">
+        <input type="text" v-model="editValue">
+        <a @click="onUpdate">Save</a>
+        <a @click="onCancel">Cancel</a>
+      </div>
+      <div v-if="!editing">
+        <a @click="onEdit">Edit</a>
+        <a @click="onDelete">Delete</a>
+      </div>
+    </div>
+
+  </div>
+</template>
+
+<script>
+  import axios from 'axios';
+  export default {
+    props: ['cat'],
+    data() {
+      return {
+        editing: false,
+        editValue: this.cat.content
+      }
+    },
+    methods: {
+      onEdit() {
+        this.editing = true;
+        this.editValue = this.cat.content
+      },
+      onCancel() {
+        this.editing = false;
+      },
+      onDelete() {
+        const token = localStorage.getItem('token');
+        this.$emit('catDeleted', this.cat.id);
+        axios.delete('http://localhost:8000/api/v1/cats/' + this.cat.id + '?token=' + token)
+          .then(
+            response => console.log(response)
+          )
+          .catch(
+            error => console.log(error)
+          )
+      },
+      onUpdate() {
+        const token = localStorage.getItem('token');
+        this.editing = false;
+        this.cat.content = this.editValue;
+        axios.put('http://localhost:8000/api/v1/cats/' + this.cat.id + '?token=' + token,
+          {content: this.editValue})
+          .then(
+            response => console.log(response)
+          )
+          .catch(
+            error => console.log(error)
+          );
+      }
+    }
+  }
+</script>
+
+<!-- Add "scoped" attribute to limit CSS to this component only -->
+<style scoped>
+  h1, h2 {
+    font-weight: normal;
+  }
+  ul {
+    list-style-type: none;
+    padding: 0;
+  }
+  li {
+    display: inline-block;
+    margin: 0 10px;
+  }
+  a {
+    color: #42b983;
+    cursor: pointer;
+  }
+</style>

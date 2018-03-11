@@ -4,7 +4,8 @@
 
       <span class="navbar-text">
         <router-link to="/" class="btn btn-sm">home</router-link>
-        <router-link to="/cats" class="btn btn-sm">Cats</router-link>
+        <router-link to="/cat" class="btn btn-sm">Cat</router-link>
+        <router-link to="/catlist" class="btn btn-sm">Catlist</router-link>
         <router-link to="/feedings" class="btn btn-sm">feedings</router-link>
         <router-link to="/login" class="btn btn-sm" v-if="!currentUser">login</router-link>
         <router-link to="/logout" class="btn btn-logout btn-sm" v-if="currentUser">Logout</router-link>

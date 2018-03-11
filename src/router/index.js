@@ -3,7 +3,8 @@ import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import Login from '@/components/Login';
 import Logout from '@/components/Logout';
-import Cats from '@/components/Cats';
+import Cat from '@/components/Cat';
+import Catlist from '@/components/Catlist';
 
 Vue.use(Router);
 
@@ -30,9 +31,14 @@ export default new Router({
     //   component: Feedings,
     // },
     {
-      path: '/cats',
-      name: 'Cats',
-      component: Cats,
+      path: '/cat',
+      name: 'Cat',
+      component: Cat,
+    },
+    {
+      path: '/catlist',
+      name: 'Catlist',
+      component: Catlist,
     },
   ],
   mode:'history'
