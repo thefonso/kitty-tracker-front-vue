@@ -2,6 +2,7 @@ import Vue from 'vue';
 import Router from 'vue-router';
 import HelloWorld from '@/components/HelloWorld';
 import Login from '@/components/Login';
+import Logout from '@/components/Logout';
 import Cats from '@/components/Cats';
 
 Vue.use(Router);
@@ -18,10 +19,15 @@ export default new Router({
       name: 'Login',
       component: Login,
     },
+    {
+      path: '/logout',
+      name: 'Logout',
+      component: Logout,
+    },
     // {
-    //   path: '/',
-    //   name: 'Home',
-    //   component: Login,
+    //   path: '/feedings',
+    //   name: 'Feedings',
+    //   component: Feedings,
     // },
     {
       path: '/cats',

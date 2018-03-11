@@ -1,23 +1,45 @@
 <template>
   <div id="app">
     <img src="./assets/logo.png">
-    <div class="container">
-      <div class="row">
-        <div class="col-xs-12">
-          <router-link to="/">home</router-link>
-          <router-link to="/cats">Cats</router-link>
-          <router-link to="/feedings">feedings</router-link>
-          <router-link to="/login">login</router-link>
-        </div>
-      </div>
+    <template v-if="currentUser">
+      <Navbar></Navbar>
+    </template>
+    <div class="container-fluid">
+      <router-view/>
+      <template v-if="currentUser">
+        <Foot></Foot>
+      </template>
     </div>
-    <router-view/>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
+import Navbar from '@/components/Navbar'
+import Foot from '@/components/Foot'
+
 export default {
   name: 'App',
+  computed: {
+    ...mapGetters({ currentUser: 'currentUser' })
+  },
+  created () {
+    this.checkCurrentLogin()
+  },
+  updated () {
+    this.checkCurrentLogin()
+  },
+  methods: {
+    checkCurrentLogin () {
+      if (!this.currentUser && this.$route.path !== '/') {
+        this.$router.push('/?redirect=' + this.$route.path)
+      }
+    }
+  },
+  components: {
+    Navbar,
+    Foot
+  }
 };
 </script>
 

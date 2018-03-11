@@ -4,7 +4,7 @@ import Vue from 'vue';
 import App from './App';
 import router from './router';
 import axios from './backend/vue-axios/axios'
-// import store from './store'
+import store from './store'
 
 // import VueAxios from 'vue-axios';
 // import jwt_decode from 'jwt-decode';
@@ -12,7 +12,8 @@ import axios from './backend/vue-axios/axios'
 //
 // Vue.use(Vuex);
 // Vue.use(VueAxios, axios);
-// Vue.config.productionTip = false;
+
+Vue.config.productionTip = false;
 
 
 
@@ -21,6 +22,7 @@ new Vue({
   el: '#app',
   router,
   axios,
+  store,
   components: { App },
   template: '<App/>',
 });

@@ -15,7 +15,8 @@
 </template>
 
 <script>
-  import axios from 'axios';
+  import axios from 'axios'
+  import { mapGetters } from 'vuex'
 
   export default {
     name: 'Login',
@@ -24,6 +25,19 @@
         username: '',
         password: '',
         error: false
+      }
+    },
+    computed: {
+      ...mapGetters({ currentUser: 'currentUser' })
+    },
+    created () {
+      if (this.currentUser) {
+        this.$router.replace(this.$route.query.redirect || '/cats')
+      }
+    },
+    updated () {
+      if (this.currentUser) {
+        this.$router.replace(this.$route.query.redirect || '/cats')
       }
     },
     methods: {
@@ -37,16 +51,17 @@
           this.loginFailed()
           return
         }
-
-        localStorage.token = req.data.token
         this.error = false
-
+        localStorage.token = req.data.token
+        this.$store.dispatch('login')
         this.$router.replace(this.$route.query.redirect || '/cats')
       },
       loginFailed () {
         this.error = 'Login failed!'
+        this.$store.dispatch('login')
         delete localStorage.token
-      }
+      },
+
     }
   }
 </script>
