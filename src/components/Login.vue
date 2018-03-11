@@ -15,7 +15,8 @@
 </template>
 
 <script>
-  import axios from '../backend/vue-axios/axios'
+  // import axios from '../backend/vue-axios/axios'
+  import axios from 'axios';
   import { mapGetters } from 'vuex'
 
   export default {
@@ -42,10 +43,11 @@
     },
     methods: {
       login () {
-        axios.post('auth/obtain_token/',
-          { username: this.username, password: this.password })
+        axios.post('http://localhost:8000/api/v1/auth/obtain_token/',
+          { username: this.username, password: this.password },
+          { headers: {'X-Requested-With': 'XMLHttpRequest'}})
           .then(request => this.loginSuccessful(request))
-          .catch(() => this.loginFailed())
+          .catch((error) => this.loginFailed(error))
       },
       loginSuccessful (req) {
         if (!req.data.token) {
@@ -55,12 +57,14 @@
         this.error = false
         localStorage.token = req.data.token
         this.$store.dispatch('login')
+        console.log(req)
         this.$router.replace(this.$route.query.redirect || '/catlist')
       },
-      loginFailed () {
-        this.error = 'Login failed!'
+      loginFailed (error) {
+        // this.error = 'Login failed!'
         this.$store.dispatch('login')
         delete localStorage.token
+        console.log(error)
       },
 
     }
