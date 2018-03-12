@@ -55,6 +55,7 @@
           return
         }
         this.error = false
+
         localStorage.token = req.data.token
         this.$store.dispatch('login')
         console.log(req)

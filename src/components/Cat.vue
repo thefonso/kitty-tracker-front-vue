@@ -1,7 +1,8 @@
 <template>
   <div class="panel panel-default">
     <div class="panel-body">
-      {{ cat.content }}
+      PING
+      {{ ct.name }}
     </div>
     <div class="panel-footer">
       <div v-if="editing">
@@ -21,25 +22,24 @@
 <script>
   import axios from 'axios';
   export default {
-    props: ['cat'],
+    props: ['ct'],
     data() {
       return {
         editing: false,
-        editValue: this.cat.content
+        editValue: this.ct.name
       }
     },
     methods: {
       onEdit() {
         this.editing = true;
-        this.editValue = this.cat.content
+        this.editValue = this.ct.name
       },
       onCancel() {
         this.editing = false;
       },
       onDelete() {
-        const token = localStorage.getItem('token');
-        this.$emit('catDeleted', this.cat.id);
-        axios.delete('http://localhost:8000/api/v1/cats/' + this.cat.id + '?token=' + token)
+        this.$emit('catDeleted', this.ct.id);
+        axios.delete('http://localhost:8000/api/v1/cats/' + this.ct.id)
           .then(
             response => console.log(response)
           )
@@ -48,10 +48,9 @@
           )
       },
       onUpdate() {
-        const token = localStorage.getItem('token');
         this.editing = false;
-        this.cat.content = this.editValue;
-        axios.put('http://localhost:8000/api/v1/cats/' + this.cat.id + '?token=' + token,
+        this.ct.content = this.editValue;
+        axios.put('http://localhost:8000/api/v1/cats/' + this.ct.id,
           {content: this.editValue})
           .then(
             response => console.log(response)
