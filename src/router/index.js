@@ -10,36 +10,17 @@ Vue.use(Router);
 
 export default new Router({
   routes: [
-    {
-      path: '/hello',
-      name: 'HelloWorld',
-      component: HelloWorld,
-    },
-    {
-      path: '/',
-      name: 'Login',
-      component: Login,
-    },
-    {
-      path: '/logout',
-      name: 'Logout',
-      component: Logout,
-    },
+    { path: '/', name: 'Login', component: Login },
+    { path: '/hello', name: 'HelloWorld', component: HelloWorld },
+    { path: '/logout', name: 'Logout', component: Logout },
     // {
     //   path: '/feedings',
     //   name: 'Feedings',
     //   component: Feedings,
     // },
-    {
-      path: '/cat',
-      name: 'Cat',
-      component: Cat,
-    },
-    {
-      path: '/catlist',
-      name: 'Catlist',
-      component: Catlist,
-    },
+    { path: '/cat', name: 'Cat', component: Cat },
+    { path: '/catlist', name: 'Catlist', component: Catlist },
+    { path: '/catcreate', name: 'CatCreate', component: HelloWorld },
   ],
   mode:'history'
 });

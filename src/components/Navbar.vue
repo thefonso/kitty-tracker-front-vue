@@ -1,18 +1,31 @@
 <template>
-  <div class="row">
-    <div class="col-xs-12">
+    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+      <a class="navbar-brand" href="#">KittyTracker</a>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <span class="navbar-text">
-        <router-link to="/" class="btn btn-sm">home</router-link>
-        <router-link to="/cat" class="btn btn-sm">Cat</router-link>
-        <router-link to="/catlist" class="btn btn-sm">Catlist</router-link>
-        <router-link to="/feedings" class="btn btn-sm">feedings</router-link>
-        <router-link to="/login" class="btn btn-sm" v-if="!currentUser">login</router-link>
-        <router-link to="/logout" class="btn btn-logout btn-sm" v-if="currentUser">Logout</router-link>
-      </span>
-
-    </div>
-  </div>
+      <div class="collapse navbar-collapse" id="navbarSupportedContent">
+        <ul class="navbar-nav mr-auto">
+          <li class="nav-item active">
+            <router-link to="/" class="nav-link">home</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/catlist" class="nav-link">cat list</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/feedings" class="nav-link">feedings</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/catcreate" class="nav-link">create cat</router-link>
+          </li>
+        </ul>
+        <form class="form-inline my-2 my-lg-0">
+          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
+          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
+        </form>
+      </div>
+    </nav>
 </template>
 
 <script>

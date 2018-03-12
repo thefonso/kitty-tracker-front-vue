@@ -1,7 +1,7 @@
 <template>
   <div class="panel panel-default">
     <div class="panel-body">
-      PING
+      PONG
       {{ ct.name }}
     </div>
     <div class="panel-footer">

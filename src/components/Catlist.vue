@@ -1,11 +1,28 @@
 <template>
-  <div>
-    <ul id="v-for-object" class="demo">
-      <li v-for="cat in cats">
-        {{ cat.name }}
-      </li>
-    </ul>
-  </div>
+
+<div class="catlist-table">
+  <table class="table">
+    <thead class="thead-dark">
+    <tr>
+      <th scope="col" class="col-sm-1"></th>
+      <th scope="col" class="col-sm-2">Name</th>
+      <th scope="col" class="col-sm-2">gender</th>
+      <th scope="col" class="col-sm-5"></th>
+      <th scope="col" class="col-sm-2">Date Added</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr v-for="cat in cats">
+      <td><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></td>
+      <td>{{ cat.name }}</td>
+      <td>{{ cat.gender }}</td>
+      <td></td>
+      <td>{{ cat.created }}</td>
+    </tr>
+    </tbody>
+  </table>
+</div>
+
 </template>
 
 <script>
@@ -35,3 +52,10 @@
     }
   }
 </script>
+
+<style scoped>
+  .catlist-table {
+    padding: 3rem 1.5rem;
+    text-align: left;
+  }
+</style>

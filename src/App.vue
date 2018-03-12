@@ -1,22 +1,22 @@
 <template>
   <div id="app">
-    <img src="./assets/logo.png">
     <template v-if="currentUser">
       <Navbar></Navbar>
     </template>
-    <div class="container-fluid">
+    <main class="container">
+      <img src="./assets/logo.png">
       <router-view/>
-      <template v-if="currentUser">
-        <Foot></Foot>
-      </template>
-    </div>
+    </main>
+    <template v-if="currentUser">
+      <Foot></Foot>
+    </template>
   </div>
 </template>
 
 <script>
 import { mapGetters } from 'vuex'
-import Navbar from '@/components/Navbar'
-import Foot from '@/components/Foot'
+import Navbar from './components/Navbar'
+import Foot from './components/Foot'
 
 export default {
   name: 'App',
@@ -43,7 +43,8 @@ export default {
 };
 </script>
 
-<style>
+<style lang="scss">
+
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
