@@ -40,16 +40,13 @@
     },
     methods: {
       onGetCats() {
-        axios.get('http://localhost:8000/api/v1/cats/')
+        axios.get(`http://localhost:8000/api/v1/cats/`)
           .then(
-            response => {
-              console.log(response);
-              this.cats = response.data.results;
-            }
-          )
-          .catch(
-            error => console.log(error)
-          );
+            request => {
+              console.log(request);
+              this.cats = request.data.results;
+            })
+          .catch(error => console.log(error));
       },
     },
     created(){

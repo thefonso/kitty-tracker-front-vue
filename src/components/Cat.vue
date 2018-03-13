@@ -1,9 +1,24 @@
 <template>
-  <div class="panel panel-default">
-    <div>CAT PAGE</div>
-    <div class="panel-body">
-      {{ $route.params.catID }}
+  <div id="pet-content" class="row">
+    <div class="col-2"></div>
+    <div class="col-sm-4 align-center">
+      <div class="pet-record">Pet Record</div>
+      <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
+        <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
+      </div>
+      <div class="pet-name">{{singleCat.name}}</div>
     </div>
+    <div class="col-1"></div>
+    <div class="col-sm-4 align-left">
+      <div class="spacer"></div>
+      <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
+        <button type="button" class="feeding rectangle-28 btn btn-text">Feeding</button>
+        <button type="button" class="medication rectangle-28 btn btn-text">Medication</button>
+        <button type="button" class="med-records rectangle-28 btn btn-text">Medical Records</button>
+        <button type="button" class="all-pets rectangle-28 btn btn-text">All Pets</button>
+      </div>
+    </div>
+    <div class="col-1"></div>
   </div>
 </template>
 
@@ -11,28 +26,20 @@
   import axios from 'axios';
 
   export default {
-  data() {
+    name: 'Cat',
+    data() {
       return {
-        cat: []
+        singleCat: [],
+        job: 'ninja'
       }
     },
-    methods: {
-
-      onGetCats() {
-        axios.get('http://localhost:8000/api/v1/cats/' + '1')
-          .then(
-            response => {
-              console.log(response);
-              this.cat = response.data.results;
-            }
-          )
-          .catch(
-            error => console.log(error)
-          );
-      },
-    },
-    created(){
-      this.onGetCats()
+    created() {
+      axios.get(`http://localhost:8000/api/v1/cats/${this.$route.params.catID}`)
+        .then(request => {
+          console.log(request.data);
+          this.singleCat = request.data;
+        })
+        .catch(error => console.log(error));
     }
   }
 </script>
@@ -53,5 +60,95 @@
   a {
     color: #42b983;
     cursor: pointer;
+  }
+
+  #pet-content{
+    padding-top: 35px;
+  }
+
+  /*pet image area*/
+  .pet-name {
+    height: 88px;
+    color: #9B9B9B;
+    font-family: "Helvetica Neue";
+    font-size: 36px;
+    font-weight: bold;
+    line-height: 44px;
+    text-align: center;
+    margin-top: 20px;
+  }
+  .pet-record {
+    color: #000000;
+    font-family: "Helvetica Neue";
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 58px;
+    text-align: center;
+    margin-bottom: 25px;
+  }
+  .pet-image-box {
+    box-sizing: border-box;
+    height: 266px;
+    width: 266px;
+    border: 1px solid #DDDDDD;
+    border-radius: 5px;
+    margin:auto;
+  }
+  .pet-image {
+    margin-top: 7px;
+    height: 251px;
+    width: 251px;
+    border-radius: 1px;
+    background-color: #EEEEEE;
+  }
+
+
+
+  /*records buttons*/
+  .spacer{
+    height: 64px;
+  }
+  .feeding {
+    height: 64px;
+    width: 165px;
+    background-color: #428BCA;
+  }
+  .medication {
+    height: 64px;
+    width: 213px;
+    background-color: #5CB85C;
+  }
+  .med-records {
+    height: 64px;
+    width: 303px;
+    background-color: #5BC0DE;
+  }
+  .all-pets {
+    height: 64px;
+    width: 165px;
+    background-color: #F0AD4E;
+  }
+  .rectangle-28 {
+    box-sizing: border-box;
+    /*height: 66px;*/
+    /*width: 167px;*/
+    margin-top: 20px;
+    border: 1px solid #357EBD;
+    border-radius: 5px;
+  }
+  .btn-text {
+    /*height: 43px;*/
+    /*width: 165px;*/
+    color: #FFFFFF;
+    font-family: "Helvetica Neue";
+    font-size: 36px;
+    line-height: 43px;
+    text-align: center;
+  }
+  .align-left{
+    text-align: left;
+  }
+  .align-center{
+    text-align: center;
   }
 </style>

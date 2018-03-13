@@ -4,7 +4,7 @@
       <Navbar></Navbar>
     </template>
     <main class="container">
-      <img src="./assets/logo.png">
+      <!--<img src="./assets/logo.png">-->
       <router-view/>
     </main>
     <template v-if="currentUser">
