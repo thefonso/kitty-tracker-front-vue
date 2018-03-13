@@ -2,14 +2,38 @@
   <div class="panel panel-default">
     <div>CAT PAGE</div>
     <div class="panel-body">
-      {{ $route.params.catNAME }}
+      {{ $route.params.catID }}
     </div>
   </div>
 </template>
 
 <script>
-  export default {
+  import axios from 'axios';
 
+  export default {
+  data() {
+      return {
+        cat: []
+      }
+    },
+    methods: {
+
+      onGetCats() {
+        axios.get('http://localhost:8000/api/v1/cats/' + '1')
+          .then(
+            response => {
+              console.log(response);
+              this.cat = response.data.results;
+            }
+          )
+          .catch(
+            error => console.log(error)
+          );
+      },
+    },
+    created(){
+      this.onGetCats()
+    }
   }
 </script>
 

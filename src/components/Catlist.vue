@@ -27,8 +27,12 @@
 
 <script>
   import axios from 'axios';
+  import cats from './Cat';
 
   export default {
+    components:{
+      'app-cats': cats
+    },
     data() {
       return {
         cats: []
