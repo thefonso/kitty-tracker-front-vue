@@ -18,7 +18,7 @@ export default new Router({
     //   name: 'Feedings',
     //   component: Feedings,
     // },
-    { path: '/cat', name: 'Cat', component: Cat },
+    { path: '/cat/:catNAME', name: 'Cat', component: Cat },
     { path: '/catlist', name: 'Catlist', component: Catlist },
     { path: '/catcreate', name: 'CatCreate', component: HelloWorld },
   ],

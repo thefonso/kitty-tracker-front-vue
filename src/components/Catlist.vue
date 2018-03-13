@@ -12,9 +12,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="cat in cats">
+    <tr v-for="(cat, index) in cats">
       <td><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></td>
-      <td>{{ cat.name }}</td>
+      <td><router-link :to="{path:'/cat/' + index}" >{{ cat.name }}</router-link></td>
       <td>{{ cat.gender }}</td>
       <td></td>
       <td>{{ cat.created }}</td>
@@ -39,6 +39,7 @@
         axios.get('http://localhost:8000/api/v1/cats/')
           .then(
             response => {
+              console.log(response);
               this.cats = response.data.results;
             }
           )
