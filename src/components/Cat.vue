@@ -12,10 +12,10 @@
     <div class="col-sm-4 align-left">
       <div class="spacer"></div>
       <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-        <button type="button" class="feeding rectangle-28 btn btn-text">Feeding</button>
-        <button type="button" class="medication rectangle-28 btn btn-text">Medication</button>
-        <button type="button" class="med-records rectangle-28 btn btn-text">Medical Records</button>
-        <button type="button" class="all-pets rectangle-28 btn btn-text">All Pets</button>
+        <a role="button" href="" class="feeding rectangle-28 btn btn-text">Feeding</a>
+        <a role="button" href="" class="medication rectangle-28 btn btn-text">Medication</a>
+        <a role="button" href="" class="med-records rectangle-28 btn btn-text">Medical Records</a>
+        <a role="button" href="/catlist" class="all-pets rectangle-28 btn btn-text">All Pets</a>
       </div>
     </div>
     <div class="col-1"></div>
