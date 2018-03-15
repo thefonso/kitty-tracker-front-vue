@@ -2,10 +2,10 @@
   <form @submit.prevent="onSubmitted">
     <div class="pet-record">Create New Pet</div>
     <div id="pet-content" class="row form-group">
-      <div class="col-1"></div>
+      <div class="col-2"></div>
       <div class="col-sm-4 align-center">
 
-        <div id="catID" class="panel-body">
+        <div id="catID">
           <div class="pet-image-box">
             <img src="" width="200px" height="200px" alt="" class="pet-image">
           </div>
@@ -16,27 +16,45 @@
         <!--<div class="pet-name">{{path-to-photo}}</div>-->
         <!--TODO: end if/else here-->
       </div>
-      <div class="col-1"></div>
       <div class="col-sm-5">
-        <div class="spacer"></div>
-        <div id="catLinks" class="panel-body">
-          <div class="float-left col-2"><label class="col-form-label" for="InputName">Name</label></div>
-          <div class="float-left col-auto"><input type="text" class="col-auto" id="InputName" aria-describedby="name" placeholder="Enter name" v-model="petContent"></div>
-          <div class="clearfix"></div>
-          <div class="float-left col-2"><label class="col-form-label" for="InputGender">Gender</label></div>
-          <div class="float-left col-auto" id="InputGender">
-            <label class="checkbox-inline"><input type="checkbox" value="">Female</label>
-            <label class="checkbox-inline"><input type="checkbox" value="">Male</label>
+
+          <div class="form-group row">
+            <label for="InputName" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="InputName" placeholder="name">
+            </div>
           </div>
-          <div class="clearfix"></div>
-          <div class="float-left col-2"><label class="col-form-label" for="InputWeight">Weight</label></div>
-          <div class="float-left col-auto"><input type="text" class="col-auto" id="InputWeight" aria-describedby="weight" placeholder="Enter weight" v-model="petContent"></div>
-          <div class="clearfix"></div>
-          <div class="float-left col-2"><label class="col-form-label" for="InputAge">Age</label></div>
-          <div class="float-left col-auto"><input type="text" class="col-auto" id="InputAge" aria-describedby="age" placeholder="Enter age" v-model="petContent"></div>
-          <div class="clearfix"></div>
-          <button class="submit-button btn btn-primary" type="submit">Submit</button>
-        </div>
+
+
+          <div class="form-group row">
+            <label for="InputName" class="col-sm-2 col-form-label">Gender</label>
+            <div class="col-sm-10">
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
+                <label class="form-check-label" for="inlineRadio1">Male</label>
+              </div>
+              <div class="form-check form-check-inline">
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
+                <label class="form-check-label" for="inlineRadio2">Female</label>
+              </div>
+            </div>
+          </div>
+
+          <div class="form-group row">
+            <label for="InputWeight" class="col-sm-2 col-form-label">Weight</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="InputWeight" placeholder="weight">
+            </div>
+          </div>
+          <div class="form-group row">
+            <label for="InputAge" class="col-sm-2 col-form-label">Age</label>
+            <div class="col-sm-10">
+              <input type="text" class="form-control" id="InputAge" placeholder="Age">
+            </div>
+          </div>
+          <div class="clear-fix"></div>
+          <button type="submit" class="btn btn-primary submit-button">Submit</button>
+
       </div>
       <div class="col-1"></div>
     </div>
@@ -68,24 +86,24 @@
 
 <style scoped>
 
-  label{
-    height: 55px;
-    color: #373A3C;
-    font-family: "Helvetica Neue";
-    font-size: 20px;
-    line-height: 24px;
-    margin-right: 1.7rem;
-    margin-bottom: 1.5rem;
-    padding-top: 6px;
-  }
+  /*label{*/
+    /*height: 55px;*/
+    /*color: #373A3C;*/
+    /*font-family: "Helvetica Neue";*/
+    /*font-size: 20px;*/
+    /*line-height: 24px;*/
+    /*margin-right: 1.7rem;*/
+    /*margin-bottom: 1.5rem;*/
+    /*padding-top: 6px;*/
+  /*}*/
 
 
-  input {
-    height: 38px;
-    border: 1px solid #CCCCCC;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-  }
+  /*input {*/
+    /*height: 38px;*/
+    /*border: 1px solid #CCCCCC;*/
+    /*border-radius: 4px;*/
+    /*background-color: #FFFFFF;*/
+  /*}*/
 
   #pet-content{
     padding-top: 35px;
