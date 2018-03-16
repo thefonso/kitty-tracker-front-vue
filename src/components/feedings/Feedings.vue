@@ -1,18 +1,18 @@
 <template>
   <form action="">
   <div id="pet-content" class="row">
-
+<!--TODO: create a Feeding History page displaying List of feedings. Same layout as Catlist-->
       <div class="col-sm-5">
-        <div class="pet-record">Feedings:</div>
+        <div class="page-heading">Record A Feeding:</div>
         <div class="form-group">
           <label for="InputWBF">Weight Before Food(gm)</label>
           <input type="email" class="form-control" id="InputWBF" aria-describedby="emailHelp" placeholder="WBF">
-          <small id="wbfHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <small id="wbfHelp" class="form-text text-muted">how kitty is cat before food?</small>
         </div>
         <div class="form-group">
           <label for="InputWAF">Weight After Food(gm)</label>
           <input type="email" class="form-control" id="InputWAF" aria-describedby="emailHelp" placeholder="WAF">
-          <small id="wafHelp" class="form-text text-muted">We'll never share your email with anyone else.</small>
+          <small id="wafHelp" class="form-text text-muted">How heavy kitty is after eating..</small>
         </div>
 
         <a role="button" href="#" class="feeding-history feeding-history-text btn btn-text btn-success">Feeding History</a>
@@ -78,7 +78,7 @@
     padding-top: 35px;
   }
 
-  .pet-record {
+  .page-heading {
     color: #000000;
     font-family: "Helvetica Neue";
     font-size: 48px;

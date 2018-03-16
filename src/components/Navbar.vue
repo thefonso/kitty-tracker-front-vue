@@ -14,9 +14,6 @@
             <router-link to="/catlist" class="nav-link">cat list</router-link>
           </li>
           <li class="nav-item">
-            <router-link to="/feedings" class="nav-link">feedings</router-link>
-          </li>
-          <li class="nav-item">
             <router-link to="/catcreate" class="nav-link">create cat</router-link>
           </li>
         </ul>

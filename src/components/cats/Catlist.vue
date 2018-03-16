@@ -1,7 +1,7 @@
 <template>
 
 <div class="catlist-table">
-  <div class="pet-record">List of Pets Created</div>
+  <div class="page-heading">List of Pets Created</div>
   <table class="table">
     <thead class="thead-light">
     <tr>
@@ -13,9 +13,9 @@
     </tr>
     </thead>
     <tbody>
-    <tr v-for="(cat, index) in cats">
+    <tr v-for="(cat) in cats">
       <td><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></td>
-      <td><router-link :to="{path:'/cat/' + index}" >{{ cat.name }}</router-link></td>
+      <td><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></td>
       <td>{{ cat.gender }}</td>
       <td></td>
       <td>{{ cat.created }}</td>
@@ -28,12 +28,13 @@
 
 <script>
   import axios from 'axios';
-  import cats from './Cat';
+  // import cats from './Cat';
 
   export default {
-    components:{
-      'app-cats': cats
-    },
+    // components:{
+    //   'app-cats': cats
+    // },
+    name: 'Catlist',
     data() {
       return {
         cats: []
@@ -61,7 +62,7 @@
     padding: 3rem 1.5rem;
     text-align: left;
   }
-  .pet-record {
+  .page-heading {
     color: #000000;
     font-family: "Helvetica Neue";
     font-size: 48px;
