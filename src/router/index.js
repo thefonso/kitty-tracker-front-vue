@@ -6,6 +6,7 @@ import Logout from '@/components/Logout';
 import Cat from '@/components/Cat';
 import Catlist from '@/components/Catlist';
 import CatCreate from '@/components/CatCreate';
+import Feedings from '@/components/Feedings';
 
 Vue.use(Router);
 
@@ -14,11 +15,7 @@ export default new Router({
     { path: '/', name: 'Login', component: Login },
     { path: '/hello', name: 'HelloWorld', component: HelloWorld },
     { path: '/logout', name: 'Logout', component: Logout },
-    // {
-    //   path: '/feedings',
-    //   name: 'Feedings',
-    //   component: Feedings,
-    // },
+    { path: '/feedings', name: 'Feedings', component: Feedings,},
     { path: '/cat/:catID', name: 'Cat', component: Cat },
     { path: '/catlist', name: 'Catlist', component: Catlist },
     { path: '/catcreate', name: 'CatCreate', component: CatCreate },

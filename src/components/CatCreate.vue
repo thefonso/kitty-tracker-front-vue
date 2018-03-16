@@ -25,9 +25,8 @@
             </div>
           </div>
 
-
           <div class="form-group row">
-            <label for="InputName" class="col-sm-2 col-form-label">Gender</label>
+            <label for="InputGender" class="col-sm-2 col-form-label">Gender</label>
             <div class="col-sm-10">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">

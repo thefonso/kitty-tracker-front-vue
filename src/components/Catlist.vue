@@ -1,8 +1,9 @@
 <template>
 
 <div class="catlist-table">
+  <div class="pet-record">List of Pets Created</div>
   <table class="table">
-    <thead class="thead-dark">
+    <thead class="thead-light">
     <tr>
       <th scope="col" class="col-sm-1"></th>
       <th scope="col" class="col-sm-2">Name</th>
@@ -59,5 +60,14 @@
   .catlist-table {
     padding: 3rem 1.5rem;
     text-align: left;
+  }
+  .pet-record {
+    color: #000000;
+    font-family: "Helvetica Neue";
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 58px;
+    text-align: center;
+    margin-bottom: 25px;
   }
 </style>
