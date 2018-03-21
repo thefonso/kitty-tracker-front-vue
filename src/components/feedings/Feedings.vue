@@ -15,7 +15,7 @@
           <small id="wafHelp" class="form-text text-muted">How heavy kitty is after eating..</small>
         </div>
 
-        <a role="button" href="#" class="feeding-history feeding-history-text btn btn-text btn-success">Feeding History</a>
+        <a role="button" href="#" class="feeding-history btn btn-text btn-success">Feeding History</a>
 
       </div>
       <div class="col-sm-1"></div>
@@ -27,6 +27,7 @@
               <option selected>Choose...</option>
               <option>...</option>
             </select>
+            <small id="toftHelp" class="form-text text-muted">What kind of food wet/dry ?</small>
           </div>
           <div class="form-group">
             <label for="InputAFT">Amount Of Food Taken(gm)</label>
@@ -56,7 +57,7 @@
             </select>
           </div>
 
-          <button type="submit" class="btn btn-primary submit-button float-right">Submit</button>
+          <button type="submit" class="btn btn-primary submit-button btn-text float-right">Submit</button>
 
         </div>
       </div>
@@ -69,11 +70,18 @@
 
 </script>
 
-<style scoped>
+<style>
   #catLinks{
     padding-top: 5em;
   }
-
+  label {
+    height: 24.58px;
+    color: #4A90E2;
+    font-family: "Helvetica Neue";
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 25px;
+  }
   #pet-content{
     padding-top: 35px;
   }
@@ -95,22 +103,19 @@
     border-radius: 4px;
     background-color: #5CB85C;
   }
-  .feeding-history-text {
+  .btn-text {
     color: #FFFFFF;
     font-family: "Helvetica Neue";
     font-size: 20px;
     line-height: 21px;
     text-align: center;
   }
-
   .submit-button {
     height: 38px;
-    width: 140px;
+    width: 210px;
     border: 1px solid #0275D8;
     border-radius: 4px;
     background-color: #0275D8;
-    float: left;
-    margin-top: 1em;
   }
   .custom-radio{
     padding-top: 6px;

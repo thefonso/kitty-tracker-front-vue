@@ -38,7 +38,7 @@
           <textarea class="form-control" id="inputPetNotes" rows="5"></textarea>
         </div>
 
-        <button type="submit" class="btn btn-primary submit-button float-right">Submit</button>
+        <button type="submit" class="btn btn-text btn-primary submit-button float-right">Submit</button>
 
     </div>
   </form>
@@ -47,6 +47,15 @@
 <style scoped>
   #catLinks{
     padding-top: 5em;
+  }
+
+  label {
+    height: 24.58px;
+    color: #4A90E2;
+    font-family: "Helvetica Neue";
+    font-size: 20px;
+    font-weight: bold;
+    line-height: 25px;
   }
 
   #pet-content{
@@ -77,15 +86,19 @@
     line-height: 21px;
     text-align: center;
   }
-
+  .btn-text {
+    color: #FFFFFF;
+    font-family: "Helvetica Neue";
+    font-size: 20px;
+    line-height: 21px;
+    text-align: center;
+  }
   .submit-button {
     height: 38px;
-    width: 140px;
+    width: 210px;
     border: 1px solid #0275D8;
     border-radius: 4px;
     background-color: #0275D8;
-    float: left;
-    margin-top: 1em;
   }
   .custom-radio{
     padding-top: 6px;

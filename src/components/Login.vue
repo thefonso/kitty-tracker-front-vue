@@ -1,16 +1,18 @@
 <template>
-  <div class="container">
-
+  <div class="text-center">
     <form class="form-signin" @submit.prevent="login">
-      <h2 class="form-signin-heading">Please sign in</h2>
+      <img class="mb-4" src="../assets/logo1.png" height="189px">
+      <h1 class="h3 mb-3 font-weight-normal">Kitty Tracker</h1>
       <div class="alert alert-danger" v-if="error">{{ error }}</div>
       <label for="inputName" class="sr-only">Name</label>
       <input id="inputName" class="form-control" placeholder="Username" required="" autofocus="" type="text" v-model="username">
       <label for="inputPassword" class="sr-only">Password</label>
       <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" v-model="password">
-      <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
-    </form>
+      <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Sign in</button>
+      <p>Don't have an account? <router-link to="/signup" class="-link">Sign Up</router-link></p>
 
+      <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ getYear() }} </p>
+    </form>
   </div>
 </template>
 
@@ -20,6 +22,7 @@
   import { mapGetters } from 'vuex'
 
   export default {
+
     name: 'Login',
     data () {
       return {
@@ -51,27 +54,38 @@
       },
       loginSuccessful (req) {
         if (!req.data.token) {
-          this.loginFailed()
+          this.loginFailed();
           return
         }
-        this.error = false
+        this.error = false;
 
-        localStorage.token = req.data.token
-        this.$store.dispatch('login')
-        console.log(req)
+        localStorage.token = req.data.token;
+        this.$store.dispatch('login');
+        console.log(req);
         this.$router.replace(this.$route.query.redirect || '/catlist')
       },
       loginFailed (error) {
-        // this.error = 'Login failed!'
-        this.$store.dispatch('login')
-        delete localStorage.token
+        this.$store.dispatch('login');
+        delete localStorage.token;
         console.log(error)
       },
+      getYear(){
+        let year = new Date().getFullYear();
+        return year
+      }
 
     }
   }
 </script>
 
 <style scoped>
-
+  .form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: 0 auto;
+  }
+  .form-signin .checkbox {
+    font-weight: 400;
+  }
 </style>

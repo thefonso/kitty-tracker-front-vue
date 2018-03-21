@@ -1,26 +1,21 @@
 <template>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <a class="navbar-brand" href="#">KittyTracker</a>
+      <a class="navbar-brand" href="/"><img src="../assets/logo1.png" height="57px"> KittyTracker</a>
+      <!--<router-link to="/" class="nav-link">KittyTracker</router-link>-->
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarSupportedContent">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <router-link to="/" class="nav-link">home</router-link>
-          </li>
           <li class="nav-item">
             <router-link to="/catlist" class="nav-link">cat list</router-link>
           </li>
-          <li class="nav-item">
-            <router-link to="/catcreate" class="nav-link">create cat</router-link>
-          </li>
         </ul>
-        <form class="form-inline my-2 my-lg-0">
-          <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-          <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-        </form>
+        <div class="form-inline my-2 my-lg-0">
+          <router-link to="/catcreate" class="nav-link">create pet</router-link>
+          <router-link to="/logout" class="nav-link">logout</router-link>
+        </div>
       </div>
     </nav>
 </template>
