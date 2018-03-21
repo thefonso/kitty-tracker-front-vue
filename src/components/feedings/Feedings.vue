@@ -56,7 +56,7 @@
             </select>
           </div>
 
-          <button type="submit" class="btn btn-primary submit-button">Submit</button>
+          <button type="submit" class="btn btn-primary submit-button float-right">Submit</button>
 
         </div>
       </div>
@@ -85,10 +85,6 @@
     font-weight: bold;
     line-height: 58px;
     margin-bottom: 25px;
-  }
-
-  .spacer{
-    height: 64px;
   }
 
   /*feeding button*/
