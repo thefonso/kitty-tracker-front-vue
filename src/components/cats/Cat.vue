@@ -13,8 +13,8 @@
       <div class="spacer"></div>
       <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
         <a role="button" :href="'/cat/'+singleCat.id+'/feedings'" class="feeding rectangle-28 btn btn-text">Feeding</a>
-        <a role="button" :href="'/cat/'+singleCat.id+'/medications/'" class="medication rectangle-28 btn btn-text">Medication</a>
-        <a role="button" href="" class="med-records rectangle-28 btn btn-text">Medical Records</a>
+        <a role="button" :href="'/cat/'+singleCat.id+'/medications/all'" class="medication rectangle-28 btn btn-text">Medication</a>
+        <a role="button" href="/medical_records/create" class="med-records rectangle-28 btn btn-text">Medical Records</a>
         <a role="button" href="/catlist" class="all-pets rectangle-28 btn btn-text">All Pets</a>
       </div>
     </div>
