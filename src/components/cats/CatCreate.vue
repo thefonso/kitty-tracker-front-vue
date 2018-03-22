@@ -1,13 +1,15 @@
 <template>
   <!--TODO - v-validate package for vuejs-->
-  <form @submit.prevent="onSubmitted" class="needs-validation" novalidate>
+  <form @submit.prevent="validateBeforeSubmit">
 
-    <div class="row alert alert-success" v-if="showSuccess">
+    <b-alert variant="success" dismissible :show="showSuccess">
       <strong>Success!</strong> New kitty added.
-    </div>
-    <div class="row alert alert-danger" v-if="showDanger">
+    </b-alert>
+
+    <b-alert variant="danger" dismissible :show="showDanger">
       <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-    </div>
+    </b-alert>
+
 
     <div class="pet-record">Create New Pet</div>
     <div id="pet-content" class="row form-group">
@@ -28,10 +30,11 @@
       <div class="col-sm-5">
 
           <div class="form-group row">
-            <label for="InputName" class="col-sm-2 col-form-label">Name</label>
+            <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="InputName" placeholder="name" v-model="name">
-              <small id="nameHelp" class="form-text text-muted">required field</small>
+              <input name="name" v-model="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="name">
+              <i v-show="errors.has('name')" class="fa fa-warning"></i>
+                <small v-show="errors.has('name')" class="help is-danger form-text text-muted">{{ errors.first('name') }}</small>
             </div>
 
           </div>
@@ -48,21 +51,23 @@
                 <label class="form-check-label" for="InputGender2">Female</label>
               </div>
             </div>
-            <small id="genderHelp" class="form-text text-muted">required field</small>
+
           </div>
 
           <div class="form-group row">
-            <label for="InputWeight" class="col-sm-2 col-form-label">Weight</label>
+            <label class="col-sm-2 col-form-label">Weight</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="InputWeight" placeholder="weight" v-model.number="weight">
-              <small id="weightHelp" class="form-text text-muted">required field</small>
+              <input name="weight" v-model="weight" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('weight') }" type="text" placeholder="weight">
+              <i v-show="errors.has('weight')" class="fa fa-warning"></i>
+              <small v-show="errors.has('weight')" class="help is-danger text-muted form-text">{{ errors.first('weight') }}</small>
             </div>
           </div>
           <div class="form-group row">
-            <label for="InputAge" class="col-sm-2 col-form-label">Age</label>
+            <label class="col-sm-2 col-form-label">Age</label>
             <div class="col-sm-10">
-              <input type="number" class="form-control" id="InputAge" placeholder="Age" v-model.number="age">
-              <small id="ageHelp" class="form-text text-muted">required field</small>
+              <input name="age" v-model="age" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('age') }" type="text" placeholder="age">
+              <i v-show="errors.has('age')" class="fa fa-warning"></i>
+              <small v-show="errors.has('age')" class="help is-danger form-text text-muted">{{ errors.first('age') }}</small>
             </div>
           </div>
           <div class="clear-fix"></div>
@@ -77,8 +82,8 @@
 <script>
 import axios from 'axios';
 
-
 export default {
+  name: 'catcreate',
   data() {
     return {
       name:   '',
@@ -93,14 +98,23 @@ export default {
     onSubmitted() {
       axios.post('http://localhost:8000/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
         .then(response => {
-          //remove .invisible from .alert-success
             console.log(response);
-            response.status === 200 ? this.showSuccess = true : this.showDanger = false
+            response.status === 201 ? this.showSuccess = true : this.showDanger = false
         })
         .catch(error => {
             console.log(error);
-            this.showDanger = true
+            this.showDanger = true;
         })
+    },
+    validateBeforeSubmit() {
+      this.$validator.validateAll().then((result) => {
+        if (result) {
+          // eslint-disable-next-line
+          this.onSubmitted();
+        }else{
+          this.showDanger = true;
+        }
+      });
     }
   }
 }
