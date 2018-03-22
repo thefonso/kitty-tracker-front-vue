@@ -62,7 +62,9 @@
         localStorage.token = req.data.token;
         this.$store.dispatch('login');
         console.log(req);
-        this.$router.replace(this.$route.query.redirect || '/catlist')
+        // TODO: BUG exist when you logout after selecting signup the router takes you to that page on failed login. Check to see if this fixes
+        // this.$router.replace(this.$route.query.redirect || '/catlist')
+        this.$router.replace('/catlist')
       },
       loginFailed (error) {
         this.$store.dispatch('login');

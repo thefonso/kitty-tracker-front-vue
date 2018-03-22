@@ -4,7 +4,6 @@
       <Navbar></Navbar>
     </template>
     <main class="container">
-      <!--<img src="./assets/logo.png">-->
       <router-view/>
     </main>
     <template v-if="currentUser">
@@ -20,6 +19,9 @@ import Foot from './components/Foot'
 
 export default {
   name: 'App',
+  data () {
+    return {}
+  },
   computed: {
     ...mapGetters({ currentUser: 'currentUser' })
   },
@@ -44,12 +46,22 @@ export default {
 </script>
 
 <style lang="scss">
-
 #app {
   font-family: 'Avenir', Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
   margin-top: 60px;
+}
+/*Body padding reguired for fixed-top bootstrap navbar - see docs*/
+body {
+  padding-top: 4.3em;
+}
+
+.visible {
+  visibility: visible;
+}
+.invisible {
+  visibility: hidden;
 }
 </style>

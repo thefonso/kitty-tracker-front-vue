@@ -19,7 +19,7 @@
             <input type="text" class="form-control" id="inputDate" placeholder="mm/dd/yyyy">
           </div>
           <div class="form-group col-md-2">
-            <label for="inputFollowUp">Follou Up Date</label>
+            <label for="inputFollowUp">Follow Up Date</label>
             <input type="text" class="form-control" id="inputFollowUp" placeholder="mm/dd/yyyy">
           </div>
         </div>
@@ -43,7 +43,9 @@
     </div>
   </form>
 </template>
-<script></script>
+<script>
+
+</script>
 <style scoped>
   #catLinks{
     padding-top: 5em;

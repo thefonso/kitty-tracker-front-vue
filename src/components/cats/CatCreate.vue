@@ -1,5 +1,14 @@
 <template>
-  <form @submit.prevent="onSubmitted">
+  <!--TODO - v-validate package for vuejs-->
+  <form @submit.prevent="onSubmitted" class="needs-validation" novalidate>
+
+    <div class="row alert alert-success" v-if="showSuccess">
+      <strong>Success!</strong> New kitty added.
+    </div>
+    <div class="row alert alert-danger" v-if="showDanger">
+      <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+    </div>
+
     <div class="pet-record">Create New Pet</div>
     <div id="pet-content" class="row form-group">
       <div class="col-2"></div>
@@ -21,34 +30,39 @@
           <div class="form-group row">
             <label for="InputName" class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="InputName" placeholder="name">
+              <input type="text" class="form-control" id="InputName" placeholder="name" v-model="name">
+              <small id="nameHelp" class="form-text text-muted">required field</small>
             </div>
+
           </div>
 
           <div class="form-group row">
-            <label for="InputGender" class="col-sm-2 col-form-label">Gender</label>
+            <label class="col-sm-2 col-form-label">Gender</label>
             <div class="col-sm-10">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio1" value="option1">
-                <label class="form-check-label" for="inlineRadio1">Male</label>
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender1" value="M" v-model="gender">
+                <label class="form-check-label" for="InputGender1">Male</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="inlineRadio2" value="option2">
-                <label class="form-check-label" for="inlineRadio2">Female</label>
+                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender2" value="F" v-model="gender">
+                <label class="form-check-label" for="InputGender2">Female</label>
               </div>
             </div>
+            <small id="genderHelp" class="form-text text-muted">required field</small>
           </div>
 
           <div class="form-group row">
             <label for="InputWeight" class="col-sm-2 col-form-label">Weight</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="InputWeight" placeholder="weight">
+              <input type="number" class="form-control" id="InputWeight" placeholder="weight" v-model.number="weight">
+              <small id="weightHelp" class="form-text text-muted">required field</small>
             </div>
           </div>
           <div class="form-group row">
             <label for="InputAge" class="col-sm-2 col-form-label">Age</label>
             <div class="col-sm-10">
-              <input type="text" class="form-control" id="InputAge" placeholder="Age">
+              <input type="number" class="form-control" id="InputAge" placeholder="Age" v-model.number="age">
+              <small id="ageHelp" class="form-text text-muted">required field</small>
             </div>
           </div>
           <div class="clear-fix"></div>
@@ -61,48 +75,38 @@
 </template>
 
 <script>
-  import axios from 'axios';
+import axios from 'axios';
 
-  export default {
-    data() {
-      return {
-        petContent: ''
-      }
-    },
-    methods: {
-      onSubmitted() {
-        axios.post('http://localhost:8000/api/v1/cats/',{content: this.petContent})
-          .then(
-            (response) => console.log(response)
-          )
-          .catch(
-            (error) => console.log(error)
-          );
-      }
+
+export default {
+  data() {
+    return {
+      name:   '',
+      gender: '',
+      weight: '',
+      age:    '',
+      showSuccess: false,
+      showDanger: false,
+    }
+  },
+  methods: {
+    onSubmitted() {
+      axios.post('http://localhost:8000/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
+        .then(response => {
+          //remove .invisible from .alert-success
+            console.log(response);
+            response.status === 200 ? this.showSuccess = true : this.showDanger = false
+        })
+        .catch(error => {
+            console.log(error);
+            this.showDanger = true
+        })
     }
   }
+}
 </script>
 
 <style scoped>
-
-  /*label{*/
-    /*height: 55px;*/
-    /*color: #373A3C;*/
-    /*font-family: "Helvetica Neue";*/
-    /*font-size: 20px;*/
-    /*line-height: 24px;*/
-    /*margin-right: 1.7rem;*/
-    /*margin-bottom: 1.5rem;*/
-    /*padding-top: 6px;*/
-  /*}*/
-
-
-  /*input {*/
-    /*height: 38px;*/
-    /*border: 1px solid #CCCCCC;*/
-    /*border-radius: 4px;*/
-    /*background-color: #FFFFFF;*/
-  /*}*/
 
   #pet-content{
     padding-top: 35px;
