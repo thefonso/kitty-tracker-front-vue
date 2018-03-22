@@ -1,5 +1,4 @@
 <template>
-  <!--TODO - v-validate package for vuejs-->
   <form @submit.prevent="validateBeforeSubmit">
 
     <b-alert variant="success" dismissible :show="showSuccess">
