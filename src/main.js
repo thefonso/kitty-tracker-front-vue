@@ -10,8 +10,8 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
-Vue.use(BootstrapVue)
-Vue.use(VeeValidate)
+Vue.use(BootstrapVue);
+Vue.use(VeeValidate);
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

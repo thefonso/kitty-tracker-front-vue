@@ -13,24 +13,29 @@
               <option>...</option>
               <option>...</option>
             </select>
+            <small id="careHelp" class="form-text text-muted">required</small>
           </div>
           <div class="form-group col-md-4">
             <label for="inputDate">Date</label>
             <input type="text" class="form-control" id="inputDate" placeholder="mm/dd/yyyy">
+            <small id="dateHelp" class="form-text text-muted">required</small>
           </div>
           <div class="form-group col-md-2">
             <label for="inputFollowUp">Follow Up Date</label>
             <input type="text" class="form-control" id="inputFollowUp" placeholder="mm/dd/yyyy">
+            <small id="followupHelp" class="form-text text-muted">required</small>
           </div>
         </div>
         <div class="form-row">
           <div class="form-group col-md-6">
             <label for="inputVetPractice">Vet Practice</label>
             <input type="text" class="form-control" id="inputVetPractice" placeholder="Vet Practice">
+            <small id="vetHelp" class="form-text text-muted">required</small>
           </div>
           <div class="form-group col-md-6">
             <label for="inputDocName">Doctor Name</label>
             <input type="text" class="form-control" id="inputDocName" placeholder="Doctor Name">
+            <small id="doctorHelp" class="form-text text-muted">required</small>
           </div>
         </div>
         <div class="form-group">

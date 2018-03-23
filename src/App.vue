@@ -3,7 +3,7 @@
     <template v-if="currentUser">
       <Navbar></Navbar>
     </template>
-    <main class="container">
+    <main class="container-fluid">
       <router-view/>
     </main>
     <template v-if="currentUser">
@@ -51,7 +51,7 @@ export default {
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
-  margin-top: 60px;
+  /*margin-top: 60px;*/
 }
 /*Body padding reguired for fixed-top bootstrap navbar - see docs*/
 body {
