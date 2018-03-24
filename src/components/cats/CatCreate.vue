@@ -1,16 +1,23 @@
 <template>
   <form @submit.prevent="validateBeforeSubmit">
 
-    <b-alert variant="success" dismissible :show="showSuccess">
-      <strong>Success!</strong> New kitty added.
-    </b-alert>
-
-    <b-alert variant="danger" dismissible :show="showDanger">
-      <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-    </b-alert>
-
 
     <div class="pet-record">Create New Pet</div>
+
+    <div class="row">
+      <div class="col-sm-2"></div>
+
+      <b-alert class="col-sm-8" variant="success" dismissible :show="showSuccess">
+        <strong>Success!</strong> New kitty added.
+      </b-alert>
+
+      <b-alert class="col-sm-8" variant="danger" dismissible :show="showDanger">
+        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+      </b-alert>
+
+      <div class="col-sm-2"></div>
+    </div>
+
     <div id="pet-content" class="row form-group">
       <div class="col-2"></div>
       <div class="col-sm-4 align-center">
@@ -32,10 +39,9 @@
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
               <input name="name" v-model="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="name">
-              <i v-show="errors.has('name')" class="fa fa-warning"></i>
-                <small v-show="errors.has('name')" class="help is-danger form-text text-muted">{{ errors.first('name') }}</small>
+              <i v-show="errors.has('name')" class="fa fa-warning">required</i>
+              <!--<small v-show="errors.has('name')" class="help is-danger form-text text-muted">{{ errors.first('name') }}</small>-->
             </div>
-
           </div>
 
           <div class="form-group row">
@@ -50,23 +56,22 @@
                 <label class="form-check-label" for="InputGender2">Female</label>
               </div>
             </div>
-
           </div>
 
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Weight</label>
             <div class="col-sm-10">
               <input name="weight" v-model="weight" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('weight') }" type="text" placeholder="weight">
-              <i v-show="errors.has('weight')" class="fa fa-warning"></i>
-              <small v-show="errors.has('weight')" class="help is-danger text-muted form-text">{{ errors.first('weight') }}</small>
+              <i v-show="errors.has('weight')" class="fa fa-warning">required</i>
+              <!--<small v-show="errors.has('weight')" class="help is-danger text-muted form-text">{{ errors.first('weight') }}</small>-->
             </div>
           </div>
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Age</label>
             <div class="col-sm-10">
               <input name="age" v-model="age" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('age') }" type="text" placeholder="age">
-              <i v-show="errors.has('age')" class="fa fa-warning"></i>
-              <small v-show="errors.has('age')" class="help is-danger form-text text-muted">{{ errors.first('age') }}</small>
+              <i v-show="errors.has('age')" class="fa fa-warning">required</i>
+              <!--<small v-show="errors.has('age')" class="help is-danger form-text text-muted">{{ errors.first('age') }}</small>-->
             </div>
           </div>
           <div class="clear-fix"></div>

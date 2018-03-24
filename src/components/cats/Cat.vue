@@ -9,7 +9,7 @@
       <div class="pet-name">{{singleCat.name}}</div>
     </div>
     <div class="col-1"></div>
-    <div class="col-sm-4 align-left">
+    <div class="col-sm-2 align-left">
       <div class="spacer"></div>
       <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
         <a role="button" :href="'/cat/'+singleCat.id+'/feedings'" class="feeding rectangle-28 btn btn-text">Feeding</a>
@@ -105,6 +105,9 @@
 
 
   /*records buttons*/
+  #catlinks{
+
+  }
   .spacer{
     height: 64px;
   }
