@@ -1,7 +1,8 @@
+<!--TODO this page displays the same as MedicalList.vue...idealy it will do so with more animation once completed if needed-->
 <template>
   <div class="meds-table">
     <div class="heading-row">
-      <div class="page-heading float-sm-left">Medication: <span>{{singleCat.name}}</span></div>
+      <div class="page-heading float-sm-left">Medications for: <span>{{$route.params.catName}}</span></div>
       <div class="float-sm-right">
         <div>last updated</div>
         <!--TODO: format date / time for last time updated-->
@@ -39,7 +40,7 @@
       }
     },
     created() {
-      axios.get(`http://localhost:8000/api/v1/cats/${this.$route.params.catID}`)
+      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;

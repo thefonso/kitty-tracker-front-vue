@@ -1,7 +1,7 @@
 <template>
   <div class="meds-table">
     <div class="heading-row">
-      <div class="page-heading float-sm-left">Medication: <span>{{thisCat[0].cat.name}}</span></div>
+      <div class="page-heading float-sm-left">Medications for: <span>{{$route.params.catName}}</span></div>
 
       <div class="float-sm-right">
         <div class="grey">last updated</div>
@@ -19,31 +19,18 @@
         <th scope="col" class="col-sm-2">Duration</th>
         <th scope="col" class="col-sm-2">Frequency</th>
         <th scope="col" class="col-sm-2">Dosage</th>
+        <th scope="col" class="col-sm-2">Notes</th>
       </tr>
       </thead>
       <tbody v-if="thisCat">
-      <!--TODO: v-for meds in cat.meds goes here-->
       <tr v-for="(med) in thisCat">
         <td>{{ med.id }}</td>
-        <!--TODO: change -name- to -medication- -->
         <td>{{ med.name }}</td>
         <td>{{ med.duration }}</td>
         <td>{{ med.frequency }}</td>
         <td>{{ med.dosage }}</td>
-        <!--<td> cat.id </td>-->
-        <!--<td> cat.med.medication </td>-->
-        <!--<td> cat.med.duration </td>-->
-        <!--<td> cat.med.freq </td>-->
-        <!--<td> cat.med.dosage </td>-->
+        <td>{{ med.notes }}</td>
       </tr>
-      <tr>
-        <!--<td> cat.id </td>-->
-        <!--<td> cat.med.medication </td>-->
-        <!--<td> cat.med.duration </td>-->
-        <!--<td> cat.med.freq </td>-->
-        <!--<td> cat.med.dosage </td>-->
-      </tr>
-
       </tbody>
     </table>
   </div>
@@ -61,9 +48,7 @@
       }
     },
     created() {
-      // this.$route.params.catID
-      // TODO: upcase first letter in 'babby' from param line above
-      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=Babby`)
+      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data.results);
           this.thisCat = request.data.results;

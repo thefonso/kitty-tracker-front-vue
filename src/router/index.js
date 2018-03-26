@@ -5,11 +5,13 @@ import Logout from '@/components/Logout';
 import Cat from '@/components/cats/Cat';
 import Catlist from '@/components/cats/Catlist';
 import CatCreate from '@/components/cats/CatCreate';
-import Feedings from '@/components/feedings/Feedings';
+import Medication from '@/components/medications/Medication';
+import MedicationList from '@/components/medications/MedicationList';
+import MedicationCreate from '@/components/medications/MedicationCreate';
 import FeedingsList from '@/components/feedings/FeedingsList';
-import MedList from '@/components/medications/MedList';
-import Medications from '@/components/medications/Medications';
-import MedRecords from '@/components/medications/MedRecords';
+import FeedingCreate from '@/components/feedings/FeedingCreate';
+import MedRecordList from '@/components/medrecords/MedRecordList';
+import MedRecordCreate from '@/components/medrecords/MedRecordCreate';
 
 Vue.use(Router);
 
@@ -19,7 +21,6 @@ export default new Router({
     { path: '/logout', name: 'Logout', component: Logout },
     // TODO: create SIGNUP component
     // { path: '/signup', name: 'SignUp', component: SignUp },
-
     // TODO: create CRUD for cat
     { path: '/cat/:catID', name: 'Cat', component: Cat },
     { path: '/catlist', name: 'Catlist', component: Catlist },
@@ -27,17 +28,19 @@ export default new Router({
     // { path: '/cat/:catID/update', name: 'CatUpdate', component: CatCreate },
     // { path: '/cat/:catID/destroy', name: 'CatDelete', component: CatCreate },
     // TODO: create CRUD for medications
-    { path: '/cat/:catID/medications/all', name: 'MedList', component: MedList },
-    { path: '/cat/:catID/medications', name: 'Medications', component: Medications },
-
+    { path: '/cat/:catID/medication', name: 'Medication', component: Medication },
+    { path: '/cat/:catID/medications/all/:catName', name: 'MedicationList', component: MedicationList },
+    { path: '/cat/:catID/medication/create', name: 'MedicationCreate', component: MedicationCreate },
+    // { path: '/cat/:catID/medications/update', name: 'MedicationUpdate', component: MedicationUpdate },
+    // { path: '/cat/:catID/medications/destroy', name: 'MedicationDelete', component: MedicationDestroy },
     // TODO: create CRUD for Feedings
-    { path: '/cat/:catID/feedings/:catName/all', name: 'FeedingsList', component: FeedingsList },
-    { path: '/cat/:catID/feedings/:catName', name: 'Feedings', component: Feedings },
-
-    // TODO: create CRUD for Feedings
-    { path: '/medical_records/:catID/records/:catName/all', name: 'MedRecords', component: MedRecords },
-    { path: '/medical_records/create', name: 'MedRecordCreate', component: MedRecords},
+    { path: '/cat/:catID/feedings/all', name: 'FeedingsList', component: FeedingsList },
+    { path: '/cat/:catID/feeding/create', name: 'FeedingCreate', component: FeedingCreate },
+    // { path: '/cat/:catID/feeding/Update', name: 'FeedingUpdate', component: FeedingUpdate },
+    // { path: '/cat/:catID/feeding/Destroy', name: 'FeedingDestroy', component: FeedingDestroy },
     // TODO: create CRUD for medical_records
+    { path: '/medical_records/:catName/all', name: 'MedRecordList', component: MedRecordList },
+    { path: '/medical_records/create', name: 'MedRecordCreate', component: MedRecordCreate},
     // { path: '/medical_records/:catID/update', name: 'MedRecordUpdate', component: MedRecords },
     // { path: '/medical_records/:catID/destroy', name: 'MedRecordDelete', component: MedRecords },
   ],
