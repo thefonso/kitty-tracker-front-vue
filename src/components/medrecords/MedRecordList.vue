@@ -1,7 +1,7 @@
 <template>
   <div class="meds-table">
     <div class="heading-row">
-      <div class="page-heading float-sm-left">Medications for: <span>{{$route.params.catName}}</span></div>
+      <div class="page-heading float-sm-left">Medical Records of: <span>{{$route.params.catName}}</span></div>
 
       <div class="float-sm-right">
         <div class="grey">last updated</div>

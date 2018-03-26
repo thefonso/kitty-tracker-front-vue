@@ -1,7 +1,7 @@
 <template>
     <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
-      <!--TODO: adjust logo to float and fit like prototype desing-->
-      <a class="navbar-brand" href="/"><img src="../assets/logo1.png" height="57px"> KittyTracker</a>
+      <!--TODO: adjust logo to float and fit like prototype design-->
+      <router-link class="navbar-brand" to="/"><img src="../assets/logo1.png" height="57px"> KittyTracker</router-link>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
       </button>

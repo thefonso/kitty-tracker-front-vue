@@ -1,7 +1,7 @@
 <template>
   <div class="meds-table">
     <div class="heading-row">
-      <div class="page-heading float-sm-left">Feedings: <span>{{thisCat[0].cat.name}}</span></div>
+      <div class="page-heading float-sm-left">Feedings: <span>{{$route.params.catName}}</span></div>
 
       <div class="float-sm-right">
         <div class="grey">last updated</div>
@@ -50,7 +50,7 @@
       // this.$route.params.catID
       // TODO: insert cat:name value from params
       // TODO: upcase first letter in 'babby' from param line above
-      axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=fiesta`)
+      axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data.results);
           this.thisCat = request.data.results;
