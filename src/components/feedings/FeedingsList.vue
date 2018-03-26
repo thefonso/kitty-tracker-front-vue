@@ -1,7 +1,7 @@
 <template>
   <div class="meds-table">
     <div class="heading-row">
-      <div class="page-heading float-sm-left">Medication: <span>{{thisCat[0].cat.name}}</span></div>
+      <div class="page-heading float-sm-left">Feedings: <span>{{thisCat[0].cat.name}}</span></div>
 
       <div class="float-sm-right">
         <div class="grey">last updated</div>
@@ -14,36 +14,22 @@
     <table class="table">
       <thead class="thead-light">
       <tr>
-        <th scope="col" class="col-sm-1">#</th>
-        <th scope="col" class="col-sm-2">Medication</th>
-        <th scope="col" class="col-sm-2">Duration</th>
-        <th scope="col" class="col-sm-2">Frequency</th>
-        <th scope="col" class="col-sm-2">Dosage</th>
+        <th scope="col" class="col-sm-1">Cat</th>
+        <th scope="col" class="col-sm-2">WBF</th>
+        <th scope="col" class="col-sm-2">WAF</th>
+        <th scope="col" class="col-sm-2">Stimulated?</th>
+        <th scope="col" class="col-sm-2">Stim_type</th>
+        <!--<th scope="col" class="col-sm-2">Photo</th>-->
       </tr>
       </thead>
       <tbody v-if="thisCat">
-      <!--TODO: v-for meds in cat.meds goes here-->
-      <tr v-for="(med) in thisCat">
-        <td>{{ med.id }}</td>
-        <!--TODO: change -name- to -medication- -->
-        <td>{{ med.name }}</td>
-        <td>{{ med.duration }}</td>
-        <td>{{ med.frequency }}</td>
-        <td>{{ med.dosage }}</td>
-        <!--<td> cat.id </td>-->
-        <!--<td> cat.med.medication </td>-->
-        <!--<td> cat.med.duration </td>-->
-        <!--<td> cat.med.freq </td>-->
-        <!--<td> cat.med.dosage </td>-->
+      <tr v-for="(fed) in thisCat">
+        <td>{{ fed.cat.name }}</td>
+        <td>{{ fed.weight_before_food }}</td>
+        <td>{{ fed.weight_after_food }}</td>
+        <td>{{ fed.stimulated }}</td>
+        <td>{{ fed.stimulation_type }}</td>
       </tr>
-      <tr>
-        <!--<td> cat.id </td>-->
-        <!--<td> cat.med.medication </td>-->
-        <!--<td> cat.med.duration </td>-->
-        <!--<td> cat.med.freq </td>-->
-        <!--<td> cat.med.dosage </td>-->
-      </tr>
-
       </tbody>
     </table>
   </div>
@@ -54,7 +40,7 @@
   import axios from 'axios';
 
   export default {
-    name: 'MedList',
+    name: 'FeedingsList',
     data() {
       return {
         thisCat: [],
@@ -62,8 +48,9 @@
     },
     created() {
       // this.$route.params.catID
+      // TODO: insert cat:name value from params
       // TODO: upcase first letter in 'babby' from param line above
-      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=Babby`)
+      axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=fiesta`)
         .then(request => {
           console.log(request.data.results);
           this.thisCat = request.data.results;

@@ -7,7 +7,7 @@
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-sm-10">Record A Feeding:</div>
+        <div class="page-heading col-sm-10">Record A Feeding: {{$route.params.catName}}</div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -43,11 +43,12 @@
           <div class="form-group">
             <label for="food_type">Type of Food Taken</label>
             <select name="food_type" id="food_type" class="form-control" v-model="food_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('food_type')}">
-              <option selected>Choose...</option>
-              <option value="B">Bottle</option>
+              <option value="Choose..." selected>Choose...</option>
+              <option value="NA">None /Not Entered</option>
+              <option value="BO">Bottle</option>
               <option value="BS">Bottle/Syringe</option>
               <option value="SG">Syringe Gruel</option>
-              <option value="SGG">Syringe Gruel / Gruel</option>
+              <option value="GG">Syringe Gruel / Gruel</option>
               <option value="G">Gruel</option>
             </select>
             <i v-show="errors.has('food_type')" class="fa fa-warning">required</i>
@@ -69,11 +70,11 @@
               </div>
               <div class="col-sm-8">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="option1" v-validate="'required|in:1,2'" v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="1" v-validate="'required|in:1,2'" v-model="stimulated">
                   <label class="form-check-label">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="option2"  v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="2" v-model="stimulated">
                   <label class="form-check-label">No</label>
                 </div>
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
@@ -83,9 +84,10 @@
             <div class="form-group">
               <label for="stimulation_type">Stimulation type</label>
               <select name="stimulation_type" id="stimulation_type" class="form-control" v-model="stimulation_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('stimulation_type')}">
-                <option selected>Choose...</option>
-                <option value="U">Urine</option>
-                <option value="F">Feces</option>
+                <option value="Choose..." selected>Choose...</option>
+                <option value="NA">None / Not Entered</option>
+                <option value="UR">Urine</option>
+                <option value="FE">Feces</option>
                 <option value="UF">Urine/Feces</option>
               </select>
               <i v-show="errors.has('stimulation_type')" class="fa fa-warning">required</i>
@@ -121,7 +123,17 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('http://localhost:8000/api/v1/feedings/',{ weight_before_food: this.weight_before_food, weight_after_food: this.weight_after_food, food_type: this.food_type, notes: this.notes, stimulated: this.stimulated })
+        axios.post('http://localhost:8000/api/v1/feedings/',{
+          cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+          weight_before_food: this.weight_before_food,
+          weight_after_food: this.weight_after_food,
+          amount_of_food_taken: this.amount_of_food_taken,
+          food_type: this.food_type,
+          notes: this.notes,
+          stimulated: this.stimulated,
+          stimulation_type: this.stimulation_type
+
+        })
           .then(response => {
             console.log(response);
             response.status === 201 ? this.showSuccess = true : this.showDanger = false
@@ -135,6 +147,7 @@
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.onSubmitted();
+            // console.log(this.$route.params)
           }else{
             this.showDanger = true;
           }

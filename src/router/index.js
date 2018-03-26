@@ -6,6 +6,7 @@ import Cat from '@/components/cats/Cat';
 import Catlist from '@/components/cats/Catlist';
 import CatCreate from '@/components/cats/CatCreate';
 import Feedings from '@/components/feedings/Feedings';
+import FeedingsList from '@/components/feedings/FeedingsList';
 import MedList from '@/components/medications/MedList';
 import Medications from '@/components/medications/Medications';
 import MedRecords from '@/components/medications/MedRecords';
@@ -18,15 +19,23 @@ export default new Router({
     { path: '/logout', name: 'Logout', component: Logout },
     // TODO: create SIGNUP component
     // { path: '/signup', name: 'SignUp', component: SignUp },
+
+    // TODO: create CRUD for cat
     { path: '/cat/:catID', name: 'Cat', component: Cat },
-    { path: '/cat/:catID/medications/all', name: 'MedList', component: MedList },
-    { path: '/cat/:catID/medications', name: 'Medications', component: Medications },
-    { path: '/cat/:catID/feedings', name: 'Feedings', component: Feedings },
     { path: '/catlist', name: 'Catlist', component: Catlist },
     { path: '/catcreate', name: 'CatCreate', component: CatCreate },
-    // TODO: create CRUD for cat
     // { path: '/cat/:catID/update', name: 'CatUpdate', component: CatCreate },
     // { path: '/cat/:catID/destroy', name: 'CatDelete', component: CatCreate },
+    // TODO: create CRUD for medications
+    { path: '/cat/:catID/medications/all', name: 'MedList', component: MedList },
+    { path: '/cat/:catID/medications', name: 'Medications', component: Medications },
+
+    // TODO: create CRUD for Feedings
+    { path: '/cat/:catID/feedings/:catName/all', name: 'FeedingsList', component: FeedingsList },
+    { path: '/cat/:catID/feedings/:catName', name: 'Feedings', component: Feedings },
+
+    // TODO: create CRUD for Feedings
+    { path: '/medical_records/:catID/records/:catName/all', name: 'MedRecords', component: MedRecords },
     { path: '/medical_records/create', name: 'MedRecordCreate', component: MedRecords},
     // TODO: create CRUD for medical_records
     // { path: '/medical_records/:catID/update', name: 'MedRecordUpdate', component: MedRecords },
