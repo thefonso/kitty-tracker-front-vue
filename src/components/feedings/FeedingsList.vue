@@ -9,6 +9,7 @@
         <div id="lastup-date">Date:<span>MM:DD:YY</span></div>
         <div id="lastup-time">Time:<span>HH:MM</span></div>
       </div>
+
     </div>
 
     <table class="table">
@@ -31,7 +32,23 @@
         <td>{{ fed.stimulation_type }}</td>
       </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+            <a role="button">Add A Feeding</a>
+          </router-link>
+        </td>
+      </tr>
+
+      </tfoot>
+
     </table>
+
   </div>
 
 </template>

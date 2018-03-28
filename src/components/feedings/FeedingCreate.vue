@@ -2,12 +2,10 @@
   <form @submit.prevent="validateBeforeSubmit">
 
     <div id="pet-content">
-  <!--TODO: create a Feeding History page displaying List of feedings. Same layout as Catlist-->
-
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-sm-10">Record A Feeding: {{$route.params.catName}}</div>
+        <div class="page-heading col-sm-10">Record A Feeding For: {{$route.params.catName}}</div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -125,6 +123,8 @@
       onSubmitted() {
         axios.post('http://localhost:8000/api/v1/feedings/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+          weight_unit_measure: 'G',
+          food_unit_measure: 'G',
           weight_before_food: this.weight_before_food,
           weight_after_food: this.weight_after_food,
           amount_of_food_taken: this.amount_of_food_taken,

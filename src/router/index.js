@@ -35,7 +35,7 @@ export default new Router({
     // { path: '/cat/:catID/medications/destroy', name: 'MedicationDelete', component: MedicationDestroy },
     // TODO: create CRUD for Feedings
     { path: '/cat/:catID/feedings/all/:catName', name: 'FeedingsList', component: FeedingsList },
-    { path: '/cat/:catID/feeding/create', name: 'FeedingCreate', component: FeedingCreate },
+    { path: '/cat/:catID/feeding/create/:catName', name: 'FeedingCreate', component: FeedingCreate },
     // { path: '/cat/:catID/feeding/Update', name: 'FeedingUpdate', component: FeedingUpdate },
     // { path: '/cat/:catID/feeding/Destroy', name: 'FeedingDestroy', component: FeedingDestroy },
     // TODO: create CRUD for medical_records

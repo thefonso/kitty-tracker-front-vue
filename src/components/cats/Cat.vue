@@ -12,7 +12,7 @@
     <div class="col-sm-2 align-left">
       <div class="spacer"></div>
       <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-        <router-link :to="'/cat/'+singleCat.id+'/feedings/'+singleCat.name" class="feeding rectangle-28 btn btn-text">
+        <router-link :to="'/cat/'+singleCat.id+'/feedings/all/'+singleCat.name" class="feeding rectangle-28 btn btn-text">
           <a role="button">Feeding</a>
         </router-link>
         <router-link :to="'/cat/'+singleCat.id+'/medications/all/'+singleCat.name" class="medication rectangle-28 btn btn-text">
@@ -38,7 +38,6 @@
     data() {
       return {
         singleCat: [],
-        job: 'ninja'
       }
     },
     created() {

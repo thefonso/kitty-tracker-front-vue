@@ -1,6 +1,10 @@
 // The Vue build version to load with the `import` command
 // (runtime-only or standalone) has been set in webpack.base.conf with an alias.
 import Vue from 'vue';
+import VueRx from 'vue-rx'
+import { Observable } from 'rxjs/Observable'
+import { Subscription } from 'rxjs/Subscription'
+import { Subject } from 'rxjs/Subject'
 import BootstrapVue from 'bootstrap-vue';
 import VeeValidate from 'vee-validate';
 import App from './App';
@@ -10,6 +14,7 @@ import store from './store';
 import 'bootstrap/dist/css/bootstrap.css';
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 
+Vue.use(VueRx, {Observable, Subscription, Subject});
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 Vue.config.productionTip = false;
