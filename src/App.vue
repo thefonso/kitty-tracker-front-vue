@@ -56,6 +56,7 @@ export default {
 /*Body padding reguired for fixed-top bootstrap navbar - see docs*/
 body {
   padding-top: 4.3em;
+  padding-bottom: 3em;
 }
 
 .visible {

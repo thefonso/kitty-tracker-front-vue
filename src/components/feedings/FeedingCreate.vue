@@ -5,21 +5,20 @@
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-sm-10">Record A Feeding For: {{$route.params.catName}}</div>
+        <div class="page-heading col-auto">New Feeding For:{{$route.params.catName}}</div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
         <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
           <strong>Success!</strong> Feeding added.
         </b-alert>
-
         <b-alert class="col-sm-9" variant="danger" dismissible :show="showDanger">
           <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
         </b-alert>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="col-sm-4">
+        <div class="col-sm-5">
           <div class="form-group">
             <label>Weight Before Food(gm)</label>
             <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" type="text" placeholder="WBF">
@@ -53,20 +52,18 @@
             <!--<small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>-->
           </div>
         </div>
-        <div class="col-sm-1"></div>
-        <div class="col-sm-4">
+        <div class="col-auto"></div>
+        <div class="col-sm-5">
           <div class="panel-body">
-
             <div class="form-group">
               <label for="InputNotes">Notes</label>
-              <textarea class="form-control" id="InputNotes" rows="9" v-model="notes"></textarea>
+              <textarea class="form-control" id="InputNotes" rows="6" v-model="notes"></textarea>
             </div>
-
             <div class="form-group row">
-              <div class="col-sm-4">
+              <div class="col-xl-1">
                 <label  class="mr-2">Stimulated?</label>
               </div>
-              <div class="col-sm-8">
+              <div class="col-xl-2">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="stimulated"  value="1" v-validate="'required|in:1,2'" v-model="stimulated">
                   <label class="form-check-label">Yes</label>
@@ -78,7 +75,6 @@
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
               </div>
             </div>
-
             <div class="form-group">
               <label for="stimulation_type">Stimulation type</label>
               <select name="stimulation_type" id="stimulation_type" class="form-control" v-model="stimulation_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('stimulation_type')}">
@@ -90,15 +86,23 @@
               </select>
               <i v-show="errors.has('stimulation_type')" class="fa fa-warning">required</i>
             </div>
-
-            <button type="submit" class="btn btn-primary submit-button btn-text float-right">Submit</button>
-
           </div>
         </div>
         <div class="col-sm-1"></div>
       </div>
+      <div class="row">
+        <div class="col-sm-6"></div>
+        <div class="col-auto"></div>
+        <div class="col-sm-5">
+          <button type="submit" class="btn btn-primary submit-button btn-text float-left">Submit</button>
+        </div>
+        <div class="col-sm-1"></div>
+      </div>
+
+
     </div>
   </form>
+  <!--<div class="clear-fix"></div>-->
 </template>
 
 <script>
@@ -171,25 +175,28 @@
   }
   #pet-content{
     padding-top: 2.1875em
+    /*padding: 3rem 1.5rem;*/
   }
 
-  .page-heading {
-    color: #000000;
-    font-family: "Helvetica Neue";
-    font-size: 2em;
-    font-weight: bold;
-    line-height: 2.625em;
+  @media only screen and (min-width: 600px){
+    .page-heading {
+      color: #000000;
+      font-family: "Helvetica Neue";
+      font-size: 2em;
+      font-weight: bold;
+      line-height: 2.625em;
+    }
+  }
 
+  @media only screen and (max-width: 600px){
+    .page-heading {
+      font-size: 1.50em;
+      line-height: 1.625em;
+      padding-bottom: 1em;
+    }
   }
 
   /*feeding button*/
-  .feeding-history {
-    height: 1.375em;
-    width: 210px;
-    border: 1px solid #0275D8;
-    border-radius: 0.25em;
-    background-color: #5CB85C;
-  }
   .btn-text {
     color: #FFFFFF;
     font-family: "Helvetica Neue";
