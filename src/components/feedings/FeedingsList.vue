@@ -55,6 +55,7 @@
 
 <script>
   import axios from 'axios';
+  import { Observable } from 'rxjs';
 
   export default {
     name: 'FeedingsList',
@@ -63,16 +64,11 @@
         thisCat: [],
       }
     },
-    created() {
-      // this.$route.params.catID
-      // TODO: insert cat:name value from params
-      // TODO: upcase first letter in 'babby' from param line above
-      axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=${this.$route.params.catName}`)
-        .then(request => {
-          console.log(request.data.results);
-          this.thisCat = request.data.results;
-        })
-        .catch(error => console.log(error));
+    subscriptions() {
+      const cat$ = Observable.from(axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=${this.$route.params.catName}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      return{thisCat: cat$}
     }
   }
 

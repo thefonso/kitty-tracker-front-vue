@@ -41,6 +41,7 @@
 
 <script>
   import axios from 'axios';
+  import { Observable } from 'rxjs';
 
   export default {
     name: 'MedicalRecords',
@@ -49,13 +50,11 @@
         thisCat: [],
       }
     },
-    created() {
-      axios.get(`http://localhost:8000/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
-        .then(request => {
-          console.log(request.data.results);
-          this.thisCat = request.data.results;
-        })
-        .catch(error => console.log(error));
+    subscriptions() {
+      const cat$ = Observable.from(axios.get(`http://localhost:8000/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      return{thisCat: cat$}
     }
   }
 

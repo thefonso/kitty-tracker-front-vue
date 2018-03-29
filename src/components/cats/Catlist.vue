@@ -13,6 +13,7 @@
     </tr>
     </thead>
     <tbody>
+    <!--<tr><td>{{cats$}}</td></tr>-->
     <tr v-for="(cat) in cats">
       <td><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></td>
       <td><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></td>
@@ -31,26 +32,13 @@
   import { Observable } from 'rxjs';
 
   export default {
-    name: 'Catlist',
-    data() {
-      return {
-        cats: []
-      }
+    name: 'CatList',
+    subscriptions() {
+      const cats$ = Observable.from(axios.get(`http://localhost:8000/api/v1/cats/`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      return{cats: cats$}
     },
-    methods: {
-      onGetCats() {
-        axios.get(`http://localhost:8000/api/v1/cats/`)
-          .then(
-            request => {
-              console.log(request);
-              this.cats = request.data.results;
-            })
-          .catch(error => console.log(error));
-      },
-    },
-    created(){
-      this.onGetCats()
-    }
   }
 </script>
 

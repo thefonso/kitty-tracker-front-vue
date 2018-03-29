@@ -107,9 +107,10 @@
 
 <script>
   import axios from 'axios';
+  import { Observable } from 'rxjs';
 
   export default {
-    name: 'newfeeding',
+    name: 'FeedingCreate',
     data() {
       return {
         weight_before_food: '',
