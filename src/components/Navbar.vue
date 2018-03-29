@@ -1,23 +1,24 @@
 <template>
-    <nav class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
+  <!--TODO determine how best to refactor b-navbar-->
+    <b-navbar tobble="'md"  class="navbar navbar-expand-md navbar-dark bg-dark fixed-top">
       <!--TODO: adjust logo to float and fit like prototype design-->
-      <router-link class="navbar-brand" to="/"><img src="../assets/logo1.png" height="57px"> KittyTracker</router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
-        <span class="navbar-toggler-icon"></span>
-      </button>
+      <b-navbar-brand>
+        <router-link to="/"><img src="../assets/logo1.png" height="57px"> KittyTracker</router-link>
+      </b-navbar-brand>
+      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
 
-      <div class="collapse navbar-collapse" id="navbarSupportedContent">
-        <ul class="navbar-nav mr-auto">
-          <li class="nav-item">
-            <router-link to="/catlist" class="nav-link">cat list</router-link>
-          </li>
-        </ul>
-        <div class="form-inline my-2 my-lg-0">
-          <router-link to="/catcreate" class="nav-link">create pet</router-link>
-          <router-link to="/logout" class="nav-link">logout</router-link>
-        </div>
-      </div>
-    </nav>
+      <b-collapse is-nav id="nav_collapse">
+        <b-navbar-nav>
+          <b-nav-item class="nav-link"><router-link to="/catlist">cat list</router-link></b-nav-item>
+        </b-navbar-nav>
+
+        <!-- Right aligned nav items -->
+        <b-navbar-nav class="ml-auto">
+            <router-link to="/catcreate" class="nav-link">create pet</router-link>
+            <router-link to="/logout" class="nav-link">logout</router-link>
+        </b-navbar-nav>
+      </b-collapse>
+    </b-navbar>
 </template>
 
 <script>

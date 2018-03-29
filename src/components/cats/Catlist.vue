@@ -28,12 +28,9 @@
 
 <script>
   import axios from 'axios';
-  // import cats from './Cat';
+  import { Observable } from 'rxjs';
 
   export default {
-    // components:{
-    //   'app-cats': cats
-    // },
     name: 'Catlist',
     data() {
       return {
