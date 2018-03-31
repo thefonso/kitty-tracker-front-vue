@@ -8,7 +8,6 @@
       </div>
       <div class="pet-name">{{singleCat.name}}</div>
     </div>
-    <div class="col-1"></div>
     <div class="col-sm-2 align-left">
       <div class="spacer"></div>
       <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
@@ -26,7 +25,7 @@
         </router-link>
       </div>
     </div>
-    <div class="col-1"></div>
+    <div class="col-2"></div>
   </div>
 </template>
 
