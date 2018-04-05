@@ -12,16 +12,16 @@
       <div class="col-sm-2 align-left">
         <div class="spacer"></div>
         <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-          <router-link :to="'/cat/'+singleCat.id+'/feedings/all/'+singleCat.name" class="feeding rectangle-28 btn btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/feedings/all/'+singleCat.name" class="feeding rectangle-28 btn btn-primary btn-text">
             <a role="button">Feeding</a>
           </router-link>
-          <router-link :to="'/cat/'+singleCat.id+'/medications/all/'+singleCat.name" class="medication rectangle-28 btn btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/medications/all/'+singleCat.name" class="medication rectangle-28 btn btn-warning btn-text">
             <a role="button">Medication</a>
           </router-link>
-          <router-link :to="'/cat/'+singleCat.id+'/medical_records/all/'+singleCat.name" class="med-records rectangle-28 btn btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/medical_records/all/'+singleCat.name" class="med-records rectangle-28 btn btn-info btn-text">
             <a role="button">Medical Records</a>
           </router-link>
-          <router-link :to="'/catlist'" class="all-pets rectangle-28 btn btn-text">
+          <router-link :to="'/catlist'" class="all-pets rectangle-28 btn btn-success btn-text">
             <a role="button">All Pets</a>
           </router-link>
         </div>
@@ -90,7 +90,7 @@
     margin-top: 20px;
   }
   .pet-record {
-    color: #000000;
+    color: lightskyblue;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;
@@ -126,22 +126,18 @@
   .feeding {
     height: 64px;
     width: 165px;
-    background-color: #428BCA;
   }
   .medication {
     height: 64px;
     width: 213px;
-    background-color: #5CB85C;
   }
   .med-records {
     height: 64px;
     width: 303px;
-    background-color: #5BC0DE;
   }
   .all-pets {
     height: 64px;
     width: 165px;
-    background-color: #F0AD4E;
   }
   .rectangle-28 {
     box-sizing: border-box;

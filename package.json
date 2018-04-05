@@ -12,8 +12,7 @@
   },
   "dependencies": {
     "axios": "^0.18.0",
-    "bootstrap": "^4.0.0-beta.2",
-    "bootstrap-vue": "latest",
+    "bootstrap.native": "^2.0.22",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.8.1",

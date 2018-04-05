@@ -1,8 +1,8 @@
 <template>
-  <b-nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
+  <nav class="navbar fixed-bottom navbar-expand-sm navbar-dark bg-dark">
     <hr/>
     <p class="text-muted">Built with &#9829;︎ by <a href="https://github.com/thefonso">Alfonso Rush</a></p>
-  </b-nav>
+  </nav>
 </template>
 
 <script>

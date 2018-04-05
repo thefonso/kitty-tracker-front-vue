@@ -1,22 +1,31 @@
 <template>
-  <!--TODO determine how best to refactor b-navbar-->
-    <b-navbar tobble="'md"  class="navbar-expand-md navbar-dark bg-dark fixed-top">
+    <nav class="navbar navbar-expand-md fixed-top" id="navbar_top">
       <!--TODO: adjust logo to float and fit like prototype design-->
-      <router-link to="/" class="nav-link"><img src="../assets/logo1.png" height="57px"></router-link>
-      <b-navbar-toggle target="nav_collapse"></b-navbar-toggle>
+      <router-link to="/" class="navbar-brand"><img src="../assets/logo1.png" height="57px"></router-link>
+      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+      </button>
 
-      <b-collapse is-nav id="nav_collapse">
-        <b-navbar-nav>
-          <router-link to="/" class="nav-link">KittyTracker</router-link>
-          <router-link to="/catlist" class="nav-link">cat list</router-link>
-        </b-navbar-nav>
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav">
+          <li class="nav-item">
+            <router-link to="/" class="nav-link">KittyTracker</router-link>
+          </li>
+          <li class="nav-item">
+            <router-link to="/catlist" class="nav-link">cat list</router-link>
+          </li>
+        </ul>
         <!-- Right aligned nav items -->
-        <b-navbar-nav class="ml-auto">
+        <ul class="navbar-nav ml-auto">
+          <li class="nav-item">
             <router-link to="/catcreate" class="nav-link">create pet</router-link>
+          </li>
+          <li class="nav-item">
             <router-link to="/logout" class="nav-link">logout</router-link>
-        </b-navbar-nav>
-      </b-collapse>
-    </b-navbar>
+          </li>
+        </ul>
+      </div>
+    </nav>
 </template>
 
 <script>
@@ -31,6 +40,9 @@
 </script>
 
 <style lang="scss" scoped>
+  #navbar_top {
+    border-bottom: 1px solid #282828;
+  }
   .bg-cats {
     background: #605B56 !important;
   }
