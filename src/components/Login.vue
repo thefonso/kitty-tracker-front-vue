@@ -1,9 +1,6 @@
 <template>
-
     <div class="text-center">
       <form class="form-signin" @submit.prevent="login">
-<!--TODO: fade group 1, 2, 3 1 sec apart-->
-
           <transition name="fade1" appear="">
             <div class="fadecontent">
               <img class="mb-4" src="../assets/logo1.png" height="189px">
@@ -28,7 +25,6 @@
           </transition>
       </form>
     </div>
-
 </template>
 
 <script>
@@ -112,10 +108,10 @@
     transition: all 1s ease;
   }
   .fade2-enter-active{
-    transition: all 1s ease 1s;
+    transition: all 1s ease 0.5s;
   }
   .fade3-enter-active{
-    transition: all 1s ease 2s;
+    transition: all 1s ease 1s;
   }
 
   .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{

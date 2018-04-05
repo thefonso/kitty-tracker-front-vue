@@ -12,19 +12,15 @@
             <div class="divTableHead">Date Added</div>
           </div>
         </div>
-        <div class="divTableBody">
-          <template v-for="(cat) in cats">
-            <transition name="fade2" appear="">
-              <div class="divTableRow">
-                <div class="divTableCell image"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
-                <div class="divTableCell"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
-                <div class="divTableCell">{{ cat.gender }}</div>
-                <div class="divTableCell"></div>
-                <div class="divTableCell">{{ cat.created }}</div>
-              </div>
-            </transition>
-          </template>
-        </div>
+        <transition-group tag="div" name="fade2" class="divTableBody" appear="">
+          <div class="divTableRow fadecontent" v-for="cat in cats" :key="cat.id">
+            <div class="divTableCell image"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
+            <div class="divTableCell"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
+            <div class="divTableCell">{{ cat.gender }}</div>
+            <div class="divTableCell"></div>
+            <div class="divTableCell">{{ cat.created }}</div>
+          </div>
+        </transition-group>
       </div>
     </transition>
   </div>
@@ -47,6 +43,7 @@
     methods: {
     },
     mounted(){
+      // TODO display rows like blinds
       // this.visible = true;
       // const interval = setInterval(() => {
       //   if (this.CatIndex + 1 < this.cats.length) this.CatIndex++;
@@ -72,22 +69,38 @@
     text-align: center;
     margin-bottom: 25px;
   }
+
   .fadecontent{
     opacity: 1;
   }
-  .fade1, .fade2 {
-    backface-visibility: hidden;
-    z-index: 1;
-  }
-  .fade1-enter, .fade1-leave-to /* .fade-leave-active below version 2.1.8 */ {
+  .fade1-enter,.fade2-enter,.fade3-enter{
+    transform: translateX(20px);
     opacity: 0;
   }
-  .fade1-enter-active, .fade1-leave-active{
-    transition: opacity 1s;
+  .fade1-enter-active{
+    transition: all 1s ease;
   }
-  .fade2-enter-active, .fade2-leave-active{
-    transition: opacity 2s;
+  .fade2-enter-active{
+    transition: all 1s ease 0.5s;
   }
+  .fade3-enter-active{
+    transition: all 1s ease 1s;
+  }
+
+  .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .fade1-leave-active{
+    transition: all 1s ease;
+  }
+  .fade2-leave-active{
+    transition: all 1s ease 1s;
+  }
+  .fade3-leave-active{
+    transition: all 1s ease 2s;
+  }
+
   #cat-list-table {
     padding: 3rem 1.5rem;
     text-align: left;
