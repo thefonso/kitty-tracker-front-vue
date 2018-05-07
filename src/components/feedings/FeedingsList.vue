@@ -13,7 +13,7 @@
     </div>
 
     <table class="table">
-      <thead class="thead-light">
+      <thead id="thead" class="thead-light">
       <tr>
         <th scope="col" class="col-sm-1">Cat</th>
         <th scope="col" class="col-sm-2">WBF</th>
@@ -75,6 +75,10 @@
 </script>
 
 <style scoped>
+  #thead th {
+    color: black;
+  }
+
   .grey{
     color: grey;
   }
@@ -82,7 +86,7 @@
     padding-bottom: 7rem;
   }
   .page-heading {
-    color: #000000;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;

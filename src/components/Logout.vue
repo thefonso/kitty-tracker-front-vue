@@ -1,4 +1,6 @@
-<template></template>
+<template>
+  <!--TODO: do something with me-->
+</template>
 
 <script>
   export default {

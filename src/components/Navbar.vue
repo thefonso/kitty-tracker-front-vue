@@ -2,7 +2,7 @@
     <nav class="navbar navbar-expand-md fixed-top" id="navbar_top">
       <!--TODO: adjust logo to float and fit like prototype design-->
       <router-link to="/" class="navbar-brand"><img src="../assets/logo1.png" height="57px"></router-link>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+      <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
 
@@ -33,6 +33,13 @@
 
   export default {
     name: 'Navbar',
+    collapse: true,
+    methods: {
+      toggleCollapse(){
+        const collapsed = !this.state.collapsed;
+        this.setState({collapsed});
+      }
+    },
     computed: {
       ...mapGetters({ currentUser: 'currentUser' })
     }
@@ -42,6 +49,7 @@
 <style lang="scss" scoped>
   #navbar_top {
     border-bottom: 1px solid #282828;
+    background: black;
   }
   .bg-cats {
     background: #605B56 !important;

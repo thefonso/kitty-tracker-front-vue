@@ -24,7 +24,6 @@
       </div>
     </transition>
   </div>
-
 </template>
 
 <script>
@@ -61,7 +60,7 @@
 
 <style scoped>
   .page-heading {
-    color: #000000;
+    color: #EEE;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;

@@ -12,7 +12,7 @@
     </div>
 
     <table class="table">
-      <thead class="thead-light">
+      <thead id="thead" class="thead-light">
       <tr>
         <th scope="col" class="col-sm-1">cat</th>
         <th scope="col" class="col-sm-2">care</th>
@@ -61,6 +61,9 @@
 </script>
 
 <style scoped>
+  #thead th {
+    color: black;
+  }
   .grey{
     color: grey;
   }

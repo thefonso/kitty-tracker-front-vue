@@ -28,7 +28,6 @@
 </template>
 
 <script>
-  // import axios from '../backend/vue-axios/axios'
   import axios from 'axios';
   import { mapGetters } from 'vuex'
 
