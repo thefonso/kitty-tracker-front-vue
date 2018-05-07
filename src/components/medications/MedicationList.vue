@@ -69,7 +69,7 @@
     padding-bottom: 7rem;
   }
   .page-heading {
-    color: #000000;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;
