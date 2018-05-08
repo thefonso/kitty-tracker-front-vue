@@ -32,6 +32,21 @@
         <td>{{ med.notes }}</td>
       </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <router-link :to="'/cat/'+$route.params.catID+'/medication/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+            <a role="button">Add A Medication</a>
+          </router-link>
+        </td>
+      </tr>
+
+      </tfoot>
     </table>
   </div>
 

@@ -11,9 +11,9 @@
           <transition name="fade2" appear="">
             <div class="fadecontent">
               <label for="inputName" class="sr-only">Name</label>
-              <input id="inputName" class="form-control" placeholder="Username" required="" autofocus="" type="text" v-model="username">
+              <input id="inputName" name="username" class="form-control" placeholder="Username" required="" autofocus="" type="text" v-model="username">
               <label for="inputPassword" class="sr-only">Password</label>
-              <input id="inputPassword" class="form-control" placeholder="Password" required="" type="password" v-model="password">
+              <input id="inputPassword" name="password" class="form-control" placeholder="Password" required="" type="password" v-model="password">
             </div>
           </transition>
           <transition name="fade3" appear="">

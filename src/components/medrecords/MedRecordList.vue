@@ -34,6 +34,22 @@
         <td>{{ med.notes }}</td>
       </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <router-link :to="'/cat/'+$route.params.catID+'/medical_records/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+            <a role="button">Add New Record</a>
+          </router-link>
+        </td>
+      </tr>
+
+      </tfoot>
     </table>
   </div>
 

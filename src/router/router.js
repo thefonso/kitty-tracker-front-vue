@@ -30,7 +30,7 @@ export default new Router({
     // TODO: create CRUD for medications
     { path: '/cat/:catID/medication', name: 'Medication', component: Medication },
     { path: '/cat/:catID/medications/all/:catName', name: 'MedicationList', component: MedicationList },
-    { path: '/cat/:catID/medication/create', name: 'MedicationCreate', component: MedicationCreate },
+    { path: '/cat/:catID/medication/create/:catName', name: 'MedicationCreate', component: MedicationCreate },
     // { path: '/cat/:catID/medications/update', name: 'MedicationUpdate', component: MedicationUpdate },
     // { path: '/cat/:catID/medications/destroy', name: 'MedicationDelete', component: MedicationDestroy },
     // TODO: create CRUD for Feedings

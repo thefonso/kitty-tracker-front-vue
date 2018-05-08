@@ -1,7 +1,6 @@
 <template>
   <form @submit.prevent="validateBeforeSubmit">
 
-
     <div class="pet-record">Create New Pet</div>
 
     <div class="row">
@@ -34,7 +33,6 @@
         <!--TODO: end if/else here-->
       </div>
       <div class="col-sm-5">
-
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">

@@ -5,16 +5,16 @@
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-auto">New Feeding For:{{$route.params.catName}}</div>
+        <div class="page-heading col-auto">New Feeding For: {{$route.params.catName}}</div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
-        <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
-          <strong>Success!</strong> Feeding added.
-        </b-alert>
-        <b-alert class="col-sm-9" variant="danger" dismissible :show="showDanger">
-          <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-        </b-alert>
+        <!--<div class="col-sm-9" variant="success" dismissible :show="showSuccess">-->
+          <!--<strong>Success!</strong> Feeding added.-->
+        <!--</div>-->
+        <!--<div class="col-sm-9" variant="danger" dismissible :show="showDanger">-->
+          <!--<strong>Problem:</strong> Did you fill out all fields? Are you on the internet?-->
+        <!--</div>-->
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -60,16 +60,16 @@
               <textarea class="form-control" id="InputNotes" rows="6" v-model="notes"></textarea>
             </div>
             <div class="form-group row">
-              <div class="col-xl-1">
+              <div class="col-xl-4">
                 <label  class="mr-2">Stimulated?</label>
               </div>
-              <div class="col-xl-2">
+              <div class="col-xl-4">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="1" v-validate="'required|in:1,2'" v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="true" v-validate="'required|alpha'" v-model="stimulated">
                   <label class="form-check-label">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="2" v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="false" v-model="stimulated">
                   <label class="form-check-label">No</label>
                 </div>
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
@@ -149,10 +149,10 @@
           })
       },
       validateBeforeSubmit() {
+        console.log(this.$route.params);
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.onSubmitted();
-            // console.log(this.$route.params)
           }else{
             this.showDanger = true;
           }
@@ -216,5 +216,7 @@
     padding-top: 0.375em;
     margin-left: 0.625em;
   }
-
+  .page-heading{
+  color: white;
+  }
 </style>
