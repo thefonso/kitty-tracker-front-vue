@@ -40,7 +40,7 @@ export default new Router({
     // { path: '/cat/:catID/feeding/Destroy', name: 'FeedingDestroy', component: FeedingDestroy },
     // TODO: create CRUD for medical_records
     { path: '/cat/:catID/medical_records/all/:catName', name: 'MedRecordList', component: MedRecordList },
-    { path: '/cat/:catID/medical_records/create', name: 'MedRecordCreate', component: MedRecordCreate},
+    { path: '/cat/:catID/medical_records/create/:catName', name: 'MedRecordCreate', component: MedRecordCreate},
     // { path: '/medical_records/:catID/update', name: 'MedRecordUpdate', component: MedRecords },
     // { path: '/medical_records/:catID/destroy', name: 'MedRecordDelete', component: MedRecords },
   ],

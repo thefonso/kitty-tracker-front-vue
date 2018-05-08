@@ -6,13 +6,13 @@
     <div class="row">
       <div class="col-sm-2"></div>
 
-      <b-alert class="col-sm-8" variant="success" dismissible :show="showSuccess">
-        <strong>Success!</strong> New kitty added.
-      </b-alert>
+      <!--<b-alert class="col-sm-8" variant="success" dismissible :show="showSuccess">-->
+        <!--<strong>Success!</strong> New kitty added.-->
+      <!--</b-alert>-->
 
-      <b-alert class="col-sm-8" variant="danger" dismissible :show="showDanger">
-        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-      </b-alert>
+      <!--<b-alert class="col-sm-8" variant="danger" dismissible :show="showDanger">-->
+        <!--<strong>Problem:</strong> Did you fill out all fields? Are you on the internet?-->
+      <!--</b-alert>-->
 
       <div class="col-sm-2"></div>
     </div>

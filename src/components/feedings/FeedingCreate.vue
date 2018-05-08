@@ -5,7 +5,7 @@
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-auto">New Feeding For: {{$route.params.catName}}</div>
+        <div class="page-heading col-auto">New Feeding For: <span> {{$route.params.catName}}</span></div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -27,7 +27,7 @@
           </div>
           <div class="form-group">
             <label for="weight_after_food">Weight After Food(gm)</label>
-            <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food')}" id="weight_after_food" placeholder="WAF">
+            <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_after_food')}" id="weight_after_food" placeholder="WAF">
             <i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>-->
           </div>
@@ -57,7 +57,7 @@
           <div class="panel-body">
             <div class="form-group">
               <label for="InputNotes">Notes</label>
-              <textarea class="form-control" id="InputNotes" rows="6" v-model="notes"></textarea>
+              <textarea class="form-control" id="InputNotes" rows="6" name="notes" v-model="notes"></textarea>
             </div>
             <div class="form-group row">
               <div class="col-xl-4">
@@ -129,15 +129,14 @@
         axios.post('http://localhost:8000/api/v1/feedings/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           weight_unit_measure: 'G',
-          food_unit_measure: 'G',
           weight_before_food: this.weight_before_food,
-          weight_after_food: this.weight_after_food,
+          food_unit_measure: 'G',
           amount_of_food_taken: this.amount_of_food_taken,
           food_type: this.food_type,
-          notes: this.notes,
+          weight_after_food: this.weight_after_food,
           stimulated: this.stimulated,
-          stimulation_type: this.stimulation_type
-
+          stimulation_type: this.stimulation_type,
+          notes: this.notes,
         })
           .then(response => {
             console.log(response);
@@ -181,7 +180,7 @@
 
   @media only screen and (min-width: 600px){
     .page-heading {
-      color: #000000;
+      color: White;
       font-family: "Helvetica Neue";
       font-size: 2em;
       font-weight: bold;
