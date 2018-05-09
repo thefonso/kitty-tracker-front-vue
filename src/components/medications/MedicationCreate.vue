@@ -22,25 +22,25 @@
         <div class="col-sm-5">
           <div class="form-group">
             <label>Medication</label>
-            <input name="name" v-model="name" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="medication name">
+            <input name="name" v-model="name" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="">
             <i v-show="errors.has('name')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('name)" class="help is-danger form-text text-muted">{{ errors.first('name') }}</small>-->
           </div>
           <div class="form-group">
             <label for="duration">Duration</label>
-            <input name="duration" v-model="duration" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('duration')}" id="duration" placeholder="duration">
+            <input name="duration" v-model="duration" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('duration')}" id="duration" placeholder="">
             <i v-show="errors.has('duration')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('duration)" class="help is-danger form-text text-muted">{{ errors.first('duration') }}</small>-->
           </div>
           <div class="form-group">
             <label for="frequency">Frequency</label>
-            <input name="frequency" v-model="frequency" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('frequency')}" id="frequency" placeholder="freq">
+            <input name="frequency" v-model="frequency" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('frequency')}" id="frequency" placeholder="freq number">
             <i v-show="errors.has('frequency')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('frequency')" class="help is-danger form-text text-muted">{{ errors.first('frequency') }}</small>-->
           </div>
           <div class="form-group">
             <label for="dosage_unit">Dosage Unit</label>
-            <select name="dosage_unit" id="dosage_unit" class="form-control" v-model="dosage_unit" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('dosage_unit')}">
+            <select name="dosage_unit" id="dosage_unit" class="form-control" v-model="dosage_unit" v-validate="'required'" :class="{'select': true, 'is-danger': errors.has('dosage_unit')}">
               <option value="Choose...">Choose...</option>
               <option value="ML" selected>ML</option>
             </select>
@@ -53,7 +53,7 @@
           <div class="panel-body">
             <div class="form-group">
               <label for="dosage">Dosage</label>
-              <input name="dosage" v-model="dosage" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('dosage')}" id="dosage" placeholder="dosage">
+              <input name="dosage" v-model="dosage" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('dosage')}" id="dosage" placeholder="dosage number">
               <i v-show="errors.has('dosage')" class="fa fa-warning">required</i>
               <!--<small v-show="errors.has('dosage')" class="help is-danger form-text text-muted">{{ errors.first('dosage') }}</small>-->
             </div>
