@@ -6,13 +6,15 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "npm run dev",
+//    "start": "npm run dev",
+    "start": "node server.js",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js"
   },
   "dependencies": {
     "axios": "^0.18.0",
     "bootstrap.native": "^2.0.22",
+    "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "jwt-decode": "^2.2.0",
     "node-sass": "^4.8.1",
