@@ -69,7 +69,7 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('http://localhost:8000/api/v1/medicalrecords/',{
+        axios.post('http://pure-sea-38216.herokuapp.com/api/v1/medicalrecords/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           care_given: this.care_given,
           date: this.date,

@@ -126,7 +126,7 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('http://localhost:8000/api/v1/feedings/',{
+        axios.post('http://pure-sea-38216.herokuapp.com/api/v1/feedings/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           weight_unit_measure: 'G',
           weight_before_food: this.weight_before_food,

@@ -50,7 +50,7 @@
       // }, 2000);
     },
     subscriptions() {
-      const cats$ = Observable.from(axios.get(`http://localhost:8000/api/v1/cats/`)
+      const cats$ = Observable.from(axios.get(`http://pure-sea-38216.herokuapp.com/api/v1/cats/`)
         .catch(error => console.log(error)))
         .pluck("data","results");
       return{cats: cats$}

@@ -61,7 +61,7 @@
     },
     methods: {
       login () {
-        axios.post('http://localhost:8000/api/v1/auth/obtain_token/',
+        axios.post('http://pure-sea-38216.herokuapp.com/api/v1/auth/obtain_token/',
           { username: this.username, password: this.password },
           { headers: {'X-Requested-With': 'XMLHttpRequest'}})
           .then(request => this.loginSuccessful(request))
