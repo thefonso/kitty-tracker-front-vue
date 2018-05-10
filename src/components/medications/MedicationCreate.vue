@@ -96,7 +96,7 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('http://pure-sea-38216.herokuapp.com/api/v1/medications/',{
+        axios.post('https://pure-sea-38216.herokuapp.com/api/v1/medications/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           name: this.name,
           duration: this.duration,

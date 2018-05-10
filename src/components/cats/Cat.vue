@@ -46,7 +46,7 @@
       this.visible = true;
     },
     created() {
-      axios.get(`http://pure-sea-38216.herokuapp.com/api/v1/cats/${this.$route.params.catID}`)
+      axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/cats/${this.$route.params.catID}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;

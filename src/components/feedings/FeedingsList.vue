@@ -65,7 +65,7 @@
       }
     },
     subscriptions() {
-      const cat$ = Observable.from(axios.get(`http://pure-sea-38216.herokuapp.com/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
+      const cat$ = Observable.from(axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
         .catch(error => console.log(error)))
         .pluck("data","results");
       return{thisCat: cat$}
