@@ -4,16 +4,18 @@ import Vue from 'vue';
 import App from './App';
 import Rx from 'rxjs'
 import VueRx from 'vue-rx'
-import BootstrapNative from 'bootstrap.native';
+import BootstrapVue from 'bootstrap-vue'
 import VeeValidate from 'vee-validate';
 import router from './router/router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import store from './store';
-import 'bootstrap.native/dist/bootstrap-native-v4';
+import 'bootstrap/dist/css/bootstrap.css'
+import 'bootstrap-vue/dist/bootstrap-vue.css'
+
 
 Vue.use(VueRx, Rx);
-Vue.use(BootstrapNative);
+Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
 Vue.config.productionTip = false;

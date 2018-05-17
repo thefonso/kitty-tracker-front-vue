@@ -9,12 +9,12 @@
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
-        <!--<div class="col-sm-9" variant="success" dismissible :show="showSuccess">-->
-          <!--<strong>Success!</strong> Feeding added.-->
-        <!--</div>-->
-        <!--<div class="col-sm-9" variant="danger" dismissible :show="showDanger">-->
-          <!--<strong>Problem:</strong> Did you fill out all fields? Are you on the internet?-->
-        <!--</div>-->
+        <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
+          <strong>Success!</strong> Feeding added.
+        </b-alert>
+        <b-alert class="col-sm-9" variant="danger" dismissible :show="showDanger">
+          <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+        </b-alert>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>

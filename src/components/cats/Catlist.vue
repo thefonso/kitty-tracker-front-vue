@@ -60,7 +60,7 @@
 
 <style scoped>
   .page-heading {
-    color: #EEE;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;
