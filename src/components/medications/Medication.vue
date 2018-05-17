@@ -40,7 +40,7 @@
       }
     },
     created() {
-      axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
+      axios.get(`https://localhost:8000/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;

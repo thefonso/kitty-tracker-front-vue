@@ -98,7 +98,7 @@ export default {
   },
   methods: {
     onSubmitted() {
-      axios.post('https://pure-sea-38216.herokuapp.com/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
+      axios.post('https://localhost:8000/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
         .then(response => {
             console.log(response);
             response.status === 201 ? this.showSuccess = true : this.showDanger = false
