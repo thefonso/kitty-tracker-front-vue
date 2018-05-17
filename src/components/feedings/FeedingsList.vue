@@ -13,7 +13,7 @@
     </div>
 
     <table class="table">
-      <thead class="thead-light">
+      <thead id="thead" class="thead-light">
       <tr>
         <th scope="col" class="col-sm-1">Cat</th>
         <th scope="col" class="col-sm-2">WBF</th>
@@ -55,6 +55,7 @@
 
 <script>
   import axios from 'axios';
+  import { Observable } from 'rxjs';
 
   export default {
     name: 'FeedingsList',
@@ -63,22 +64,21 @@
         thisCat: [],
       }
     },
-    created() {
-      // this.$route.params.catID
-      // TODO: insert cat:name value from params
-      // TODO: upcase first letter in 'babby' from param line above
-      axios.get(`http://localhost:8000/api/v1/feedings/?cat:name=${this.$route.params.catName}`)
-        .then(request => {
-          console.log(request.data.results);
-          this.thisCat = request.data.results;
-        })
-        .catch(error => console.log(error));
+    subscriptions() {
+      const cat$ = Observable.from(axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      return{thisCat: cat$}
     }
   }
 
 </script>
 
 <style scoped>
+  #thead th {
+    color: black;
+  }
+
   .grey{
     color: grey;
   }
@@ -86,7 +86,7 @@
     padding-bottom: 7rem;
   }
   .page-heading {
-    color: #000000;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;

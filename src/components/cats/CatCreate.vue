@@ -1,19 +1,18 @@
 <template>
   <form @submit.prevent="validateBeforeSubmit">
 
-
     <div class="pet-record">Create New Pet</div>
 
     <div class="row">
       <div class="col-sm-2"></div>
 
-      <b-alert class="col-sm-8" variant="success" dismissible :show="showSuccess">
-        <strong>Success!</strong> New kitty added.
-      </b-alert>
+      <!--<b-alert class="col-sm-8" variant="success" dismissible :show="showSuccess">-->
+        <!--<strong>Success!</strong> New kitty added.-->
+      <!--</b-alert>-->
 
-      <b-alert class="col-sm-8" variant="danger" dismissible :show="showDanger">
-        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-      </b-alert>
+      <!--<b-alert class="col-sm-8" variant="danger" dismissible :show="showDanger">-->
+        <!--<strong>Problem:</strong> Did you fill out all fields? Are you on the internet?-->
+      <!--</b-alert>-->
 
       <div class="col-sm-2"></div>
     </div>
@@ -34,7 +33,6 @@
         <!--TODO: end if/else here-->
       </div>
       <div class="col-sm-5">
-
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
@@ -100,7 +98,7 @@ export default {
   },
   methods: {
     onSubmitted() {
-      axios.post('http://localhost:8000/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
+      axios.post('https://pure-sea-38216.herokuapp.com/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
         .then(response => {
             console.log(response);
             response.status === 201 ? this.showSuccess = true : this.showDanger = false

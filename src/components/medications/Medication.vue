@@ -1,4 +1,4 @@
-<!--TODO this page displays the same as MedicalList.vue...idealy it will do so with more animation once completed if needed-->
+<!--TODO this page displays the same as MedicalList.vue...ideally it will do so with more animation once completed if needed-->
 <template>
   <div class="meds-table">
     <div class="heading-row">
@@ -40,7 +40,7 @@
       }
     },
     created() {
-      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
+      axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;
@@ -67,7 +67,7 @@
   .btn .amount{
     float: right;
     height: 24px;
-    width: 108px;
+    /*width: 108px;*/
     color: #FFFFFF;
     font-family: "Helvetica Neue";
     font-size: 20px;
@@ -88,7 +88,7 @@
     padding-bottom: 7rem;
   }
   .page-heading {
-    color: #000000;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;

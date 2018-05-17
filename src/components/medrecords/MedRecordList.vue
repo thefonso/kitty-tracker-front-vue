@@ -12,7 +12,7 @@
     </div>
 
     <table class="table">
-      <thead class="thead-light">
+      <thead id="thead" class="thead-light">
       <tr>
         <th scope="col" class="col-sm-1">cat</th>
         <th scope="col" class="col-sm-2">care</th>
@@ -34,6 +34,22 @@
         <td>{{ med.notes }}</td>
       </tr>
       </tbody>
+      <tfoot>
+      <tr>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td></td>
+        <td>
+          <router-link :to="'/cat/'+$route.params.catID+'/medical_records/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+            <a role="button">Add New Record</a>
+          </router-link>
+        </td>
+      </tr>
+
+      </tfoot>
     </table>
   </div>
 
@@ -41,6 +57,7 @@
 
 <script>
   import axios from 'axios';
+  import { Observable } from 'rxjs';
 
   export default {
     name: 'MedicalRecords',
@@ -49,19 +66,20 @@
         thisCat: [],
       }
     },
-    created() {
-      axios.get(`http://localhost:8000/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
-        .then(request => {
-          console.log(request.data.results);
-          this.thisCat = request.data.results;
-        })
-        .catch(error => console.log(error));
+    subscriptions() {
+      const cat$ = Observable.from(axios.get(`https://pure-sea-38216.herokuapp.com/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      return{thisCat: cat$}
     }
   }
 
 </script>
 
 <style scoped>
+  #thead th {
+    color: black;
+  }
   .grey{
     color: grey;
   }
@@ -69,7 +87,7 @@
     padding-bottom: 7rem;
   }
   .page-heading {
-    color: #000000;
+    color: white;
     font-family: "Helvetica Neue";
     font-size: 48px;
     font-weight: bold;

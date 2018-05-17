@@ -30,7 +30,7 @@ export default new Router({
     // TODO: create CRUD for medications
     { path: '/cat/:catID/medication', name: 'Medication', component: Medication },
     { path: '/cat/:catID/medications/all/:catName', name: 'MedicationList', component: MedicationList },
-    { path: '/cat/:catID/medication/create', name: 'MedicationCreate', component: MedicationCreate },
+    { path: '/cat/:catID/medication/create/:catName', name: 'MedicationCreate', component: MedicationCreate },
     // { path: '/cat/:catID/medications/update', name: 'MedicationUpdate', component: MedicationUpdate },
     // { path: '/cat/:catID/medications/destroy', name: 'MedicationDelete', component: MedicationDestroy },
     // TODO: create CRUD for Feedings
@@ -40,7 +40,7 @@ export default new Router({
     // { path: '/cat/:catID/feeding/Destroy', name: 'FeedingDestroy', component: FeedingDestroy },
     // TODO: create CRUD for medical_records
     { path: '/cat/:catID/medical_records/all/:catName', name: 'MedRecordList', component: MedRecordList },
-    { path: '/cat/:catID/medical_records/create', name: 'MedRecordCreate', component: MedRecordCreate},
+    { path: '/cat/:catID/medical_records/create/:catName', name: 'MedRecordCreate', component: MedRecordCreate},
     // { path: '/medical_records/:catID/update', name: 'MedRecordUpdate', component: MedRecords },
     // { path: '/medical_records/:catID/destroy', name: 'MedRecordDelete', component: MedRecords },
   ],
