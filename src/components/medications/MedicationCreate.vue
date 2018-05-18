@@ -96,7 +96,7 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('https://localhost:8000/api/v1/medications/',{
+        axios.post('http://localhost:8000/api/v1/medications/',{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           name: this.name,
           duration: this.duration,
