@@ -20,22 +20,25 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
           <div class="form-group">
-            <label>Weight Before Food(gm)</label>
-            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" type="text" placeholder="WBF">
-            <i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>
-            <!--<small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>-->
+            <label for="weight_before_food">Weight Before Food(gm)</label>
+            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
+            <!--<i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>
           </div>
           <div class="form-group">
-            <label for="weight_after_food">Weight After Food(gm)</label>
+            <label for="target_weight_after_food">Target Weight After Food(gm): <div id="target_weight_after_food"></div></label>
+          </div>
+          <div class="form-group">
+            <label for="weight_after_food">Actual Weight After Food(gm)</label>
             <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_after_food')}" id="weight_after_food" placeholder="WAF">
-            <i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>
-            <!--<small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>-->
+            <!--<i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>
           </div>
           <div class="form-group">
             <label for="amount_of_food_taken">Amount Of Food Taken(gm)</label>
             <input name="amount_of_food_taken" v-model="amount_of_food_taken" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('amount_of_food_taken')}" id="amount_of_food_taken" placeholder="AFT">
-            <i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>
-            <!--<small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>-->
+            <!--<i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>
           </div>
           <div class="form-group">
             <label for="food_type">Type of Food Taken</label>
@@ -48,8 +51,8 @@
               <option value="GG">Syringe Gruel / Gruel</option>
               <option value="G">Gruel</option>
             </select>
-            <i v-show="errors.has('food_type')" class="fa fa-warning">required</i>
-            <!--<small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>-->
+            <!--<i v-show="errors.has('food_type')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>
           </div>
         </div>
         <div class="col-auto"></div>
@@ -122,6 +125,7 @@
         stimulation_type: '',
         showSuccess: false,
         showDanger: false,
+        constant: 0,
       }
     },
     methods: {
@@ -156,6 +160,13 @@
             this.showDanger = true;
           }
         });
+      },
+      fivePercenter(){
+        let percent_wbf = document.getElementById("weight_before_food").value * 0.05;
+        let wbf = Number(document.getElementById("weight_before_food").value);
+        console.log(typeof percent_wbf);
+        console.log(typeof wbf);
+        document.getElementById("target_weight_after_food").innerHTML = wbf + percent_wbf;
       }
     }
   }
