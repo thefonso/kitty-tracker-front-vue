@@ -65,7 +65,7 @@
               <select name="weight_unit" id="weight_unit" v-model="weight_unit" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
                 <option disabled value="">Choose</option>
                 <option value="G">Grams</option>
-                <option value="LG">Pounds</option>
+                <option value="LB">Pounds</option>
               </select>
             </div>
           </div>
@@ -116,12 +116,12 @@ export default {
         name: this.name,
         gender: this.gender,
         weight: this.weight,
-        birthday: this.birthday,
+        birthday: this.birthday+"T00:00:00-00:00",
         weight_unit: this.weight_unit
       })
         .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess = true : this.showDanger = false
+            response.status === 201 ? this.showSuccess = true : this.showDanger = true
         })
         .catch(error => {
             console.log(error);
@@ -131,10 +131,9 @@ export default {
     validateBeforeSubmit() {
       this.$validator.validateAll().then((result) => {
         if (result) {
-          // eslint-disable-next-line
           this.onSubmitted();
         }else{
-          this.showDanger = true;
+          // this.showDanger = true;
         }
       });
     }
