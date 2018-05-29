@@ -195,7 +195,7 @@
 </script>
 
 <style>
-  i{
+  small {
     color: red;
   }
   label {

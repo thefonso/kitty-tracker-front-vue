@@ -36,9 +36,9 @@
           <div class="form-group row">
             <label class="col-sm-2 col-form-label">Name</label>
             <div class="col-sm-10">
-              <input name="name" v-model="name" v-validate="'required|alpha'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="name">
+              <input name="name" v-model="name" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="name">
               <!--<i v-show="errors.has('name')" class="fa fa-warning">required</i>-->
-              <small v-show="errors.has('name')" class="help is-danger form-text text-muted">{{ errors.first('name') }}</small>
+              <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
             </div>
           </div>
 
@@ -56,24 +56,37 @@
             </div>
           </div>
 
-          <div class="form-group row">
+          <div class="form-group row" id="weight_row">
             <label class="col-sm-2 col-form-label">Weight</label>
-            <div class="col-sm-10">
-              <input name="weight" v-model="weight" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('weight') }" type="text" placeholder="weight">
-              <!--<i v-show="errors.has('weight')" class="fa fa-warning">required</i>-->
-              <small v-show="errors.has('weight')" class="help is-danger text-muted form-text">{{ errors.first('weight') }}</small>
+            <div class="col-sm-2">
+                <input id="weight_input" name="weight" v-model="weight" v-validate="'required|integer'" class="col-sm-12" :class="{'input': true, 'is-danger': errors.has('weight') }" type="text" placeholder="weight">
+              </div>
+            <div class="col-sm-5">
+              <select name="weight_unit" id="weight_unit" v-model="weight_unit" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
+                <option disabled value="">Choose</option>
+                <option value="G">Grams</option>
+                <option value="LG">Pounds</option>
+              </select>
             </div>
           </div>
+          <div class="row" id="weight_warning">
+            <div class="col-sm-2"></div>
+            <small v-show="errors.has('weight')" class="col-sm-5 help is-danger form-text">{{ errors.first('weight') }}</small>
+          </div>
+
           <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Age</label>
+            <label class="col-sm-2 col-form-label">Birthday</label>
             <div class="col-sm-10">
-              <input name="age" v-model="age" v-validate="'required|integer'" :class="{'input': true, 'is-danger': errors.has('age') }" type="text" placeholder="age">
-              <!--<i v-show="errors.has('age')" class="fa fa-warning">required</i>-->
-              <small v-show="errors.has('age')" class="help is-danger form-text text-muted">{{ errors.first('age') }}</small>
+              <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-DD-MM'" class="col-sm-5" :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="year-month-day">
             </div>
           </div>
+          <div class="row" id="age_warning">
+            <div class="col-sm-10"></div>
+            <small v-show="errors.has('birthday')" class="col-sm-10 help is-danger form-text">{{ errors.first('birthday') }}</small>
+          </div>
+
           <div class="clear-fix"></div>
-          <button type="submit" class="btn btn-primary submit-button">Submit</button>
+          <button :disabled="errors.any()" type="submit" class="btn btn-primary submit-button">Submit</button>
 
       </div>
       <div class="col-1"></div>
@@ -91,14 +104,21 @@ export default {
       name:   '',
       gender: '',
       weight: '',
-      age:    '',
+      weight_unit: '',
+      birthday:    '',
       showSuccess: false,
       showDanger: false,
     }
   },
   methods: {
     onSubmitted() {
-      axios.post('http://localhost:8000/api/v1/cats/',{ name: this.name, gender: this.gender, weight: this.weight, age: this.age })
+      axios.post('http://localhost:8000/api/v1/cats/',{
+        name: this.name,
+        gender: this.gender,
+        weight: this.weight,
+        birthday: this.birthday,
+        weight_unit: this.weight_unit
+      })
         .then(response => {
             console.log(response);
             response.status === 201 ? this.showSuccess = true : this.showDanger = false
@@ -123,7 +143,37 @@ export default {
 </script>
 
 <style scoped>
-
+  #weight_row{
+    margin-bottom: 0;
+  }
+  #weight_warning{
+    margin-bottom: 16px;
+  }
+  .help {
+    color: red;
+  }
+  label {
+    height: 1.5em;
+    color: #4A90E2;
+    font-family: "Helvetica Neue";
+    font-size: 1.25em;
+    font-weight: bold;
+    line-height: 1.5625em
+  }
+  #weight_input{
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
+  #age_input{
+    margin: 0;
+    padding: 0;
+    font-family: inherit;
+    font-size: inherit;
+    line-height: inherit;
+  }
   #pet-content{
     padding-top: 35px;
   }
