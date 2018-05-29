@@ -5,7 +5,9 @@
 
       <div class="row">
         <div class="col-sm-1"></div>
-        <div class="page-heading col-auto">New Feeding For: <span> {{$route.params.catName}}</span></div>
+        <div class="page-heading col-auto">New Feeding For: <span> {{$route.params.catName}}</span>
+          &nbsp;<span v-if="thisCat" id="last-weight-measured">(Last Weight Measured: {{ thisCat[thisCat.length-1].cat.weight }})</span>
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -20,27 +22,6 @@
         <div class="col-sm-1"></div>
         <div class="col-sm-5">
           <div class="form-group">
-            <label for="weight_before_food">Weight Before Food(gm)</label>
-            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
-            <!--<i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>
-          </div>
-          <div class="form-group">
-            <label for="target_weight_after_food">Target Weight After Food(gm): <div id="target_weight_after_food"></div></label>
-          </div>
-          <div class="form-group">
-            <label for="weight_after_food">Actual Weight After Food(gm)</label>
-            <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_after_food')}" id="weight_after_food" placeholder="WAF">
-            <!--<i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>
-          </div>
-          <div class="form-group">
-            <label for="amount_of_food_taken">Amount Of Food Taken(gm)</label>
-            <input name="amount_of_food_taken" v-model="amount_of_food_taken" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('amount_of_food_taken')}" id="amount_of_food_taken" placeholder="AFT">
-            <!--<i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>
-          </div>
-          <div class="form-group">
             <label for="food_type">Type of Food Taken</label>
             <select name="food_type" id="food_type" class="form-control" v-model="food_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('food_type')}">
               <option value="Choose..." selected>Choose...</option>
@@ -53,6 +34,29 @@
             </select>
             <!--<i v-show="errors.has('food_type')" class="fa fa-warning">required</i>-->
             <small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>
+          </div>
+          <div class="form-group">
+            <label for="weight_before_food">Weight Before Food(gm)</label>
+            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
+            <!--<i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>
+          </div>
+
+          <div v-if="food_type !== 'G'" class="form-group">
+            <label class="gray" for="target_weight_after_food">Target Weight After Food(gm): <div id="target_weight_after_food"></div></label>
+          </div>
+
+          <div class="form-group">
+            <label for="weight_after_food">Actual Weight After Food(gm)</label>
+            <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_after_food')}" id="weight_after_food" placeholder="WAF">
+            <!--<i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>
+          </div>
+          <div class="form-group">
+            <label for="amount_of_food_taken">Amount Of Food Taken(gm)</label>
+            <input name="amount_of_food_taken" v-model="amount_of_food_taken" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('amount_of_food_taken')}" id="amount_of_food_taken" placeholder="AFT">
+            <!--<i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>-->
+            <small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>
           </div>
         </div>
         <div class="col-auto"></div>
@@ -68,11 +72,11 @@
               </div>
               <div class="col-xl-4">
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="true" v-validate="'required|alpha'" v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="true" v-on:change="checkFoodType(food_type)" v-validate="'required|alpha'" v-model="stimulated">
                   <label class="form-check-label">Yes</label>
                 </div>
                 <div class="form-check form-check-inline">
-                  <input class="form-check-input" type="radio" name="stimulated"  value="false" v-model="stimulated">
+                  <input class="form-check-input" type="radio" name="stimulated"  value="false" v-on:change="checkFoodType(food_type)" v-model="stimulated">
                   <label class="form-check-label">No</label>
                 </div>
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
@@ -102,7 +106,6 @@
         <div class="col-sm-1"></div>
       </div>
 
-
     </div>
   </form>
   <!--<div class="clear-fix"></div>-->
@@ -126,7 +129,15 @@
         showSuccess: false,
         showDanger: false,
         constant: 0,
+        thisCat: [],
       }
+    },
+    subscriptions() {
+      const cat$ = Observable.from(axios.get(`http://localhost:8000/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      console.log(cat$);
+      return{thisCat: cat$}
     },
     methods: {
       onSubmitted() {
@@ -167,7 +178,18 @@
         console.log(typeof percent_wbf);
         console.log(typeof wbf);
         document.getElementById("target_weight_after_food").innerHTML = wbf + percent_wbf;
-      }
+      },
+      checkFoodType(food_type_taken){
+        if (this.stimulated === false){
+          if (food_type_taken === "BO" || food_type_taken === "BS") {
+            alert("You selected Bottle or Bottle-Syringe: Did you forget to stimulate the kitten?");
+          }
+        }else{
+          if (food_type_taken === "SG" || food_type_taken === "GG" || food_type_taken === "G") {
+            alert("You selected Syringe Gruel, Gruel or Both: Was the kitten stimulated");
+          }
+        }
+      },
     }
   }
 </script>
@@ -181,6 +203,17 @@
     color: #4A90E2;
     font-family: "Helvetica Neue";
     font-size: 1.25em;
+    font-weight: bold;
+    line-height: 1.5625em
+  }
+  .gray {
+  color: darkgrey;
+  }
+  #last-weight-measured {
+    height: 1.5em;
+    color: #4A90E2;
+    font-family: "Helvetica Neue";
+    font-size: 0.7em;
     font-weight: bold;
     line-height: 1.5625em
   }
