@@ -3,7 +3,7 @@
       <form class="form-signin" @submit.prevent="login">
           <transition name="fade1" appear="">
             <div class="fadecontent">
-              <img class="mb-4" src="../assets/logo1.png" height="189px">
+              <img class="mb-4" src="../assets/logo2.png" height="189px">
               <h1 class="h3 mb-3 font-weight-normal">Kitty Tracker</h1>
               <div class="alert alert-danger" v-if="error">{{ error }}</div>
             </div>

@@ -59,6 +59,11 @@ body {
   padding-bottom: 3em;
 }
 
+.divTableRow:nth-child(even) {
+  background-color: #262626;
+  color: darkgray;
+}
+
 .visible {
   visibility: visible;
 }

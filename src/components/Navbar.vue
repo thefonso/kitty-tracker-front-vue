@@ -1,16 +1,16 @@
 <template>
     <nav class="navbar navbar-expand-md fixed-top" id="navbar_top">
       <!--TODO: adjust logo to float and fit like prototype design-->
-      <router-link to="/" class="navbar-brand"><img src="../assets/logo1.png" height="57px"></router-link>
+      <router-link to="/" class="navbar-brand"><img src="../assets/logo_long.png" height="57px"></router-link>
       <button class="navbar-toggler collapsed" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation" onclick="toggleCollapse">
         <span class="navbar-toggler-icon"></span>
       </button>
 
       <div class="collapse navbar-collapse" id="navbarNav">
         <ul class="navbar-nav">
-          <li class="nav-item">
-            <router-link to="/" class="nav-link">KittyTracker</router-link>
-          </li>
+          <!--<li class="nav-item">-->
+            <!--<router-link to="/" class="nav-link">KittyTracker</router-link>-->
+          <!--</li>-->
           <li class="nav-item">
             <router-link to="/catlist" class="nav-link">cat list</router-link>
           </li>

@@ -8,7 +8,7 @@
             <div class="divTableHead">&nbsp;</div>
             <div class="divTableHead">Name</div>
             <div class="divTableHead">gender</div>
-            <div class="divTableHead">&nbsp;</div>
+            <div class="divTableHead"></div>
             <div class="divTableHead">Date Added</div>
           </div>
         </div>
@@ -59,6 +59,7 @@
 </script>
 
 <style scoped>
+
   .page-heading {
     color: white;
     font-family: "Helvetica Neue";
