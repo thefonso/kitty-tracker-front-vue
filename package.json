@@ -11,7 +11,7 @@
     "_use_me_as_start_to_on_localhost": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
     "build": "node build/build.js",
-    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap && npm run build"
+    "heroku-postbuild": "npm install --only=dev --no-shrinkwrap"
   },
   "dependencies": {
     "axios": "^0.18.0",
