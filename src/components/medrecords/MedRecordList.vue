@@ -67,7 +67,7 @@
       }
     },
     subscriptions() {
-      const cat$ = Observable.from(axios.get(`http://localhost:8000/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
+      const cat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .catch(error => console.log(error)))
         .pluck("data","results");
       return{thisCat: cat$}

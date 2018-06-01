@@ -69,7 +69,7 @@
     },
     methods: {
       onSubmitted() {
-        axios.post('http://localhost:8000/api/v1/medicalrecords/',{
+        axios.post(`${process.env.KITTY_URL}/api/v1/medicalrecords/`,{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           care_given: this.care_given,
           date: this.date,

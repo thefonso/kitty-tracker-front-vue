@@ -1,4 +1,4 @@
-<!--TODO this page displays the same as MedicalList.vue...ideally it will do so with more animation once completed if needed-->
+<!--TODO this page displays the same as MedicalList.vue...ideally it will do so with more animation once completed-->
 <template>
   <div class="meds-table">
     <div class="heading-row">
@@ -40,7 +40,7 @@
       }
     },
     created() {
-      axios.get(`http://localhost:8000/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
+      axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;

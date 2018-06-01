@@ -97,6 +97,7 @@
 <script>
 import axios from 'axios';
 
+
 export default {
   name: 'catcreate',
   data() {
@@ -112,7 +113,7 @@ export default {
   },
   methods: {
     onSubmitted() {
-      axios.post('http://localhost:8000/api/v1/cats/',{
+      axios.post(`${process.env.KITTY_URL}/api/v1/cats/`,{
         name: this.name,
         gender: this.gender,
         weight: this.weight,

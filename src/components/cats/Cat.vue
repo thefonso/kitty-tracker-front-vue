@@ -46,7 +46,7 @@
       this.visible = true;
     },
     created() {
-      axios.get(`http://localhost:8000/api/v1/cats/${this.$route.params.catID}`)
+      axios.get(`${process.env.KITTY_URL}/api/v1/cats/${this.$route.params.catID}`)
         .then(request => {
           console.log(request.data);
           this.singleCat = request.data;
