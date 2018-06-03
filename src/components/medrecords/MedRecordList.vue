@@ -11,46 +11,45 @@
       </div>
     </div>
 
-    <table class="table">
-      <thead id="thead" class="thead-light">
-      <tr>
-        <th scope="col" class="col-sm-1">cat</th>
-        <th scope="col" class="col-sm-2">care</th>
-        <th scope="col" class="col-sm-2">date</th>
-        <th scope="col" class="col-sm-2">vet practice</th>
-        <th scope="col" class="col-sm-2">doctor name</th>
-        <th scope="col" class="col-sm-2">follow up date</th>
-        <th scope="col" class="col-sm-2">notes</th>
-      </tr>
-      </thead>
-      <tbody v-if="thisCat">
-      <tr v-for="(med) in thisCat">
-        <td>{{ med.cat.name }}</td>
-        <td>{{ med.care_given }}</td>
-        <td>{{ med.date }}</td>
-        <td>{{ med.vet_practice }}</td>
-        <td>{{ med.doc_name }}</td>
-        <td>{{ med.follow_up_date }}</td>
-        <td>{{ med.notes }}</td>
-      </tr>
-      </tbody>
-      <tfoot>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <router-link :to="'/cat/'+$route.params.catID+'/medical_records/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
-            <a role="button">Add New Record</a>
-          </router-link>
-        </td>
-      </tr>
-
-      </tfoot>
-    </table>
+    <transition name="fade1" appear="">
+      <div class="divTable">
+        <div class="divTableHeading">
+          <div class="divTableRow">
+            <div class="col-sm-1 divTableHead">cat</div>
+            <div class="col-sm-2 divTableHead">care</div>
+            <div class="col-sm-2 divTableHead">date</div>
+            <div class="col-sm-2 divTableHead">vet practice</div>
+            <div class="col-sm-2 divTableHead">doctor name</div>
+            <div class="col-sm-2 divTableHead">follow up date</div>
+            <div class="col-sm-2 divTableHead">notes</div>
+          </div>
+        </div>
+        <transition-group tag="div" name="fade2" class="divTableBody" appear="" v-if="thisCat">
+          <div class="divTableRow fadecontent" v-for="(med) in thisCat" :key="med.id">
+            <div class="divTableCell">{{ med.cat.name }}</div>
+            <div class="divTableCell">{{ med.care_given }}</div>
+            <div class="divTableCell">{{ med.date }}</div>
+            <div class="divTableCell">{{ med.vet_practice }}</div>
+            <div class="divTableCell">{{ med.doc_name }}</div>
+            <div class="divTableCell">{{ med.follow_up_date }}</div>
+            <div class="divTableCell">{{ med.notes }}</div>
+          </div>
+        </transition-group>
+        <div class="divTableRow">
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead">
+            <router-link :to="'/cat/'+$route.params.catID+'/medical_records/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+              <a role="button">Add New Record</a>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 
 </template>
@@ -77,6 +76,36 @@
 </script>
 
 <style scoped>
+  .fadecontent{
+    opacity: 1;
+  }
+  .fade1-enter,.fade2-enter,.fade3-enter{
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  .fade1-enter-active{
+    transition: all 1s ease;
+  }
+  .fade2-enter-active{
+    transition: all 1s ease 0.5s;
+  }
+  .fade3-enter-active{
+    transition: all 1s ease 1s;
+  }
+
+  .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .fade1-leave-active{
+    transition: all 1s ease;
+  }
+  .fade2-leave-active{
+    transition: all 1s ease 1s;
+  }
+  .fade3-leave-active{
+    transition: all 1s ease 2s;
+  }
   #thead th {
     color: black;
   }
@@ -108,4 +137,41 @@
 
   }
 
+  /* Div Table */
+  .divTable{
+    display: table;
+    width: 100%;
+  }
+  .divTableRow {
+    display: table-row;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+  }
+  .divTableCell, .divTableHead {
+    /*border-bottom: 1px solid lightgray;*/
+    display: table-cell;
+    /*padding: 3px 10px;*/
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  .divTableCell img{
+    display: block;
+    margin: auto;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+  }
+  .divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+  .divTableBody {
+    display: table-row-group;
+  }
 </style>

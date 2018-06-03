@@ -11,43 +11,42 @@
       </div>
     </div>
 
-    <table class="table">
-      <thead id="thead" class="thead-light">
-      <tr>
-        <th scope="col" class="col-sm-1">#</th>
-        <th scope="col" class="col-sm-2">Medication</th>
-        <th scope="col" class="col-sm-2">Duration</th>
-        <th scope="col" class="col-sm-2">Frequency</th>
-        <th scope="col" class="col-sm-2">Dosage</th>
-        <th scope="col" class="col-sm-2">Notes</th>
-      </tr>
-      </thead>
-      <tbody v-if="thisCat">
-      <tr v-for="(med) in thisCat">
-        <td>{{ med.id }}</td>
-        <td>{{ med.name }}</td>
-        <td>{{ med.duration }}</td>
-        <td>{{ med.frequency }}</td>
-        <td>{{ med.dosage }}</td>
-        <td>{{ med.notes }}</td>
-      </tr>
-      </tbody>
-      <tfoot>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <router-link :to="'/cat/'+$route.params.catID+'/medication/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
-            <a role="button">Add A Medication</a>
-          </router-link>
-        </td>
-      </tr>
-
-      </tfoot>
-    </table>
+    <transition name="fade1" appear="">
+      <div class="divTable">
+        <div class="divTableHeading">
+          <div class="divTableRow">
+            <div class="col-sm-1 divTableHead">#</div>
+            <div class="col-sm-2 divTableHead">Medication</div>
+            <div class="col-sm-2 divTableHead">Duration</div>
+            <div class="col-sm-2 divTableHead">Frequency</div>
+            <div class="col-sm-2 divTableHead">Dosage</div>
+            <div class="col-sm-2 divTableHead">Notes</div>
+          </div>
+        </div>
+        <transition-group tag="div" name="fade2" class="divTableBody" appear="">
+          <div class="divTableRow fadecontent" v-for="med in thisCat" :key="med.id">
+            <div class="divTableCell">{{ med.id }}</div>
+            <div class="divTableCell">{{ med.name }}</div>
+            <div class="divTableCell">{{ med.duration }}</div>
+            <div class="divTableCell">{{ med.frequency }}</div>
+            <div class="divTableCell">{{ med.dosage }}</div>
+            <div class="divTableCell">{{ med.notes }}</div>
+          </div>
+        </transition-group>
+        <div class="divTableRow">
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead">
+            <router-link :to="'/cat/'+$route.params.catID+'/medication/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+              <a role="button">Add A Medication</a>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 
 </template>
@@ -74,6 +73,36 @@
 </script>
 
 <style scoped>
+  .fadecontent{
+    opacity: 1;
+  }
+  .fade1-enter,.fade2-enter,.fade3-enter{
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  .fade1-enter-active{
+    transition: all 1s ease;
+  }
+  .fade2-enter-active{
+    transition: all 1s ease 0.5s;
+  }
+  .fade3-enter-active{
+    transition: all 1s ease 1s;
+  }
+
+  .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .fade1-leave-active{
+    transition: all 1s ease;
+  }
+  .fade2-leave-active{
+    transition: all 1s ease 1s;
+  }
+  .fade3-leave-active{
+    transition: all 1s ease 2s;
+  }
   #thead th {
     color: black;
   }
@@ -103,6 +132,44 @@
   }
   #lastup-time{
 
+  }
+
+  /* Div Table */
+  .divTable{
+    display: table;
+    width: 100%;
+  }
+  .divTableRow {
+    display: table-row;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+  }
+  .divTableCell, .divTableHead {
+    /*border-bottom: 1px solid lightgray;*/
+    display: table-cell;
+    /*padding: 3px 10px;*/
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  .divTableCell img{
+    display: block;
+    margin: auto;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+  }
+  .divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+  .divTableBody {
+    display: table-row-group;
   }
 
 </style>

@@ -9,46 +9,42 @@
         <div id="lastup-date">Date:<span>MM:DD:YY</span></div>
         <div id="lastup-time">Time:<span>HH:MM</span></div>
       </div>
-
     </div>
 
-    <table class="table">
-      <thead id="thead" class="thead-light">
-      <tr>
-        <th scope="col" class="col-sm-1">Cat</th>
-        <th scope="col" class="col-sm-2">WBF</th>
-        <th scope="col" class="col-sm-2">WAF</th>
-        <th scope="col" class="col-sm-2">Stimulated?</th>
-        <th scope="col" class="col-sm-2">Stim_type</th>
-        <!--<th scope="col" class="col-sm-2">Photo</th>-->
-      </tr>
-      </thead>
-      <tbody v-if="thisCat">
-      <tr v-for="(fed) in thisCat">
-        <td>{{ fed.cat.name }}</td>
-        <td>{{ fed.weight_before_food }}</td>
-        <td>{{ fed.weight_after_food }}</td>
-        <td>{{ fed.stimulated }}</td>
-        <td>{{ fed.stimulation_type }}</td>
-      </tr>
-      </tbody>
-      <tfoot>
-      <tr>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td></td>
-        <td>
-          <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
-            <a role="button">Add A Feeding</a>
-          </router-link>
-        </td>
-      </tr>
-
-      </tfoot>
-
-    </table>
-
+    <transition name="fade1" appear="">
+      <div class="divTable">
+        <div class="divTableHeading">
+          <div class="divTableRow">
+            <div class="col-sm-1 divTableHead">Cat</div>
+            <div class="col-sm-2 divTableHead">WBF</div>
+            <div class="col-sm-2 divTableHead">WAF</div>
+            <div class="col-sm-2 divTableHead">Stimulated?</div>
+            <div class="col-sm-2 divTableHead">Stim_type</div>
+            <!--<div class="col-sm-2 divTableHead">Photo</div>-->
+          </div>
+        </div>
+        <transition-group tag="div" name="fade2" class="divTableBody" appear="" v-if="thisCat">
+          <div class="divTableRow fadecontent"  v-for="(fed) in thisCat" :key="fed.id">
+            <div class="divTableCell">{{ fed.cat.name }}</div>
+            <div class="divTableCell">{{ fed.weight_before_food }}</div>
+            <div class="divTableCell">{{ fed.weight_after_food }}</div>
+            <div class="divTableCell">{{ fed.stimulated }}</div>
+            <div class="divTableCell">{{ fed.stimulation_type }}</div>
+          </div>
+        </transition-group>
+        <div class="divTableRow">
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-2 divTableHead">
+            <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
+              <a role="button">Add A Feeding</a>
+            </router-link>
+          </div>
+        </div>
+      </div>
+    </transition>
   </div>
 
 </template>
@@ -75,10 +71,39 @@
 </script>
 
 <style scoped>
+  .fadecontent{
+    opacity: 1;
+  }
+  .fade1-enter,.fade2-enter,.fade3-enter{
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  .fade1-enter-active{
+    transition: all 1s ease;
+  }
+  .fade2-enter-active{
+    transition: all 1s ease 0.5s;
+  }
+  .fade3-enter-active{
+    transition: all 1s ease 1s;
+  }
+
+  .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .fade1-leave-active{
+    transition: all 1s ease;
+  }
+  .fade2-leave-active{
+    transition: all 1s ease 1s;
+  }
+  .fade3-leave-active{
+    transition: all 1s ease 2s;
+  }
   #thead th {
     color: black;
   }
-
   .grey{
     color: grey;
   }
@@ -107,4 +132,41 @@
 
   }
 
+  /* Div Table */
+  .divTable{
+    display: table;
+    width: 100%;
+  }
+  .divTableRow {
+    display: table-row;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+  }
+  .divTableCell, .divTableHead {
+    /*border-bottom: 1px solid lightgray;*/
+    display: table-cell;
+    /*padding: 3px 10px;*/
+    padding: 0.75rem;
+    vertical-align: top;
+    border-top: 1px solid #dee2e6;
+  }
+  .divTableCell img{
+    display: block;
+    margin: auto;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+  }
+  .divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+  .divTableBody {
+    display: table-row-group;
+  }
 </style>
