@@ -6,7 +6,7 @@
   "private": true,
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
-    "start": "node server.js",
+    "start": "npm run dev",
     "_use_me_as_start_to_go_live": "node server.js",
     "_use_me_as_start_to_on_localhost": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
@@ -14,9 +14,12 @@
     "heroku-postbuild": "npm install --only=dev --no-shrinkwrap"
   },
   "dependencies": {
+    "@fortawesome/fontawesome-svg-core": "^1.2.0-14",
+    "@fortawesome/free-solid-svg-icons": "^5.1.0-11",
+    "@fortawesome/vue-fontawesome": "^0.1.0-4",
     "axios": "^0.18.0",
-    "bootswatch": "^4.1.1",
     "bootstrap-vue": "^2.0.0-rc.10",
+    "bootswatch": "^4.1.1",
     "express": "^4.16.3",
     "font-awesome": "^4.7.0",
     "jquery": "^3.3.1",

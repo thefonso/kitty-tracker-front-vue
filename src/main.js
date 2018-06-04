@@ -11,8 +11,13 @@ import axios from 'axios';
 import VueAxios from 'vue-axios';
 import store from './store';
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import { library } from '@fortawesome/fontawesome-svg-core'
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
 
+library.add(faArrowUp);
 
+Vue.component('font-awesome-icon', FontAwesomeIcon);
 Vue.use(VueRx, Rx);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
