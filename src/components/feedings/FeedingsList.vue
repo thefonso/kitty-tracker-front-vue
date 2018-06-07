@@ -6,7 +6,7 @@
       <div class="float-sm-right">
         <div class="grey">last updated</div>
         <!--TODO: format date / time for last time updated-->
-        <div id="lastup-date">Date:<span>MM:DD:YY</span></div>
+        <div id="lastup-date">Date:<span>{{thisCat[0].modified}}</span></div>
         <div id="lastup-time">Time:<span>HH:MM</span></div>
       </div>
     </div>
@@ -15,12 +15,14 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="col-sm-1 divTableHead" @click="sort('name')" v-on:click=" collapsed = !collapsed">Cat <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i></div>
+            <div class="col-sm-1 divTableHead hand" @click="sort('name')" v-on:click=" collapsed = !collapsed">Cat
+              <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
+            </div>
             <div class="col-sm-2 divTableHead">WBF</div>
             <div class="col-sm-2 divTableHead">WAF</div>
             <div class="col-sm-2 divTableHead">Stimulated?</div>
             <div class="col-sm-2 divTableHead">Stim_type</div>
-            <div class="col-sm-2 divTableHead" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
+            <div class="col-sm-2 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
               <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
             </div>
           </div>
@@ -32,7 +34,8 @@
             <div class="divTableCell">{{ fed.weight_after_food }}</div>
             <div class="divTableCell">{{ fed.stimulated }}</div>
             <div class="divTableCell">{{ fed.stimulation_type }}</div>
-            <div class="divTableCell">{{ fed.cat.created }}</div>
+            <!--TODO grab feeding created date NOY cat created date here-->
+            <div class="divTableCell">{{ fed.created}}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
@@ -100,6 +103,9 @@
 </script>
 
 <style scoped>
+  .hand{
+    cursor: pointer;
+  }
   .fadecontent{
     opacity: 1;
   }

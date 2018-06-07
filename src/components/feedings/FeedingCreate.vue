@@ -2,13 +2,6 @@
   <form @submit.prevent="validateBeforeSubmit">
 
     <div id="pet-content">
-
-      <div class="row">
-        <div class="col-sm-1"></div>
-        <div class="page-heading col-auto">New Feeding For: <span> {{$route.params.catName}}</span>
-          &nbsp;<span v-if="thisCat" id="last-weight-measured">(Last Weight Measured: {{ thisCat[thisCat.length-1].cat.weight }})</span>
-        </div>
-      </div>
       <div class="row">
         <div class="col-sm-1"></div>
         <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
@@ -17,6 +10,12 @@
         <b-alert class="col-sm-9" variant="danger" dismissible :show="showDanger">
           <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
         </b-alert>
+      </div>
+      <div class="row">
+        <div class="col-sm-1"></div>
+        <div class="page-heading col-auto">New Feeding For: <span> {{$route.params.catName}}</span>
+          &nbsp;<span v-if="thisCat" id="last-weight-measured">(Last Weight Measured: {{ thisCat[thisCat.length-1].cat.weight }})</span>
+        </div>
       </div>
       <div class="row">
         <div class="col-sm-1"></div>
@@ -137,11 +136,12 @@
         .catch(error => console.log(error)))
         .pluck("data","results");
       console.log(cat$);
+      console.log(process.env.KITTY_URL);
       return{thisCat: cat$}
     },
     methods: {
       onSubmitted() {
-        axios.post(`${KITTY_URL}/api/v1/feedings/`,{
+        axios.post(`${process.env.KITTY_URL}/api/v1/feedings/`,{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
           weight_unit_measure: 'G',
           weight_before_food: this.weight_before_food,
