@@ -15,11 +15,24 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="col-sm-1 divTableHead hand" @click="sort('name')" v-on:click=" collapsed = !collapsed">Cat
-              <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
+            <div class="col-sm-1 divTableHead">Cat</div>
+            <!--TODO: a drop down select that will re-query the api on "&food_type=BO"-->
+            <!--<div class="col-sm-2 divTableHead hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">Feeding-->
+              <!--<i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>-->
+            <!--</div>-->
+            <div class="col-sm-2 divTableHead hand">
+                <!--<label for="food_type">Feeding</label>-->
+                <select name="food_type" id="food_type" class="form-control" v-model="food_type">
+                  <option value="" selected>Feeding</option>
+                  <option value="BO">Bottle</option>
+                  <option value="BS">Bottle/Syringe</option>
+                  <option value="SG">Syringe Gruel</option>
+                  <option value="GG">Syringe Gruel / Gruel</option>
+                  <option value="G">Gruel</option>
+                </select>
             </div>
-            <div class="col-sm-2 divTableHead">WBF</div>
-            <div class="col-sm-2 divTableHead">WAF</div>
+            <div class="col-sm-1 divTableHead">WBF</div>
+            <div class="col-sm-1 divTableHead">WAF</div>
             <div class="col-sm-2 divTableHead">Stimulated?</div>
             <div class="col-sm-2 divTableHead">Stim_type</div>
             <div class="col-sm-2 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
@@ -27,19 +40,20 @@
             </div>
           </div>
         </div>
-        <transition-group tag="div" name="fade2" class="divTableBody" appear="" v-if="thisCat">
+        <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent"  v-for="(fed) in sortedCat" :key="fed.id">
             <div class="divTableCell">{{ fed.cat.name }}</div>
+            <div class="divTableCell">{{ fed.food_type}}</div>
             <div class="divTableCell">{{ fed.weight_before_food }}</div>
             <div class="divTableCell">{{ fed.weight_after_food }}</div>
             <div class="divTableCell">{{ fed.stimulated }}</div>
             <div class="divTableCell">{{ fed.stimulation_type }}</div>
-            <!--TODO grab feeding created date NOY cat created date here-->
             <div class="divTableCell">{{ fed.created}}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
           <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
@@ -64,6 +78,16 @@
   export default {
     name: 'FeedingsList',
 
+    data() {
+      return {
+        thisCat: [],
+        currentSort:'name',
+        currentSortDir:'asc',
+        collapsed: true,
+        food_type: '',
+        foodVal: ''
+      }
+    },
     methods:{
       sort(s) {
         //if s == current sort, reverse
@@ -72,6 +96,19 @@
         }
         this.currentSort = s;
       },
+    },
+    subscriptions() {
+      const food_type$ = this.$watchAsObservable("food_type", {immediate: true}).pluck("newValue");
+      console.log(food_type$);
+
+      const cat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.foodVal}`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+
+      return{
+        thisCat: cat$,
+        foodVal: food_type$
+      }
     },
     computed:{
       sortedCat() {
@@ -84,20 +121,6 @@
         });
       }
     },
-    data() {
-      return {
-        thisCat: [],
-        currentSort:'name',
-        currentSortDir:'asc',
-        collapsed: true
-      }
-    },
-    subscriptions() {
-      const cat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
-        .catch(error => console.log(error)))
-        .pluck("data","results");
-      return{thisCat: cat$}
-    }
   }
 
 </script>

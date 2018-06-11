@@ -4,6 +4,7 @@
     <div id="pet-content">
       <div class="row">
         <div class="col-sm-1"></div>
+        <!--TODO: BUG - clear error when success is triggered-->
         <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
           <strong>Success!</strong> Feeding added.
         </b-alert>

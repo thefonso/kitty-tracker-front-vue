@@ -5,11 +5,11 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="divTableHead">&nbsp;</div>
-            <div class="divTableHead">Name</div>
-            <div class="divTableHead">gender</div>
-            <div class="divTableHead"></div>
-            <div class="divTableHead">Date Added</div>
+            <div class="divTableHead col-sm-1">&nbsp</div>
+            <div class="divTableHead col-sm-2">Name</div>
+            <div class="divTableHead col-sm-2">gender</div>
+            <div class="divTableHead col-sm-2">&nbsp</div>
+            <div class="divTableHead col-sm-4">Date Added</div>
           </div>
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
@@ -118,9 +118,7 @@
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    /*border-bottom: 1px solid lightgray;*/
     display: table-cell;
-    /*padding: 3px 10px;*/
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
