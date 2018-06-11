@@ -2,7 +2,6 @@
   <div class="meds-table">
     <div class="heading-row">
       <div class="page-heading float-sm-left">Feedings: <span>{{$route.params.catName}}</span></div>
-
       <div class="float-sm-right">
         <div class="grey">last updated</div>
         <!--TODO: format date / time for last time updated-->
@@ -84,8 +83,15 @@
         currentSort:'name',
         currentSortDir:'asc',
         collapsed: true,
+        loading: false,
+        postContent: null,
         food_type: '',
         foodVal: ''
+      }
+    },
+    watch: {
+      food_type: function () {
+        this.fetchApi()
       }
     },
     methods:{
@@ -96,19 +102,27 @@
         }
         this.currentSort = s;
       },
-    },
-    subscriptions() {
-      const food_type$ = this.$watchAsObservable("food_type", {immediate: true}).pluck("newValue");
-      console.log(food_type$);
+      fetchApi: function(value){
+        this.loading = true;
+        // let catsReloaded = fetch(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.food_type}`)
+        //   .then(response => response.json()).then(data => data.results);
+        axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.food_type}`)
+          .then(response => {
+            console.log(response.data.results);
+            this.thisCat = response.data.results
+          })
+          .catch(error => console.log(error));
 
-      const cat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.foodVal}`)
-        .catch(error => console.log(error)))
-        .pluck("data","results");
-
-      return{
-        thisCat: cat$,
-        foodVal: food_type$
+        this.loading = false;
       }
+    },
+    created() {
+      axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}`)
+        .then(response => {
+          console.log(response.data.results);
+          this.thisCat = response.data.results
+        })
+        .catch(error => console.log(error));
     },
     computed:{
       sortedCat() {
