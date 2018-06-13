@@ -162,13 +162,11 @@
         axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.food_type}`)
           .then(response => {
             console.log(response.data.results.length);
-            // TODO: if result is empty trigger alert from here
             if(response.data.results.length === 0){
               this.showModal(food_type);
             }else{
               this.thisCat = response.data.results
             }
-            // this.thisCat = response.data.results
           })
           .catch(error => console.log(error));
 

@@ -3,12 +3,11 @@
 
     <div id="pet-content">
       <div class="row">
-        <div class="col-sm-1"></div>
-        <!--TODO: BUG - clear error when success is triggered-->
-        <b-alert class="col-sm-9" variant="success" dismissible :show="showSuccess">
+        <div class="col-sm-2"></div>
+        <b-alert class="col-sm-8" variant="success" dismissible fade :show="dismissCountDown" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">
           <strong>Success!</strong> Feeding added.
         </b-alert>
-        <b-alert class="col-sm-9" variant="danger" dismissible :show="showDanger">
+        <b-alert class="col-sm-8" variant="danger" dismissible fade :show="dismissCountDown2" @dismissed="dismissCountDown2=0" @dismiss-count-down="countDownChanged2">
           <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
         </b-alert>
       </div>
@@ -32,14 +31,14 @@
               <option value="GG">Syringe Gruel / Gruel</option>
               <option value="G">Gruel</option>
             </select>
-            <!--<i v-show="errors.has('food_type')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>
+            <i v-show="errors.has('food_type')" class="fa fa-warning">required</i>
+            <!--<small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>-->
           </div>
           <div class="form-group">
             <label for="weight_before_food">Weight Before Food(gm)</label>
             <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
-            <!--<i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>
+            <i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>
+            <!--<small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>-->
           </div>
 
           <div v-if="food_type !== 'G'" class="form-group">
@@ -49,14 +48,14 @@
           <div class="form-group">
             <label for="weight_after_food">Actual Weight After Food(gm)</label>
             <input name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_after_food')}" id="weight_after_food" placeholder="WAF">
-            <!--<i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>
+            <i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>
+            <!--<small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>-->
           </div>
           <div class="form-group">
             <label for="amount_of_food_taken">Amount Of Food Taken(gm)</label>
             <input name="amount_of_food_taken" v-model="amount_of_food_taken" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('amount_of_food_taken')}" id="amount_of_food_taken" placeholder="AFT">
-            <!--<i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>-->
-            <small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>
+            <i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>
+            <!--<small v-show="errors.has('amount_of_food_taken')" class="help is-danger form-text text-muted">{{ errors.first('amount_of_food_taken') }}</small>-->
           </div>
         </div>
         <div class="col-auto"></div>
@@ -93,18 +92,19 @@
               </select>
               <i v-show="errors.has('stimulation_type')" class="fa fa-warning">required</i>
             </div>
+            <div class="row">
+              <div class="col-sm-6"></div>
+              <div class="col-auto"></div>
+              <div class="col-sm-5">
+                <button type="submit" class="btn btn-primary submit-button btn-text float-left">Submit</button>
+              </div>
+              <!--<div class="col-sm-1"></div>-->
+            </div>
           </div>
         </div>
         <div class="col-sm-1"></div>
       </div>
-      <div class="row">
-        <div class="col-sm-6"></div>
-        <div class="col-auto"></div>
-        <div class="col-sm-5">
-          <button type="submit" class="btn btn-primary submit-button btn-text float-left">Submit</button>
-        </div>
-        <div class="col-sm-1"></div>
-      </div>
+
 
     </div>
   </form>
@@ -130,6 +130,9 @@
         showDanger: false,
         constant: 0,
         thisCat: [],
+        dismissSecs: 4,
+        dismissCountDown: 0,
+        dismissCountDown2: 0,
       }
     },
     subscriptions() {
@@ -141,6 +144,18 @@
       return{thisCat: cat$}
     },
     methods: {
+      countDownChanged () {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert () {
+        this.dismissCountDown = this.dismissSecs
+      },
+      countDownChanged2 () {
+        this.dismissCountDown2 = dismissCountDown
+      },
+      showAlert2 () {
+        this.dismissCountDown2 = this.dismissSecs
+      },
       onSubmitted() {
         axios.post(`${process.env.KITTY_URL}/api/v1/feedings/`,{
           cat: {id: this.$route.params.catID, name: this.$route.params.catName},
@@ -156,12 +171,12 @@
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess = true : this.showDanger = false
+            response.status === 201 ? this.showAlert() : this.showAlert2();
           })
           .catch(error => {
             console.log(error);
-            this.showDanger = true;
-            this.showSuccess = false;
+            this.dismissCountDown = true;
+            this.showAlert();
           })
       },
       validateBeforeSubmit() {
@@ -170,8 +185,7 @@
           if (result) {
             this.onSubmitted();
           }else{
-            this.showDanger = true;
-            this.showSuccess = false;
+            this.showAlert2();
           }
         });
       },
@@ -185,6 +199,7 @@
       checkFoodType(food_type_taken){
         if (this.stimulated === false){
           if (food_type_taken === "BO" || food_type_taken === "BS") {
+            // TODO: turn these two alerts into modals?
             alert("You selected Bottle or Bottle-Syringe: Did you forget to stimulate the kitten?");
           }
         }else{
@@ -198,6 +213,12 @@
 </script>
 
 <style>
+  .is-danger{
+    color:red;
+  }
+  .fa-warning{
+    color:red;
+  }
   small {
     color: red;
   }
