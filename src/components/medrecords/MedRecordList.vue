@@ -3,7 +3,7 @@
     <div class="heading-row">
       <div class="page-heading float-sm-left">Medical Records of: <span>{{$route.params.catName}}</span></div>
 
-      <div class="float-sm-right">
+      <div class="float-sm-right" v-if="thisCat[0].cat">
         <div class="grey">last updated</div>
         <div id="lastup-date">Date: <span>{{thisCat[0].cat.modified | moment("MM-DD-YYYY")}}</span></div>
         <div id="lastup-time">Time: <span>{{thisCat[0].cat.modified | moment("HH:MM a")}}</span></div>

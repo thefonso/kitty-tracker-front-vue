@@ -3,7 +3,7 @@
     <div class="heading-row">
       <div class="page-heading float-sm-left">Medications for: <span>{{$route.params.catName}}</span></div>
 
-      <div class="float-sm-right">
+      <div class="float-sm-right" v-if="thisCat[0]">
         <div class="grey">last updated</div>
         <!--TODO: format date / time for last time updated-->
         <div id="lastup-date">Date:<span>{{thisCat[0].modified | moment("MM-DD-YYYY")}}</span></div>

@@ -16,7 +16,7 @@
     </div>
     <div class="heading-row">
       <div class="page-heading float-sm-left">Feedings: <span>{{$route.params.catName}}</span></div>
-      <div class="float-sm-right">
+      <div class="float-sm-right" v-if="thisCat[0]">
         <div class="grey">last updated</div>
         <div id="lastup-date">Date: <span>{{thisCat[0].modified | moment("MM-DD-YYYY")}}</span></div>
         <div id="lastup-time">Time: <span>{{thisCat[0].modified | moment("HH:MM a")}}</span></div>
