@@ -161,6 +161,7 @@
           .catch(error => {
             console.log(error);
             this.showDanger = true;
+            this.showSuccess = false;
           })
       },
       validateBeforeSubmit() {
@@ -170,6 +171,7 @@
             this.onSubmitted();
           }else{
             this.showDanger = true;
+            this.showSuccess = false;
           }
         });
       },

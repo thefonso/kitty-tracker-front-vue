@@ -1,5 +1,19 @@
 <template>
   <div class="meds-table">
+    <div class="row">
+      <div class="col-sm-1"></div>
+      <!--bootstrap-vue-->
+      <!--<b-alert class="col-sm-9" variant="warning" dismissible fade :show="dismissCountDown" @dismissed="dismissCountDown=0" @dismiss-count-down="countDownChanged">-->
+        <!--Kitty does not have <strong>{{food_type}}</strong> as a feeding choice.-->
+      <!--</b-alert>-->
+      <b-modal ref="myModalRef" hide-header hide-footer title="">
+        <div class="d-block text-center">
+          <h3>Kitty does not have <strong>{{food_type_name}}</strong> as a feeding choice.</h3>
+        </div>
+        <b-btn class="mt-3" variant="outline-warning" block @click="hideModal">understood</b-btn>
+      </b-modal>
+
+    </div>
     <div class="heading-row">
       <div class="page-heading float-sm-left">Feedings: <span>{{$route.params.catName}}</span></div>
       <div class="float-sm-right">
@@ -15,13 +29,12 @@
         <div class="divTableHeading">
           <div class="divTableRow">
             <div class="col-sm-1 divTableHead">Cat</div>
-            <!--TODO: a drop down select that will re-query the api on "&food_type=BO"-->
-            <!--<div class="col-sm-2 divTableHead hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">Feeding-->
+            <!--<div class="divTableHead col-sm-1 hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">Feeding-->
               <!--<i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>-->
             <!--</div>-->
-            <div class="col-sm-2 divTableHead hand">
-                <!--<label for="food_type">Feeding</label>-->
-                <select name="food_type" id="food_type" class="form-control" v-model="food_type">
+            <div id="feeding-select" class="col-sm-3 divTableHead hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">
+              <!--<label for="food_type">Feeding</label>-->
+                <select name="food_type" id="food_type" class="clearfix" v-model="food_type">
                   <option value="" selected>Feeding</option>
                   <option value="BO">Bottle</option>
                   <option value="BS">Bottle/Syringe</option>
@@ -29,11 +42,12 @@
                   <option value="GG">Syringe Gruel / Gruel</option>
                   <option value="G">Gruel</option>
                 </select>
+              <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']" class="col-sm-1"></i>
             </div>
             <div class="col-sm-1 divTableHead">WBF</div>
             <div class="col-sm-1 divTableHead">WAF</div>
             <div class="col-sm-2 divTableHead">Stimulated?</div>
-            <div class="col-sm-2 divTableHead">Stim_type</div>
+            <div class="col-sm-1 divTableHead">Stim_type</div>
             <div class="col-sm-2 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
               <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
             </div>
@@ -42,7 +56,7 @@
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent"  v-for="(fed) in sortedCat" :key="fed.id">
             <div class="divTableCell">{{ fed.cat.name }}</div>
-            <div class="divTableCell">{{ fed.food_type}}</div>
+            <div class="divTableCell">{{ fed.food_type }}</div>
             <div class="divTableCell">{{ fed.weight_before_food }}</div>
             <div class="divTableCell">{{ fed.weight_after_food }}</div>
             <div class="divTableCell">{{ fed.stimulated }}</div>
@@ -65,14 +79,13 @@
         </div>
       </div>
     </transition>
-    debug: sort={{currentSort}}, dir={{currentSortDir}}
+    <!--debug: sort={{currentSort}}, dir={{currentSortDir}}-->
   </div>
 
 </template>
 
 <script>
   import axios from 'axios';
-  import { Observable } from 'rxjs';
 
   export default {
     name: 'FeedingsList',
@@ -86,7 +99,10 @@
         loading: false,
         postContent: null,
         food_type: '',
-        foodVal: ''
+        food_type_name: '',
+        foodVal: '',
+        dismissSecs: 5,
+        dismissCountDown: 0,
       }
     },
     watch: {
@@ -95,6 +111,45 @@
       }
     },
     methods:{
+      countDownChanged (dismissCountDown) {
+        this.dismissCountDown = dismissCountDown
+      },
+      showAlert () {
+        this.dismissCountDown = this.dismissSecs
+      },
+      foodName(food){
+        console.log(food);
+        switch (food.value){
+          case "G":{
+            this.food_type_name = "Gruel";
+            break;
+          }
+          case "GG":{
+            this.food_type_name = "Syringe Gruel / Gruel";
+            break;
+          }
+          case "SG":{
+            this.food_type_name = "Syringe Gruel";
+            break;
+          }
+          case "BS":{
+            this.food_type_name = "Bottle/Syringe";
+            break;
+          }
+          case "BO":{
+            this.food_type_name = "Bottle";
+            break;
+          }
+        }
+      },
+      showModal (food) {
+        this.foodName(food);
+        // return food_type_name;
+        this.$refs.myModalRef.show()
+      },
+      hideModal () {
+        this.$refs.myModalRef.hide()
+      },
       sort(s) {
         //if s == current sort, reverse
         if(s === this.currentSort) {
@@ -104,12 +159,16 @@
       },
       fetchApi: function(value){
         this.loading = true;
-        // let catsReloaded = fetch(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.food_type}`)
-        //   .then(response => response.json()).then(data => data.results);
         axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${this.$route.params.catName}&food_type=${this.food_type}`)
           .then(response => {
-            console.log(response.data.results);
-            this.thisCat = response.data.results
+            console.log(response.data.results.length);
+            // TODO: if result is empty trigger alert from here
+            if(response.data.results.length === 0){
+              this.showModal(food_type);
+            }else{
+              this.thisCat = response.data.results
+            }
+            // this.thisCat = response.data.results
           })
           .catch(error => console.log(error));
 
@@ -197,6 +256,15 @@
     padding: 3rem 1.5rem;
     text-align: left;
   }
+  #feeding-select{
+    left: 0px;
+    top: 0px;
+    text-align: left;
+  }
+  #feeding-select label{
+    float: left;
+    margin: 1px;
+  }
   #lastup-date{
 
   }
@@ -217,12 +285,13 @@
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    /*border-bottom: 1px solid lightgray;*/
     display: table-cell;
-    /*padding: 3px 10px;*/
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
+  }
+  .divTableCell{
+    color: lightgray;
   }
   .divTableCell img{
     display: block;
