@@ -18,9 +18,8 @@
       <div class="page-heading float-sm-left">Feedings: <span>{{$route.params.catName}}</span></div>
       <div class="float-sm-right">
         <div class="grey">last updated</div>
-        <!--TODO: format date / time for last time updated-->
-        <div id="lastup-date">Date:<span>{{thisCat[0].modified}}</span></div>
-        <div id="lastup-time">Time:<span>HH:MM</span></div>
+        <div id="lastup-date">Date: <span>{{thisCat[0].modified | moment("MM-DD-YYYY")}}</span></div>
+        <div id="lastup-time">Time: <span>{{thisCat[0].modified | moment("HH:MM a")}}</span></div>
       </div>
     </div>
 
@@ -47,8 +46,8 @@
             <div class="col-sm-1 divTableHead">WBF</div>
             <div class="col-sm-1 divTableHead">WAF</div>
             <div class="col-sm-2 divTableHead">Stimulated?</div>
-            <div class="col-sm-1 divTableHead">Stim_type</div>
-            <div class="col-sm-2 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
+            <div class="col-sm-2 divTableHead">Stim_type</div>
+            <div class="col-sm-3 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
               <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
             </div>
           </div>
@@ -61,7 +60,7 @@
             <div class="divTableCell">{{ fed.weight_after_food }}</div>
             <div class="divTableCell">{{ fed.stimulated }}</div>
             <div class="divTableCell">{{ fed.stimulation_type }}</div>
-            <div class="divTableCell">{{ fed.created}}</div>
+            <div class="divTableCell">{{ fed.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
@@ -69,9 +68,9 @@
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead">
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-4 divTableHead">
             <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
               <a role="button">Add A Feeding</a>
             </router-link>
@@ -287,9 +286,6 @@
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;
-  }
-  .divTableCell{
-    color: lightgray;
   }
   .divTableCell img{
     display: block;

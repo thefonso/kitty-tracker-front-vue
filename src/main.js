@@ -22,6 +22,7 @@ Vue.use(VueRx, Rx);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);
 Vue.use(VueAxios, axios);
+Vue.use(require('vue-moment'));
 Vue.config.productionTip = false;
 
 /* eslint-disable no-new */

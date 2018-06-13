@@ -213,12 +213,6 @@
 </script>
 
 <style>
-  .is-danger{
-    color:red;
-  }
-  .fa-warning{
-    color:red;
-  }
   small {
     color: red;
   }

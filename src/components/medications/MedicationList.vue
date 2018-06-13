@@ -6,8 +6,8 @@
       <div class="float-sm-right">
         <div class="grey">last updated</div>
         <!--TODO: format date / time for last time updated-->
-        <div id="lastup-date">Date:<span>MM:DD:YY</span></div>
-        <div id="lastup-time">Time:<span>HH:MM</span></div>
+        <div id="lastup-date">Date:<span>{{thisCat[0].modified | moment("MM-DD-YYYY")}}</span></div>
+        <div id="lastup-time">Time:<span>{{thisCat[0].modified | moment("HH:MM a")}}</span></div>
       </div>
     </div>
 

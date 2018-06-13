@@ -5,9 +5,8 @@
 
       <div class="float-sm-right">
         <div class="grey">last updated</div>
-        <!--TODO: format date / time for last time updated-->
-        <div id="lastup-date">Date:<span>MM:DD:YY</span></div>
-        <div id="lastup-time">Time:<span>HH:MM</span></div>
+        <div id="lastup-date">Date: <span>{{thisCat[0].cat.modified | moment("MM-DD-YYYY")}}</span></div>
+        <div id="lastup-time">Time: <span>{{thisCat[0].cat.modified | moment("HH:MM a")}}</span></div>
       </div>
     </div>
 
@@ -28,7 +27,7 @@
           <div class="divTableRow fadecontent" v-for="(med) in thisCat" :key="med.id">
             <div class="divTableCell">{{ med.cat.name }}</div>
             <div class="divTableCell">{{ med.care_given }}</div>
-            <div class="divTableCell">{{ med.date }}</div>
+            <div class="divTableCell">{{ med.date | moment("MM-DD-YYYY h:MM a")}}</div>
             <div class="divTableCell">{{ med.vet_practice }}</div>
             <div class="divTableCell">{{ med.doc_name }}</div>
             <div class="divTableCell">{{ med.follow_up_date }}</div>
@@ -69,6 +68,7 @@
       const cat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/medicalrecords/?cat__slug=&cat__name=${this.$route.params.catName}`)
         .catch(error => console.log(error)))
         .pluck("data","results");
+      console.log(cat$);
       return{thisCat: cat$}
     }
   }

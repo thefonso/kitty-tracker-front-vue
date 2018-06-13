@@ -70,4 +70,13 @@ body {
 .invisible {
   visibility: hidden;
 }
+.divTableCell{
+  color: lightgray;
+}
+.is-danger{
+  color:red;
+}
+.fa-warning{
+  color:red;
+}
 </style>

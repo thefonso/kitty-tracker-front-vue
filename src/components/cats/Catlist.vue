@@ -18,7 +18,7 @@
             <div class="divTableCell"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
             <div class="divTableCell">{{ cat.gender }}</div>
             <div class="divTableCell"></div>
-            <div class="divTableCell">{{ cat.created }}</div>
+            <div class="divTableCell">{{ cat.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
       </div>
