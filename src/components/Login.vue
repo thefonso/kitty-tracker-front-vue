@@ -8,7 +8,7 @@
             </div>
           </transition>
           <transition name="fade2" appear="">
-            <div class="fadecontent">
+            <div class="fadecontent mainlogin">
               <label for="inputName" class="sr-only">Name</label>
               <input id="inputName" name="username" class="form-control" placeholder="Username" required="" autofocus="" type="text" v-model="username">
               <label for="inputPassword" class="sr-only">Password</label>
@@ -16,7 +16,7 @@
             </div>
           </transition>
           <transition name="fade3" appear="">
-            <div class="fadecontent">
+            <div class="fadecontent mainlogin">
               <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Sign in</button>
               <p>Don't have an account? <router-link to="/signup" class="-link">Sign Up</router-link></p>
               <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ getYear() }} </p>
@@ -94,7 +94,9 @@
 </script>
 
 <style scoped>
+  .mainlogin{
 
+  }
   .fadecontent{
     opacity: 1;
   }
