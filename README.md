@@ -22,6 +22,9 @@ npm run build
 # build for production and view the bundle analyzer report
 npm run build --report
 
+# test production files
+node server.js
+
 # deploy to heroku
 git aa
 git cm "your message"
