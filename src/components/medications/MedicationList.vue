@@ -15,31 +15,31 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="col-sm-1 divTableHead">#</div>
-            <div class="col-sm-2 divTableHead">Medication</div>
-            <div class="col-sm-2 divTableHead">Duration</div>
-            <div class="col-sm-2 divTableHead">Frequency</div>
-            <div class="col-sm-2 divTableHead">Dosage</div>
-            <div class="col-sm-2 divTableHead">Notes</div>
+            <div class="divTableHead col-sm-1">#</div>
+            <div class="divTableHead col-sm-2">Medication</div>
+            <div class="divTableHead col-sm-2">Duration</div>
+            <div class="divTableHead col-sm-2">Frequency</div>
+            <div class="divTableHead col-sm-2">Dosage</div>
+            <div class="divTableHead col-sm-2">Notes</div>
           </div>
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent" v-for="med in thisCat" :key="med.id">
-            <div class="divTableCell">{{ med.id }}</div>
-            <div class="divTableCell">{{ med.name }}</div>
-            <div class="divTableCell">{{ med.duration }}</div>
-            <div class="divTableCell">{{ med.frequency }}</div>
-            <div class="divTableCell">{{ med.dosage }}</div>
-            <div class="divTableCell">{{ med.notes }}</div>
+            <div class="divTableCell col-sm-1">{{ med.id }}</div>
+            <div class="divTableCell col-sm-2">{{ med.name }}</div>
+            <div class="divTableCell col-sm-2">{{ med.duration }}</div>
+            <div class="divTableCell col-sm-2">{{ med.frequency }}</div>
+            <div class="divTableCell col-sm-2">{{ med.dosage }}</div>
+            <div class="divTableCell col-sm-2">{{ med.notes }}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
-          <div class="col-sm-1 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead">
+          <div class="divTableHead col-sm-1"></div>
+          <div class="divTableHead col-sm-2"></div>
+          <div class="divTableHead col-sm-2"></div>
+          <div class="divTableHead col-sm-2"></div>
+          <div class="divTableHead col-sm-2"></div>
+          <div class="divTableHead col-sm-2">
             <router-link :to="'/cat/'+$route.params.catID+'/medication/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
               <a role="button">Add A Medication</a>
             </router-link>
@@ -127,12 +127,6 @@
     padding: 3rem 1.5rem;
     text-align: left;
   }
-  #lastup-date{
-
-  }
-  #lastup-time{
-
-  }
 
   /* Div Table */
   .divTable{
@@ -141,18 +135,17 @@
   }
   .divTableRow {
     display: table-row;
+    border-top: 1px solid #dee2e6;
   }
   .divTableHeading {
     background-color: #EEE;
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    /*border-bottom: 1px solid lightgray;*/
-    display: table-cell;
-    /*padding: 3px 10px;*/
+    display: inline-block;
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
+    /*border-top: 1px solid #dee2e6;*/
   }
   .divTableCell img{
     display: block;
@@ -171,5 +164,4 @@
   .divTableBody {
     display: table-row-group;
   }
-
 </style>

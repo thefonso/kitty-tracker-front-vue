@@ -144,6 +144,7 @@
   }
   .divTableRow {
     display: table-row;
+    border-top: 1px solid #dee2e6;
   }
   .divTableHeading {
     background-color: #EEE;
@@ -151,11 +152,11 @@
   }
   .divTableCell, .divTableHead {
     /*border-bottom: 1px solid lightgray;*/
-    display: table-cell;
+    display: inline-block;
     /*padding: 3px 10px;*/
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
+    /*border-top: 1px solid #dee2e6;*/
   }
   .divTableCell img{
     display: block;

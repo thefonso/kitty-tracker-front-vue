@@ -14,11 +14,11 @@
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent" v-for="cat in cats" :key="cat.id">
-            <div class="divTableCell image"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
-            <div class="divTableCell"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
-            <div class="divTableCell">{{ cat.gender }}</div>
-            <div class="divTableCell">&nbsp</div>
-            <div class="divTableCell">{{ cat.created | moment("MM-DD-YYYY h:MM a")}}</div>
+            <div class="divTableCell image col-sm-1"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
+            <div class="divTableCell col-sm-2"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
+            <div class="divTableCell col-sm-2">{{ cat.gender }}</div>
+            <div class="divTableCell col-sm-2">&nbsp</div>
+            <div class="divTableCell col-sm-4">{{ cat.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
       </div>
@@ -103,16 +103,17 @@
   }
   .divTableRow {
     /*display: table-row;*/
+    border-top: 1px solid #dee2e6;
   }
   .divTableHeading {
     background-color: #EEE;
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    display: inline-flex;
+    display: inline-block;
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
+
   }
   .divTableCell img{
     display: block;

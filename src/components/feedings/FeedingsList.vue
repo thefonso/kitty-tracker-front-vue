@@ -60,7 +60,7 @@
             <div class="divTableCell col-sm-2">{{ fed.weight_after_food }}</div>
             <div class="divTableCell col-sm-1">{{ fed.stimulated }}</div>
             <div class="divTableCell col-sm-1">{{ fed.stimulation_type }}</div>
-            <div class="divTableCell col-sm-2">{{ fed.created | moment("MM-DD-YYYY h:MM a")}}</div>
+            <div class="divTableCell col-sm-1">{{ fed.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
@@ -70,7 +70,7 @@
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-1 divTableHead"></div>
           <div class="col-sm-1 divTableHead"></div>
-          <div class="col-sm-2 divTableHead">
+          <div class="col-sm-1 divTableHead">
             <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
               <a role="button">Add A Feeding</a>
             </router-link>
@@ -275,7 +275,8 @@
     width: 100%;
   }
   .divTableRow {
-    display: table-row;
+    /*display: table-row;*/
+    border-top: 1px solid #dee2e6;
   }
   .divTableHeading {
     background-color: #EEE;
