@@ -17,7 +17,7 @@
             <div class="divTableCell image"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
             <div class="divTableCell"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
             <div class="divTableCell">{{ cat.gender }}</div>
-            <div class="divTableCell"></div>
+            <div class="divTableCell">&nbsp</div>
             <div class="divTableCell">{{ cat.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
@@ -35,20 +35,11 @@
     data() {
       return {
         cats: [],
-        // visible: false,
+        page: 1,
         CatIndex: 0,
       }
     },
-    methods: {
-    },
-    mounted(){
-      // TODO display rows like blinds
-      // this.visible = true;
-      // const interval = setInterval(() => {
-      //   if (this.CatIndex + 1 < this.cats.length) this.CatIndex++;
-      //   else clearInterval(interval);
-      // }, 2000);
-    },
+    mounted(){},
     subscriptions() {
       const cats$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
         .catch(error => console.log(error)))
@@ -111,14 +102,14 @@
     width: 100%;
   }
   .divTableRow {
-    display: table-row;
+    /*display: table-row;*/
   }
   .divTableHeading {
     background-color: #EEE;
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    display: table-cell;
+    display: inline-flex;
     padding: 0.75rem;
     vertical-align: top;
     border-top: 1px solid #dee2e6;

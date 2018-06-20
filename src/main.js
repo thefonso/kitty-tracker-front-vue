@@ -10,14 +10,16 @@ import router from './router/router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import store from './store';
-import 'bootstrap-vue/dist/bootstrap-vue.css'
-import { library } from '@fortawesome/fontawesome-svg-core'
-import { faArrowUp } from '@fortawesome/free-solid-svg-icons'
-import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome'
+import 'bootstrap-vue/dist/bootstrap-vue.css';
+import { library } from '@fortawesome/fontawesome-svg-core';
+import { faArrowUp } from '@fortawesome/free-solid-svg-icons';
+import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome';
+import {Pagination} from 'vue-pagination-2';
 
 library.add(faArrowUp);
 
 Vue.component('font-awesome-icon', FontAwesomeIcon);
+Vue.component('pagination', Pagination);
 Vue.use(VueRx, Rx);
 Vue.use(BootstrapVue);
 Vue.use(VeeValidate);

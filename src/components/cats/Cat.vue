@@ -3,6 +3,7 @@
     <div id="pet-content" class="row">
       <div class="col-2"></div>
       <div class="col-sm-4 align-center">
+        <!--TODO: enable photo upload-->
         <div class="pet-record">Pet Record</div>
         <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
           <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>

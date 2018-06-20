@@ -27,11 +27,11 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="col-sm-1 divTableHead">Cat</div>
+            <div class=" divTableHead col-sm-1">Cat</div>
             <!--<div class="divTableHead col-sm-1 hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">Feeding-->
               <!--<i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>-->
             <!--</div>-->
-            <div id="feeding-select" class="col-sm-3 divTableHead hand" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">
+            <div id="feeding-select" class="divTableHead hand col-sm-3" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">
               <!--<label for="food_type">Feeding</label>-->
                 <select name="food_type" id="food_type" class="clearfix" v-model="food_type">
                   <option value="" selected>Feeding</option>
@@ -43,34 +43,34 @@
                 </select>
               <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']" class="col-sm-1"></i>
             </div>
-            <div class="col-sm-1 divTableHead">WBF</div>
-            <div class="col-sm-1 divTableHead">WAF</div>
-            <div class="col-sm-2 divTableHead">Stimulated?</div>
-            <div class="col-sm-2 divTableHead">Stim_type</div>
-            <div class="col-sm-3 divTableHead hand" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
+            <div class="divTableHead col-sm-2">WBF</div>
+            <div class="divTableHead col-sm-2">WAF</div>
+            <div class="divTableHead col-sm-1">Stimulated?</div>
+            <div class="divTableHead col-sm-1">Stim_type</div>
+            <div class="divTableHead hand col-sm-1" @click="sort('created')" v-on:click=" collapsed = !collapsed">Date
               <i :class="[collapsed ? 'fa-chevron-up' : 'fa-chevron-down', 'fa']"></i>
             </div>
           </div>
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent"  v-for="(fed) in sortedCat" :key="fed.id">
-            <div class="divTableCell">{{ fed.cat.name }}</div>
-            <div class="divTableCell">{{ fed.food_type }}</div>
-            <div class="divTableCell">{{ fed.weight_before_food }}</div>
-            <div class="divTableCell">{{ fed.weight_after_food }}</div>
-            <div class="divTableCell">{{ fed.stimulated }}</div>
-            <div class="divTableCell">{{ fed.stimulation_type }}</div>
-            <div class="divTableCell">{{ fed.created | moment("MM-DD-YYYY h:MM a")}}</div>
+            <div class="divTableCell col-sm-1">{{ fed.cat.name }}</div>
+            <div class="divTableCell col-sm-3">{{ fed.food_type }}</div>
+            <div class="divTableCell col-sm-2">{{ fed.weight_before_food }}</div>
+            <div class="divTableCell col-sm-2">{{ fed.weight_after_food }}</div>
+            <div class="divTableCell col-sm-1">{{ fed.stimulated }}</div>
+            <div class="divTableCell col-sm-1">{{ fed.stimulation_type }}</div>
+            <div class="divTableCell col-sm-2">{{ fed.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
           <div class="col-sm-1 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-3 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-1 divTableHead"></div>
           <div class="col-sm-1 divTableHead"></div>
-          <div class="col-sm-4 divTableHead">
+          <div class="col-sm-2 divTableHead">
             <router-link :to="'/cat/'+$route.params.catID+'/feeding/create/'+$route.params.catName" class="btn btn-primary btn-text float-right">
               <a role="button">Add A Feeding</a>
             </router-link>
@@ -282,10 +282,10 @@
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    display: table-cell;
+    display: inline-block;
     padding: 0.75rem;
     vertical-align: top;
-    border-top: 1px solid #dee2e6;
+    /*border-top: 1px solid #dee2e6;*/
   }
   .divTableCell img{
     display: block;
