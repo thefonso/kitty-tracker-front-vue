@@ -145,7 +145,6 @@
     display: inline-block;
     padding: 0.75rem;
     vertical-align: top;
-    /*border-top: 1px solid #dee2e6;*/
   }
   .divTableCell img{
     display: block;

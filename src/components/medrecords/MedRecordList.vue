@@ -14,30 +14,30 @@
       <div class="divTable">
         <div class="divTableHeading">
           <div class="divTableRow">
-            <div class="col-sm-1 divTableHead">cat</div>
-            <div class="col-sm-2 divTableHead">care</div>
-            <div class="col-sm-2 divTableHead">date</div>
-            <div class="col-sm-2 divTableHead">vet practice</div>
-            <div class="col-sm-2 divTableHead">doctor name</div>
-            <div class="col-sm-2 divTableHead">follow up date</div>
-            <div class="col-sm-2 divTableHead">notes</div>
+            <div class="divTableHead col-sm-1">cat</div>
+            <div class="divTableHead col-sm-1">care</div>
+            <div class="divTableHead col-sm-1">date</div>
+            <div class="divTableHead col-sm-2">vet practice</div>
+            <div class="divTableHead col-sm-2">doctor name</div>
+            <div class="divTableHead col-sm-2">follow up date</div>
+            <div class="divTableHead col-sm-2">notes</div>
           </div>
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="" v-if="thisCat">
           <div class="divTableRow fadecontent" v-for="(med) in thisCat" :key="med.id">
-            <div class="divTableCell">{{ med.cat.name }}</div>
-            <div class="divTableCell">{{ med.care_given }}</div>
-            <div class="divTableCell">{{ med.date | moment("MM-DD-YYYY h:MM a")}}</div>
-            <div class="divTableCell">{{ med.vet_practice }}</div>
-            <div class="divTableCell">{{ med.doc_name }}</div>
-            <div class="divTableCell">{{ med.follow_up_date }}</div>
-            <div class="divTableCell">{{ med.notes }}</div>
+            <div class="divTableCell col-sm-1">{{ med.cat.name }}</div>
+            <div class="divTableCell col-sm-1">{{ med.care_given }}</div>
+            <div class="divTableCell col-sm-1">{{ med.date | moment("MM-DD-YYYY h:MM a")}}</div>
+            <div class="divTableCell col-sm-2">{{ med.vet_practice }}</div>
+            <div class="divTableCell col-sm-2">{{ med.doc_name }}</div>
+            <div class="divTableCell col-sm-2">{{ med.follow_up_date }}</div>
+            <div class="divTableCell col-sm-2">{{ med.notes }}</div>
           </div>
         </transition-group>
         <div class="divTableRow">
           <div class="col-sm-1 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
-          <div class="col-sm-2 divTableHead"></div>
+          <div class="col-sm-1 divTableHead"></div>
+          <div class="col-sm-1 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
           <div class="col-sm-2 divTableHead"></div>
@@ -151,12 +151,9 @@
     display: table-header-group;
   }
   .divTableCell, .divTableHead {
-    /*border-bottom: 1px solid lightgray;*/
     display: inline-block;
-    /*padding: 3px 10px;*/
     padding: 0.75rem;
     vertical-align: top;
-    /*border-top: 1px solid #dee2e6;*/
   }
   .divTableCell img{
     display: block;
