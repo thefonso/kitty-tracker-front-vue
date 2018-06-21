@@ -2,13 +2,19 @@
   <transition name="fade">
     <div id="pet-content" class="row">
       <div class="col-2"></div>
-      <div class="col-sm-4 align-center">
+      <div class="col-sm-4 align-center" :singleCat="singleCat" v-if="singleCat">
+
         <!--TODO: enable photo upload-->
-        <div class="pet-record">Pet Record</div>
-        <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-          <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
-        </div>
-        <div class="pet-name">{{singleCat.name}}</div>
+
+          <div class="pet-record">Pet Record</div>
+          <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
+            <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
+          </div>
+          <div class="pet-name">{{singleCat.name}}</div>
+          <!--<input style="display: none" type="file" @change="onFileChanged" ref="fileInput">-->
+          <!--<button class="btn btn-primary" @click="$refs.fileInput.click()">Upload Image</button>-->
+          <input class="btn btn-primary" type="file" @change="onFileChanged">
+
       </div>
       <div class="col-sm-2 align-left">
         <div class="spacer"></div>
@@ -41,6 +47,35 @@
       return {
         visible: false,
         singleCat: [],
+        rootUrl: process.env.KITTY_URL,
+        selectedFile: null,
+      }
+    },
+    methods: {
+      onFileChanged (event) {
+        this.selectedFile = event.target.files[0];
+        // console.log(event);
+        this.onUpload();
+      },
+      onUpload() {
+        // upload file, get it from this.selectedFile
+        const formData = new FormData();
+        formData.append('name', this.singleCat.name);
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+        axios.put(`${process.env.KITTY_URL}/api/v1/cats/${this.$route.params.catID}/`,formData,{
+          onUploadProgress: progressEvent => {
+            console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+          }
+        })
+          .then(response => {
+            console.log(response.data.photo);
+            // response.status === 201 ? this.showSuccess = true : this.showDanger = true
+            this.singleCat = response.data;
+          })
+          .catch(error => {
+            console.log(error);
+            // this.showDanger = true;
+          })
       }
     },
     mounted(){
@@ -53,7 +88,7 @@
           this.singleCat = request.data;
         })
         .catch(error => console.log(error));
-    }
+    },
   }
 </script>
 
