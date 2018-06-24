@@ -34,17 +34,16 @@
       </div>
       <div class="col-sm-5">
           <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Name</label>
-            <div class="col-sm-10">
+            <label class="col-sm-3 col-form-label">Name</label>
+            <div class="col-sm-9">
               <input name="name" v-model="name" v-validate="'required'" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" placeholder="name">
-              <!--<i v-show="errors.has('name')" class="fa fa-warning">required</i>-->
               <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
             </div>
           </div>
 
           <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Gender</label>
-            <div class="col-sm-10">
+            <label class="col-sm-3 col-form-label">Gender</label>
+            <div class="col-sm-9">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender1" value="M" v-model="gender">
                 <label class="form-check-label" for="InputGender1">Male</label>
@@ -52,16 +51,60 @@
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender2" value="F" v-model="gender">
                 <label class="form-check-label" for="InputGender2">Female</label>
+                <!--TODO: if female is she a Mother?-->
+                <!--TODO if Mother is YES ask...assoc. her kittens?...button appears..select button new CREATE PET appears with Mother auto-populated in "Mother field"-->
               </div>
             </div>
           </div>
 
+        <div class="form-group row">
+          <label class="col-sm-3 col-form-label">Age</label>
+          <div class="col-sm-9">
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputAge1" value="A" v-model="age">
+              <label class="form-check-label" for="InputAge1">Adult</label>
+            </div>
+            <div class="form-check form-check-inline">
+              <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputAge2" value="K" v-model="age">
+              <label class="form-check-label" for="InputAge2">Kitten</label>
+            </div>
+          </div>
+        </div>
+
+          <div class="form-group row">
+            <label class="col-sm-3 control-label ">Cat type</label>
+            <div class="col-sm-5">
+              <select class="form-control" name="cat_type" v-model="cat_type">
+                <option value="O">Orphan</option>
+                <option value="P">Pregnant</option>
+                <option value="N">Nursing</option>
+              </select>
+            </div>
+          </div>
+<!--TODO: if Pregnant / Nursing selected above next row appears for Litter-->
+        <div class="form-group row">
+          <label class="col-sm-3 control-label ">Litter</label>
+          <div class="col-sm-5">
+            <select class="form-control" v-model="litterVal" >
+
+              <!--<option value="" selected>choose...</option>-->
+              <!--<option value="none">none</option>-->
+              <!--<option value="A">alpha</option>-->
+              <!--<option value="B">beta</option>-->
+              <!--<option value="G">gamma</option>-->
+
+              <option v-for="item in litter" :value="item.name">{{item.name}}</option>
+
+            </select>
+          </div>
+        </div>
+
           <div class="form-group row" id="weight_row">
-            <label class="col-sm-2 col-form-label">Weight</label>
+            <label class="col-sm-3 col-form-label">Weight</label>
             <div class="col-sm-2">
                 <input id="weight_input" name="weight" v-model="weight" v-validate="'required|integer'" class="col-sm-12" :class="{'input': true, 'is-danger': errors.has('weight') }" type="text" placeholder="weight">
               </div>
-            <div class="col-sm-5">
+            <div class="col-sm-3">
               <select name="weight_unit" id="weight_unit" v-model="weight_unit" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
                 <option disabled value="">Choose</option>
                 <option value="G">Grams</option>
@@ -75,8 +118,8 @@
           </div>
 
           <div class="form-group row">
-            <label class="col-sm-2 col-form-label">Birthday</label>
-            <div class="col-sm-10">
+            <label class="col-sm-3 col-form-label">Birthday</label>
+            <div class="col-sm-9">
               <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-DD-MM'" class="col-sm-5" :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="year-month-day">
             </div>
           </div>
@@ -96,14 +139,18 @@
 
 <script>
 import axios from 'axios';
-
+import { Observable } from 'rxjs';
 
 export default {
   name: 'catcreate',
   data() {
     return {
       name:   '',
+      age: '',
       gender: '',
+      cat_type: '',
+      litter: [],
+      litterVal: null,
       weight: '',
       weight_unit: '',
       birthday:    '',
@@ -115,7 +162,10 @@ export default {
     onSubmitted() {
       axios.post(`${process.env.KITTY_URL}/api/v1/cats/`,{
         name: this.name,
+        age: this.age,
         gender: this.gender,
+        cat_type: this.cat_type,
+        litter: this.litter,
         weight: this.weight,
         birthday: this.birthday+"T00:00:00-00:00",
         weight_unit: this.weight_unit
@@ -137,8 +187,27 @@ export default {
           // this.showDanger = true;
         }
       });
+    },
+    getLitterNames(){
+      axios.get(`${process.env.KITTY_URL}/api/v1/litter/`)
+        .then(request => {
+          console.log("litter_value: ");
+          console.log(request.data.results);
+          this.litter = request.data.results;
+        })
+        .catch(error => console.log(error));
+    },
+    getLitterNamesObserv(){
+      const litter$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/litter/`)
+        .catch(error => console.log(error)))
+        .pluck("data","results");
+      console.log(litter$);
+      return{litter: litter$}
     }
-  }
+  },
+  beforeMount(){
+    this.getLitterNames()
+  },
 }
 </script>
 
