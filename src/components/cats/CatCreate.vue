@@ -79,56 +79,37 @@
           </div>
 
         </div>
-
-        <div class="form-group">
-          <label class="col-sm-12 control-label">Cat type</label>
-          <div class="col-sm-12">
-            <select class="" name="cat_type" v-model="cat_type">
-              <option disabled value="">Choose</option>
-              <option value="O">Orphan</option>
-              <option value="P">Pregnant</option>
-              <option value="N">Nursing</option>
-            </select>
-          </div>
-        </div>
-
-        <!--NOTE: litter stuff starts here-->
-        <!--if a Mother: v-if="cat_type === 'P' || cat_type === 'N'?-->
-        <!--...ask..."add  kittens?"...options appears..select option 'YES', new CREATE LITTER modal appears with Mother auto-populated in "Mother field"-->
-        <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
-          <label class="col-sm-5 col-form-label">Add kittens?</label>
-          <div class="col-sm-9">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y"
-                     v-model="addKittens">
-              <label class="form-check-label" for="AddKittens1">Yes</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens2" value="N"
-                     v-model="addKittens">
-              <label class="form-check-label" for="AddKittens2">No</label>
+        <div class="row">
+          <div class="form-group col-sm-6">
+            <label class="col-sm-12 control-label">Cat type</label>
+            <div class="col-sm-12">
+              <select class="" name="cat_type" v-model="cat_type">
+                <option disabled value="">Choose</option>
+                <option value="O">Orphan</option>
+                <option value="P" v-if="gender === 'F'">Pregnant</option>
+                <option value="N" v-if="gender === 'F'">Nursing</option>
+              </select>
             </div>
           </div>
-        </div>
 
-        <div class="modal" tabindex="-1" role="dialog" v-if="addKittens === 'Y'">
-          <div class="modal-dialog" role="document">
-            <div class="modal-content">
-              <div class="modal-header">
-                <h5 class="modal-title">Modal title</h5>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                  <span aria-hidden="true">&times;</span>
-                </button>
+          <!--NOTE: litter stuff starts here-->
+          <!--if a Mother: v-if="cat_type === 'P' || cat_type === 'N'?-->
+          <!--...ask..."add  kittens?"...options appears..select option 'YES', new CREATE LITTER modal appears with Mother auto-populated in "Mother field"-->
+          <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
+            <label class="col-sm-12 form-label">Add kittens?</label>
+            <div class="col-sm-12">
+              <div class="form-check-inline">
+                <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y" @click="showModal">
+                <label class="form-check-label" for="AddKittens1">Yes</label>
               </div>
-              <div class="modal-body">
-                <p>Create Litter Form goes here...</p>
-              </div>
-              <div class="modal-footer">
-                <button type="button" class="btn btn-primary">Save changes</button>
-                <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+              <div class="form-check-inline">
+                <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens2" value="N">
+                <label class="form-check-label" for="AddKittens2">No</label>
               </div>
             </div>
           </div>
+
+
         </div>
         <!-- if KITTEN...different assoc with litter modal-->
         <div class="form-group row" v-if="age === 'K'">
@@ -139,6 +120,11 @@
             </select>
           </div>
         </div>
+
+        <!-- Modal Component -->
+        <b-modal ref="myModalRef" hide-footer title="Add O Kitten">
+          <p class="my-4">Hello from modal!</p>
+        </b-modal>
         <!--NOTE: litter stuff ends here-->
       </div>
 
@@ -206,7 +192,7 @@
         showSuccess: false,
         showDanger: false,
         female: false,
-        addKittens: '',
+        addKittens: false,
       }
     },
     methods: {
@@ -254,6 +240,12 @@
           .pluck("data", "results");
         console.log(litter$);
         return {litter: litter$}
+      },
+      showModal () {
+        this.$refs.myModalRef.show()
+      },
+      hideModal () {
+        this.$refs.myModalRef.hide()
       }
     },
     beforeMount() {
