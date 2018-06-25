@@ -6,18 +6,20 @@
         <div class="divTableHeading">
           <div class="divTableRow">
             <div class="divTableHead col-sm-1">&nbsp</div>
-            <div class="divTableHead col-sm-2">Name</div>
-            <div class="divTableHead col-sm-2">gender</div>
-            <div class="divTableHead col-sm-2">&nbsp</div>
+            <div class="divTableHead col-sm-1">Name</div>
+            <div class="divTableHead col-sm-2">Gender</div>
+            <div class="divTableHead col-sm-2">age</div>
+            <div class="divTableHead col-sm-1">Type</div>
             <div class="divTableHead col-sm-4">Date Added</div>
           </div>
         </div>
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent" v-for="cat in cats" :key="cat.id">
             <div class="divTableCell image col-sm-1"><img v-bind:src="cat.photo" width="40px" height="40px" alt=""></div>
-            <div class="divTableCell col-sm-2"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
+            <div class="divTableCell col-sm-1"><router-link :to="{path:'/cat/' + cat.id}" >{{ cat.name }}</router-link></div>
             <div class="divTableCell col-sm-2">{{ cat.gender }}</div>
-            <div class="divTableCell col-sm-2">&nbsp</div>
+            <div class="divTableCell col-sm-2">{{ cat.age }}</div>
+            <div class="divTableCell col-sm-1">{{cat.cat_type}}</div>
             <div class="divTableCell col-sm-4">{{ cat.created | moment("MM-DD-YYYY h:MM a")}}</div>
           </div>
         </transition-group>

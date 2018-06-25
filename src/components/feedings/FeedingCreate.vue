@@ -24,24 +24,25 @@
             <label for="food_type">Type of Food Taken</label>
             <select name="food_type" id="food_type" class="form-control" v-model="food_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('food_type')}">
               <option value="Choose..." selected>Choose...</option>
-              <option value="NA">None /Not Entered</option>
-              <option value="BO">Bottle</option>
-              <option value="BS">Bottle/Syringe</option>
-              <option value="SG">Syringe Gruel</option>
-              <option value="GG">Syringe Gruel / Gruel</option>
-              <option value="G">Gruel</option>
+              <option value="NA" >None /Not Entered</option>
+              <option value="MN" >Mom Nursing</option>
+              <option value="BO" >Bottle</option>
+              <option value="BS" >Bottle/Syringe</option>
+              <option value="SG" >Syringe Gruel</option>
+              <option value="GG" >Syringe Gruel / Gruel</option>
+              <option value="G" >Gruel</option>
             </select>
             <i v-show="errors.has('food_type')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('food_type')" class="help is-danger form-text text-muted">{{ errors.first('food_type') }}</small>-->
           </div>
-          <div class="form-group">
+          <div class="form-group" v-if="food_type !== 'MN'">
             <label for="weight_before_food">Weight Before Food(gm)</label>
             <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
             <i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>-->
           </div>
 
-          <div v-if="food_type !== 'G'" class="form-group">
+          <div v-if="food_type !== 'G' || 'MN'" class="form-group">
             <label class="gray" for="target_weight_after_food">Target Weight After Food(gm): <div id="target_weight_after_food"></div></label>
           </div>
 
@@ -51,7 +52,7 @@
             <i v-show="errors.has('weight_after_food')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('weight_after_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_after_food') }}</small>-->
           </div>
-          <div class="form-group">
+          <div class="form-group" v-if="food_type !== 'MN'">
             <label for="amount_of_food_taken">Amount Of Food Taken(gm)</label>
             <input name="amount_of_food_taken" v-model="amount_of_food_taken" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('amount_of_food_taken')}" id="amount_of_food_taken" placeholder="AFT">
             <i v-show="errors.has('amount_of_food_taken')" class="fa fa-warning">required</i>
@@ -61,11 +62,11 @@
         <div class="col-auto"></div>
         <div class="col-sm-5">
           <div class="panel-body">
-            <div class="form-group">
+            <div class="form-group" v-if="food_type !== 'MN'">
               <label for="InputNotes">Notes</label>
               <textarea class="form-control" id="InputNotes" rows="6" name="notes" v-model="notes"></textarea>
             </div>
-            <div class="form-group row">
+            <div class="form-group row" v-if="food_type !== 'MN'">
               <div class="col-xl-4">
                 <label  class="mr-2">Stimulated?</label>
               </div>
@@ -81,7 +82,7 @@
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
               </div>
             </div>
-            <div class="form-group">
+            <div class="form-group" v-if="food_type !== 'MN'">
               <label for="stimulation_type">Stimulation type</label>
               <select name="stimulation_type" id="stimulation_type" class="form-control" v-model="stimulation_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('stimulation_type')}">
                 <option value="Choose..." selected>Choose...</option>
@@ -104,7 +105,6 @@
         </div>
         <div class="col-sm-1"></div>
       </div>
-
 
     </div>
   </form>
@@ -133,6 +133,7 @@
         dismissSecs: 4,
         dismissCountDown: 0,
         dismissCountDown2: 0,
+        nursing: false,
       }
     },
     subscriptions() {
