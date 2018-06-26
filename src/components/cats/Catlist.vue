@@ -52,7 +52,6 @@
 </script>
 
 <style scoped>
-
   .page-heading {
     color: white;
     font-family: "Helvetica Neue";
@@ -98,6 +97,7 @@
     padding: 3rem 1.5rem;
     text-align: left;
   }
+
   /* Div Table */
   .divTable{
     display: table;

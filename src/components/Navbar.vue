@@ -48,8 +48,19 @@
 
 <style lang="scss" scoped>
   #navbar_top {
-    border-bottom: 1px solid #282828;
-    background: black;
+    /*border-bottom: 1px solid #282828;*/
+    /*background-color: #272b35;*/
+    /*border-bottom: 1px solid #232730;*/
+    padding: 0 10px 0 10px;
+    border-bottom: 1px solid #222;
+    /*box-shadow: 0 1px 0 #262626;*/
+    background-color: #21252d;
+    /*background-image: -webkit-gradient(linear,left top,left bottom,from(#21252D),to(#191919));*/
+    /*background-image: -webkit-linear-gradient(top,#21252D,#191919);*/
+    /*background-image: linear-gradient(top,#21252D,#191919);*/
+    /*background-repeat: no-repeat;*/
+    line-height: 12px;
+    z-index: 9999;
   }
   .bg-cats {
     background: #605B56 !important;
@@ -65,5 +76,12 @@
     background-color: darken(#837A75, 20%);
     border-color: darken(#837A75, 20%);
     color: #fff;
+  }
+  a:focus, a:hover, a:active {
+    color: #2A9FD6;
+    /*text-shadow: hoff voff blur #fff;*/
+  }
+  a {
+    color: #6d5cae;
   }
 </style>

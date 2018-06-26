@@ -18,7 +18,7 @@
           <transition name="fade3" appear="">
             <div class="fadecontent mainlogin">
               <button class="btn btn-lg btn-primary btn-block mt-5" type="submit">Sign in</button>
-              <p>Don't have an account? <router-link to="/signup" class="-link">Sign Up</router-link></p>
+              <p><span id="info">Don't have an account?</span> <router-link to="/signup" class="-link">Sign Up</router-link></p>
               <p class="mt-5 mb-3 text-muted">&copy; 2017-{{ getYear() }} </p>
             </div>
           </transition>
@@ -94,8 +94,11 @@
 </script>
 
 <style scoped>
-  .mainlogin{
-
+  body {
+    background-color: #2B303B;
+  }
+  #info{
+    color: #626262;
   }
   .fadecontent{
     opacity: 1;

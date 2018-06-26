@@ -3,9 +3,7 @@
     <div id="pet-content" class="row">
       <div class="col-2"></div>
       <div class="col-sm-4 align-center" :singleCat="singleCat" v-if="singleCat">
-
-        <!--TODO: enable photo upload-->
-
+        <!--photo upload-->
           <div class="pet-record">Pet Record</div>
           <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
             <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
@@ -19,16 +17,16 @@
       <div class="col-sm-2 align-left">
         <div class="spacer"></div>
         <div id="catLinks" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-          <router-link :to="'/cat/'+singleCat.id+'/feedings/all/'+singleCat.name" class="feeding rectangle-28 btn btn-primary btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/feedings/all/'+singleCat.name" class="feeding rectangle-28 btn bg-primary btn-text">
             <a role="button">Feeding</a>
           </router-link>
-          <router-link :to="'/cat/'+singleCat.id+'/medications/all/'+singleCat.name" class="medication rectangle-28 btn btn-warning btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/medications/all/'+singleCat.name" class="medication rectangle-28 btn bg-warning btn-text">
             <a role="button">Medication</a>
           </router-link>
-          <router-link :to="'/cat/'+singleCat.id+'/medical_records/all/'+singleCat.name" class="med-records rectangle-28 btn btn-info btn-text">
+          <router-link :to="'/cat/'+singleCat.id+'/medical_records/all/'+singleCat.name" class="med-records rectangle-28 btn bg-info btn-text">
             <a role="button">Medical Records</a>
           </router-link>
-          <router-link :to="'/catlist'" class="all-pets rectangle-28 btn btn-success btn-text">
+          <router-link :to="'/catlist'" class="all-pets rectangle-28 btn bg-success btn-text">
             <a role="button">All Pets</a>
           </router-link>
         </div>

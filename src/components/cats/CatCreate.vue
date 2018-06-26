@@ -20,18 +20,26 @@
     <div id="pet-content" class="form-group row">
       <div class="col-2"></div>
       <!--photo column-->
-      <div class="col-sm-2 float-right">
+      <!--TODO: enable photo upload-->
+      <div class="col-sm-2">
 
         <div id="catID">
-          <div class="pet-image-box">
-            <img src="" width="200px" height="200px" alt="" class="pet-image">
+          <!--<div class="pet-image-box">-->
+            <!--<img src="" width="200px" height="200px" alt="" class="pet-image">-->
+          <!--</div>-->
+          <div class="pet-image-box mt-sm-2">
+            <img v-bind:src="this.photo" width="200px" height="200px" alt="" class="pet-image">
           </div>
         </div>
         <!--TODO: v-if goes here-->
-        <div class="pet-add-photo">click to add photo</div>
+        <!--<div class="pet-add-photo">click to add photo</div>-->
+
+        <input style="display: none" type="file" @submit="onFileChanged" ref="fileInput">
+        <button class="btn btn-primary form-control mt-3" @click="$refs.fileInput.click()">Upload Image</button>
+        <!--<input class="btn btn-primary" type="file" @change="onFileChanged">-->
         <!--TODO: v-else goes here-->
         <!--<div class="pet-name">{{path-to-photo}}</div>-->
-        <!--TODO: end if/else here-->
+
       </div>
 
       <!--second column-->
@@ -50,32 +58,34 @@
             <label class="col-sm-3 form-label">Gender</label>
             <div class="col-sm-9">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender1" value="M"
-                       v-model="gender">
+                <input class="form-check-input" type="radio" name="gender" id="InputGender1" value="M"
+                       v-model="gender" v-validate="'required|included:M,F'">
                 <label class="form-check-label" for="InputGender1">Male</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions" id="InputGender2" value="F"
+                <input class="form-check-input" type="radio" name="gender" id="InputGender2" value="F"
                        v-model="gender" v-on:click="female = true">
                 <label class="form-check-label" for="InputGender2">Female</label>
               </div>
             </div>
+            <span class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</span>
           </div>
 
           <div class="form-group col-sm-6">
             <label class="col-sm-3 form-label">Age</label>
             <div class="col-sm-9">
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="InputAge1" value="A"
-                       v-model="age">
+                <input class="form-check-input" type="radio" name="age" id="InputAge1" value="A"
+                       v-model="age" v-validate="'required|included:A,K'">
                 <label class="form-check-label" for="InputAge1">Adult</label>
               </div>
               <div class="form-check form-check-inline">
-                <input class="form-check-input" type="radio" name="inlineRadioOptions2" id="InputAge2" value="K"
+                <input class="form-check-input" type="radio" name="age" id="InputAge2" value="K"
                        v-model="age">
                 <label class="form-check-label" for="InputAge2">Kitten</label>
               </div>
             </div>
+            <span class="help is-danger" v-show="errors.has('age')">{{ errors.first('age') }}</span>
           </div>
 
         </div>
@@ -154,7 +164,7 @@
           <div class="col-sm-8">
             <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
                    :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
-            <small v-show="errors.has('birthday')" class="col-sm-10 help is-danger form-text">{{ errors.first('birthday')
+            <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
               }}
             </small>
           </div>
@@ -189,13 +199,41 @@
         weight: '',
         weight_unit: '',
         birthday: '',
+        photo: '',
         showSuccess: false,
         showDanger: false,
         female: false,
         addKittens: false,
+        selectedFile: null,
+        singleCat: [],
       }
     },
     methods: {
+      onFileChanged (event) {
+        this.selectedFile = event.target.files[0];
+        // console.log(event);
+        this.onUpload();
+      },
+      onUpload() {
+        // upload file, get it from this.selectedFile
+        const formData = new FormData();
+        formData.append('name', this.name);
+        formData.append('photo', this.selectedFile, this.selectedFile.name);
+        axios.put(`${process.env.KITTY_URL}/api/v1/cats/${this.$route.params.catID}/`,formData,{
+          onUploadProgress: progressEvent => {
+            console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
+          }
+        })
+          .then(response => {
+            console.log(response.data.photo);
+            // response.status === 201 ? this.showSuccess = true : this.showDanger = true
+            this.singleCat = response.data;
+          })
+          .catch(error => {
+            console.log(error);
+            // this.showDanger = true;
+          })
+      },
       onSubmitted() {
         axios.post(`${process.env.KITTY_URL}/api/v1/cats/`, {
           name: this.name,
@@ -277,8 +315,8 @@
   }
 
   .form-control {
-    margin: 0;
-    padding: 0;
+    /*margin: 0;*/
+    /*padding: 0;*/
     font-family: inherit;
     font-size: inherit;
     line-height: inherit;
