@@ -35,6 +35,7 @@
               <!--<label for="food_type">Feeding</label>-->
                 <select name="food_type" id="food_type" class="clearfix" v-model="food_type">
                   <option value="" selected>Feeding</option>
+                  <option value="MN">Mom</option>
                   <option value="BO">Bottle</option>
                   <option value="BS">Bottle/Syringe</option>
                   <option value="SG">Syringe Gruel</option>
