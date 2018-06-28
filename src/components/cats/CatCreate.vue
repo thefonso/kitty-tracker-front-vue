@@ -22,24 +22,15 @@
       <!--photo column-->
       <!--TODO: enable photo upload-->
       <div class="col-sm-2">
-
         <div id="catID">
-          <!--<div class="pet-image-box">-->
-            <!--<img src="" width="200px" height="200px" alt="" class="pet-image">-->
-          <!--</div>-->
           <div class="pet-image-box mt-sm-2">
             <img v-bind:src="this.photo" width="200px" height="200px" alt="" class="pet-image">
           </div>
         </div>
-        <!--TODO: v-if goes here-->
-        <!--<div class="pet-add-photo">click to add photo</div>-->
 
         <input style="display: none" type="file" @submit="onFileChanged" ref="fileInput">
         <button class="btn btn-primary form-control mt-3" @click="$refs.fileInput.click()">Upload Image</button>
         <!--<input class="btn btn-primary" type="file" @change="onFileChanged">-->
-        <!--TODO: v-else goes here-->
-        <!--<div class="pet-name">{{path-to-photo}}</div>-->
-
       </div>
 
       <!--second column-->
@@ -59,7 +50,7 @@
             <div class="col-sm-9">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="gender" id="InputGender1" value="M"
-                       v-model="gender" v-validate="'required|included:M,F'">
+                       v-model="gender" v-validate="'required'">
                 <label class="form-check-label" for="InputGender1">Male</label>
               </div>
               <div class="form-check form-check-inline">
@@ -76,7 +67,7 @@
             <div class="col-sm-9">
               <div class="form-check form-check-inline">
                 <input class="form-check-input" type="radio" name="age" id="InputAge1" value="A"
-                       v-model="age" v-validate="'required|included:A,K'">
+                       v-model="age" v-validate="'required'">
                 <label class="form-check-label" for="InputAge1">Adult</label>
               </div>
               <div class="form-check form-check-inline">
@@ -93,11 +84,11 @@
           <div class="form-group col-sm-6">
             <label class="col-sm-12 control-label">Cat type</label>
             <div class="col-sm-12">
-              <select class="" name="cat_type" v-model="cat_type">
+              <select class="" name="cat_type" v-model="cat_type" v-validate="'required'">
                 <option disabled value="">Choose</option>
                 <option value="O">Orphan</option>
-                <option value="P" v-if="gender === 'F'">Pregnant</option>
-                <option value="N" v-if="gender === 'F'">Nursing</option>
+                <option value="P" v-if="gender === 'F' && age !== 'K'">Pregnant</option>
+                <option value="N" v-if="gender === 'F' && age !== 'K'">Nursing</option>
               </select>
             </div>
           </div>
@@ -118,22 +109,26 @@
               </div>
             </div>
           </div>
-
+          <div class="form-group col-sm-6" v-if="age === 'K'">
+            <label class="col-sm-12 form-label ">Litter Name</label>
+            <div class="col-sm-12">
+              <div class="form-check-inline">
+              <select class="form-control" name="litter_set" v-model="litter_mates">
+                <option v-for="item in litter" :value="item.name">{{item.name}}</option>
+              </select>
+              </div>
+            </div>
+          </div>
 
         </div>
         <!-- if KITTEN...different assoc with litter modal-->
-        <div class="form-group row" v-if="age === 'K'">
-          <label class="col-sm-3 control-label ">Litter Name</label>
-          <div class="col-sm-5">
-            <select class="form-control" name="litter_set" v-model="litter_mates">
-              <option v-for="item in litter" :value="item.name">{{item.name}}</option>
-            </select>
-          </div>
-        </div>
 
+<!--TODO: fill out kitten form here-->
         <!-- Modal Component -->
-        <b-modal ref="myModalRef" hide-footer title="Add O Kitten">
-          <p class="my-4">Hello from modal!</p>
+        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Add O Kitten">
+          <b-container fluid>
+            <p class="my-4">Hello from modal!</p>
+          </b-container>
         </b-modal>
         <!--NOTE: litter stuff ends here-->
       </div>
@@ -293,6 +288,10 @@
 </script>
 
 <style scoped>
+  #kitten_modal{
+    /*padding-top: 5em;*/
+    /*margin-top: 5em;*/
+  }
   #weight_row {
     margin-bottom: 0;
   }
