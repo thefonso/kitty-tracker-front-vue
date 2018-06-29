@@ -34,6 +34,7 @@
             <div id="feeding-select" class="divTableHead hand col-sm-3" @click="sort('food_type')" v-on:click=" collapsed = !collapsed">
               <!--<label for="food_type">Feeding</label>-->
                 <select name="food_type" id="food_type" class="clearfix" v-model="food_type">
+                  <!--TODO: pull these values from the database-->
                   <option value="" selected>Feeding</option>
                   <option value="MN">Mom</option>
                   <option value="BO">Bottle</option>
@@ -56,7 +57,7 @@
         <transition-group tag="div" name="fade2" class="divTableBody" appear="">
           <div class="divTableRow fadecontent"  v-for="(fed) in sortedCat" :key="fed.id">
             <div class="divTableCell col-sm-1">{{ fed.cat.name }}</div>
-            <div class="divTableCell col-sm-3">{{ fed.food_type }}</div>
+            <div class="divTableCell col-sm-3">{{ foodName(fed.food_type) }}</div>
             <div class="divTableCell col-sm-2">{{ fed.weight_before_food }}</div>
             <div class="divTableCell col-sm-2">{{ fed.weight_after_food }}</div>
             <div class="divTableCell col-sm-1">{{ fed.stimulated }}</div>
@@ -119,25 +120,30 @@
       },
       foodName(food){
         console.log(food);
-        switch (food.value){
+        switch (food){
+          case "MN":{
+            console.log("Mom");
+            return "Mom";
+            break;
+          }
           case "G":{
-            this.food_type_name = "Gruel";
+            return "Gruel";
             break;
           }
           case "GG":{
-            this.food_type_name = "Syringe Gruel / Gruel";
+            return "Syringe Gruel / Gruel";
             break;
           }
           case "SG":{
-            this.food_type_name = "Syringe Gruel";
+            return "Syringe Gruel";
             break;
           }
           case "BS":{
-            this.food_type_name = "Bottle/Syringe";
+            return "Bottle/Syringe";
             break;
           }
           case "BO":{
-            this.food_type_name = "Bottle";
+            return "Bottle";
             break;
           }
         }

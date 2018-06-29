@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="validateBeforeSubmit">
+  <!--<form @submit.prevent="validateBeforeSubmit">-->
 
     <div id="pet-content">
       <div class="row">
@@ -37,7 +37,7 @@
           </div>
           <div class="form-group" v-if="food_type !== 'MN'">
             <label for="weight_before_food">Weight Before Food(gm)</label>
-            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
+            <input name="weight_before_food" v-model="weight_before_food" v-validate="'required|integer'" v-if="food_type !== 'MN'" class="col" :class="{'input': true, 'is-danger': errors.has('weight_before_food') }" id="weight_before_food" type="text" placeholder="WBF" v-on:change="fivePercenter">
             <i v-show="errors.has('weight_before_food')" class="fa fa-warning">required</i>
             <!--<small v-show="errors.has('weight_before_food')" class="help is-danger form-text text-muted">{{ errors.first('weight_before_food') }}</small>-->
           </div>
@@ -82,7 +82,7 @@
                 <i v-show="errors.has('stimulated')" class="fa fa-warning">required</i>
               </div>
             </div>
-            <div class="form-group" v-if="food_type !== 'MN'">
+            <div class="form-group" v-if="food_type !== 'MN' && stimulated === 'true'">
               <label for="stimulation_type">Stimulation type</label>
               <select name="stimulation_type" id="stimulation_type" class="form-control" v-model="stimulation_type" v-validate="'required|alpha'" :class="{'select': true, 'is-danger': errors.has('stimulation_type')}">
                 <option value="Choose..." selected>Choose...</option>
@@ -101,13 +101,15 @@
         <div class="col-sm-6"></div>
         <div class="col-auto"></div>
         <div class="col-sm-5">
-          <button type="submit" class="btn btn-primary submit-button btn-text float-right">Submit</button>
+          <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
+          <button type="submit" class="btn btn-primary submit-button btn-text float-right" v-if="food_type !== 'MN'" v-on:click="validateBeforeSubmit">Submit</button>
+          <button type="submit" class="btn btn-primary submit-button btn-text float-right" v-if="food_type === 'MN'" v-on:click="onSubmittedMom">Submit</button>
         </div>
         <div class="col-sm-1"></div>
       </div>
 
     </div>
-  </form>
+  <!--</form>-->
   <!--<div class="clear-fix"></div>-->
 </template>
 
@@ -169,6 +171,29 @@
           stimulated: this.stimulated,
           stimulation_type: this.stimulation_type,
           notes: this.notes,
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showAlert() : this.showAlert2();
+          })
+          .catch(error => {
+            console.log(error);
+            this.dismissCountDown = true;
+            this.showAlert();
+          })
+      },
+      onSubmittedMom() {
+        axios.post(`${process.env.KITTY_URL}/api/v1/feedings/`,{
+          cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+          weight_unit_measure: 'G',
+          weight_before_food: '0',
+          food_unit_measure: 'G',
+          amount_of_food_taken: '0',
+          food_type: this.food_type,
+          weight_after_food: this.weight_after_food,
+          stimulated: false,
+          stimulation_type: 'NA',
+          notes: 'kitten',
         })
           .then(response => {
             console.log(response);
