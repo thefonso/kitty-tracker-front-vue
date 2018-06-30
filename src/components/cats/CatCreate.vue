@@ -97,7 +97,7 @@
           <!--if a Mother: v-if="cat_type === 'P' || cat_type === 'N'?-->
           <!--...ask..."add  kittens?"...options appears..select option 'YES', new CREATE LITTER modal appears with Mother auto-populated in "Mother field"-->
           <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
-            <label class="col-sm-12 form-label">Add kittens?</label>
+            <label class="col-sm-12 form-label">Create Litter?</label>
             <div class="col-sm-12">
               <div class="form-check-inline">
                 <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y" @click="showModal">
@@ -125,107 +125,34 @@
 
 <!--TODO: fill out new kitten litter form here-->
         <!-- Modal Component -->
-        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Add O Kitten">
+        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Create A Litter">
           <b-container fluid>
             <p class="my-4"></p>
-            <form id="kitten-form" @submit.prevent="validateBeforeSubmit">
+            <form id="kitten-form" @submit.prevent="validateBeforeSubmitLitter">
               <div id="kitten-content" class="form-group row">
                 <div class="col-2"></div>
 
                 <!--second column-->
                 <div class="col-sm-3 float-left">
                   <div class="form-group">
-                    <label class="col-sm-12 control-label">Name</label>
+                    <label class="col-sm-12 control-label">New Litter's Name</label>
                     <div class="col-sm-12">
                       <input name="name" v-model="name" v-validate="'required'"
                              :class="{'input': true, 'is-danger': errors.has('name'),}" class="form-control" type="text">
                       <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
                     </div>
                   </div>
-
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="col-sm-3 form-label">Gender</label>
-                      <div class="col-sm-9">
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="gender" id="InputGender3" value="M"
-                                 v-model="gender" v-validate="'required'" :checked="checked === 'M'">
-                          <label class="form-check-label" for="InputGender3">Male</label>
-                        </div>
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="gender" id="InputGender4" value="F"
-                                 v-model="gender">
-                          <label class="form-check-label" for="InputGender4">Female</label>
-                        </div>
-                      </div>
-                      <span class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</span>
-                    </div>
-
-                    <div class="form-group col-sm-6">
-                      <label class="col-sm-3 form-label">Age</label>
-                      <div class="col-sm-9">
-                        <div class="form-check form-check-inline">
-                          <input class="form-check-input" type="radio" name="age" id="InputAge4" value="K"
-                                 v-model="age" checked="checked">
-                          <label class="form-check-label" for="InputAge4">Kitten</label>
-                        </div>
-                      </div>
-                      <span class="help is-danger" v-show="errors.has('age')">{{ errors.first('age') }}</span>
-                    </div>
-
-                  </div>
-                  <div class="row">
-                    <div class="form-group col-sm-6">
-                      <label class="col-sm-12 control-label">Cat type</label>
-                      <div class="col-sm-12">
-                        <select class="" name="cat_type" v-model="cat_type" v-validate="'required'">
-                          <option selected value="O">Orphan</option>
-                        </select>
-                      </div>
-                    </div>
-
-                    <!--NOTE: litter stuff starts here-->
-                    <div class="form-group col-sm-6" v-if="age === 'K'">
-                      <label class="col-sm-12 form-label ">Litter Name</label>
-                      <div class="col-sm-12">
-                        <div class="form-check-inline">
-                          <select class="form-control" name="litter_set" v-model="litter_mates">
-                            <option v-for="item in litter" :value="item.name">{{item.name}}</option>
-                          </select>
-                        </div>
-                      </div>
-                    </div>
-
-                  </div>
                   <!--NOTE: litter stuff ends here-->
                 </div>
                 <!--third column-->
                 <div class="col-sm-4 float-left">
-                  <div class="form-group">
-                    <label class="col-sm-12 control-label">Weight</label>
-                    <div class="col-sm-12 row">
-                      <div class="col-sm-4">
-                        <input name="weight" v-model="weight" v-validate="'required|integer'"
-                               :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
-                        <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
-                      </div>
-                      <div class="col-sm-3">
-                        <select name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
-                                :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
-                          <option disabled value="">Choose</option>
-                          <option value="G">Grams</option>
-                          <option value="LB">Pounds</option>
-                        </select>
-                      </div>
-                    </div>
-                  </div>
 
                   <div class="form-group">
-                    <label class="col-sm-12 form-label">Birthday</label>
+                    <label class="col-sm-12 form-label">Mama cats name</label>
                     <div class="col-sm-8">
-                      <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
-                             :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
-                      <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
+                      <input name="birthday" v-model="cat" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('cat') }" class="form-control" type="text">
+                      <small v-show="errors.has('cat')" class="help is-danger form-text">{{ errors.first('cat')
                         }}
                       </small>
                     </div>
@@ -303,6 +230,8 @@
         cat_type: '',
         litter: [],
         litter_mates: null,
+        litter_name: '',
+        cat: '',
         weight: '',
         weight_unit: '',
         birthday: '',
@@ -365,6 +294,29 @@
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.onSubmitted();
+          } else {
+            // this.showDanger = true;
+          }
+        });
+      },
+      onSubmittedLitter() {
+        axios.post(`${process.env.KITTY_URL}/api/v1/litter/`, {
+          name: this.name,
+          cat: this.cat,
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSuccess = true : this.showDanger = true
+          })
+          .catch(error => {
+            console.log(error);
+            this.showDanger = true;
+          })
+      },
+      validateBeforeSubmitLitter() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.onSubmittedLitter();
           } else {
             // this.showDanger = true;
           }
