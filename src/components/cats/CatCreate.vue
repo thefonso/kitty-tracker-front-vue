@@ -1,5 +1,5 @@
 <template>
-  <form @submit.prevent="validateBeforeSubmit">
+  <form id="cat_form" @submit.prevent="validateBeforeSubmit">
 
     <div class="pet-record">Create New Pet</div>
 
@@ -97,7 +97,7 @@
           <!--if a Mother: v-if="cat_type === 'P' || cat_type === 'N'?-->
           <!--...ask..."add  kittens?"...options appears..select option 'YES', new CREATE LITTER modal appears with Mother auto-populated in "Mother field"-->
           <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
-            <label class="col-sm-12 form-label">Add kittens?</label>
+            <label class="col-sm-12 form-label">Create Litter?</label>
             <div class="col-sm-12">
               <div class="form-check-inline">
                 <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y" @click="showModal">
@@ -123,11 +123,62 @@
         </div>
         <!-- if KITTEN...different assoc with litter modal-->
 
-<!--TODO: fill out kitten form here-->
+<!--TODO: fill out new kitten litter form here-->
         <!-- Modal Component -->
-        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Add O Kitten">
+        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Create A Litter">
           <b-container fluid>
-            <p class="my-4">Hello from modal!</p>
+            <p class="my-4"></p>
+            <div class="row">
+              <div class="col-sm-2"></div>
+
+              <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess_litter">
+                <strong>Success!</strong> New litter added.
+              </b-alert>
+
+              <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger_litter">
+                <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+              </b-alert>
+
+              <div class="col-sm-2"></div>
+            </div>
+            <form id="kitten-form" @submit.prevent="validateBeforeSubmitLitter">
+              <div id="kitten-content" class="form-group row">
+                <div class="col-2"></div>
+
+                <!--second column-->
+                <div class="col-sm-4 float-left">
+                  <div class="form-group">
+                    <label class="col-sm-12 control-label">New Litter's Name</label>
+                    <div class="col-sm-12">
+                      <input name="name" v-model="litter_name" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('litter_name'),}" class="form-control" type="text">
+                      <small v-show="errors.has('litter_name')" class="help is-danger form-text">{{ errors.first('litter_name') }}</small>
+                    </div>
+                  </div>
+                  <!--NOTE: litter stuff ends here-->
+                </div>
+                <!--third column-->
+                <div class="col-sm-4 float-left">
+                  <div class="form-group">
+                    <label class="col-sm-12 form-label">Mama cats name</label>
+                    <div class="col-sm-8">
+                      <input name="birthday" v-model="name" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('name') }" class="form-control" type="text">
+                      <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name')
+                        }}
+                      </small>
+                    </div>
+                  </div>
+                  <div class="clear-fix"></div>
+                  <div class="form-group">
+                    <div class="col-sm-8">
+                      <button :disabled="errors.any()" type="submit" name="kitten-button" value="button2" class="btn btn-primary submit-button">Submit</button>
+                    </div>
+                  </div>
+                </div>
+                <!--<div class="col-1"></div>-->
+              </div>
+            </form>
           </b-container>
         </b-modal>
         <!--NOTE: litter stuff ends here-->
@@ -137,7 +188,7 @@
       <div class="col-sm-4 float-left">
         <div class="form-group">
           <label class="col-sm-12 control-label">Weight</label>
-          <div class="col-sm-12 row">
+          <div class="col-sm-12 row" v-if="cat_form">
             <div class="col-sm-4">
               <input name="weight" v-model="weight" v-validate="'required|integer'"
                      :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
@@ -156,7 +207,7 @@
 
         <div class="form-group">
           <label class="col-sm-12 form-label">Birthday</label>
-          <div class="col-sm-8">
+          <div class="col-sm-8" v-if="cat_form">
             <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
                    :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
             <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
@@ -167,7 +218,7 @@
         <div class="clear-fix"></div>
         <div class="form-group">
           <div class="col-sm-8">
-            <button :disabled="errors.any()" type="submit" class="btn btn-primary submit-button">Submit</button>
+            <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit</button>
           </div>
         </div>
 
@@ -191,14 +242,19 @@
         cat_type: '',
         litter: [],
         litter_mates: null,
+        litter_name: '',
+        mom_cat: '',
         weight: '',
         weight_unit: '',
         birthday: '',
         photo: '',
         showSuccess: false,
         showDanger: false,
+        showSuccess_litter: false,
+        showDanger_litter: false,
         female: false,
         addKittens: false,
+        cat_form: true,
         selectedFile: null,
         singleCat: [],
       }
@@ -258,6 +314,30 @@
           }
         });
       },
+      onSubmittedLitter() {
+        axios.post(`${process.env.KITTY_URL}/api/v1/litter/`, {
+          litter_name: this.litter_name,
+          mom_cat: this.name,
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSuccess_litter = true : this.showDanger_litter = true;
+            this.cat_form = true;
+          })
+          .catch(error => {
+            console.log(error);
+            this.showDanger_litter = true;
+          })
+      },
+      validateBeforeSubmitLitter() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.onSubmittedLitter();
+          } else {
+            // this.showDanger = true;
+          }
+        });
+      },
       getLitterNames() {
         axios.get(`${process.env.KITTY_URL}/api/v1/litter/`)
           .then(request => {
@@ -275,10 +355,12 @@
         return {litter: litter$}
       },
       showModal () {
-        this.$refs.myModalRef.show()
+        this.$refs.myModalRef.show();
+        // TODO: turn validate off here
+        this.cat_form = false;
       },
       hideModal () {
-        this.$refs.myModalRef.hide()
+        this.$refs.myModalRef.hide();
       }
     },
     beforeMount() {
