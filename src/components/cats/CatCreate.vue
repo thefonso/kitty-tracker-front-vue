@@ -128,6 +128,19 @@
         <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Create A Litter">
           <b-container fluid>
             <p class="my-4"></p>
+            <div class="row">
+              <div class="col-sm-2"></div>
+
+              <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess_litter">
+                <strong>Success!</strong> New litter added.
+              </b-alert>
+
+              <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger_litter">
+                <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+              </b-alert>
+
+              <div class="col-sm-2"></div>
+            </div>
             <form id="kitten-form" @submit.prevent="validateBeforeSubmitLitter">
               <div id="kitten-content" class="form-group row">
                 <div class="col-2"></div>
@@ -137,9 +150,9 @@
                   <div class="form-group">
                     <label class="col-sm-12 control-label">New Litter's Name</label>
                     <div class="col-sm-12">
-                      <input name="name" v-model="name" v-validate="'required'"
-                             :class="{'input': true, 'is-danger': errors.has('name'),}" class="form-control" type="text">
-                      <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
+                      <input name="name" v-model="litter_name" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('litter_name'),}" class="form-control" type="text">
+                      <small v-show="errors.has('litter_name')" class="help is-danger form-text">{{ errors.first('litter_name') }}</small>
                     </div>
                   </div>
                   <!--NOTE: litter stuff ends here-->
@@ -150,9 +163,9 @@
                   <div class="form-group">
                     <label class="col-sm-12 form-label">Mama cats name</label>
                     <div class="col-sm-8">
-                      <input name="birthday" v-model="cat" v-validate="'required'"
-                             :class="{'input': true, 'is-danger': errors.has('cat') }" class="form-control" type="text">
-                      <small v-show="errors.has('cat')" class="help is-danger form-text">{{ errors.first('cat')
+                      <input name="birthday" v-model="mom_cat" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('mom_cat') }" class="form-control" type="text">
+                      <small v-show="errors.has('mom_cat')" class="help is-danger form-text">{{ errors.first('mom_cat')
                         }}
                       </small>
                     </div>
@@ -231,13 +244,15 @@
         litter: [],
         litter_mates: null,
         litter_name: '',
-        cat: '',
+        mom_cat: '',
         weight: '',
         weight_unit: '',
         birthday: '',
         photo: '',
         showSuccess: false,
         showDanger: false,
+        showSuccess_litter: false,
+        showDanger_litter: false,
         female: false,
         addKittens: false,
         selectedFile: null,
@@ -301,16 +316,16 @@
       },
       onSubmittedLitter() {
         axios.post(`${process.env.KITTY_URL}/api/v1/litter/`, {
-          name: this.name,
-          cat: this.cat,
+          litter_name: this.litter_name,
+          mom_cat: this.mom_cat,
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess = true : this.showDanger = true
+            response.status === 201 ? this.showSuccess_litter = true : this.showDanger_litter = true
           })
           .catch(error => {
             console.log(error);
-            this.showDanger = true;
+            this.showDanger_litter = true;
           })
       },
       validateBeforeSubmitLitter() {
