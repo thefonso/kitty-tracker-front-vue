@@ -146,7 +146,7 @@
                 <div class="col-2"></div>
 
                 <!--second column-->
-                <div class="col-sm-3 float-left">
+                <div class="col-sm-4 float-left">
                   <div class="form-group">
                     <label class="col-sm-12 control-label">New Litter's Name</label>
                     <div class="col-sm-12">
@@ -163,9 +163,9 @@
                   <div class="form-group">
                     <label class="col-sm-12 form-label">Mama cats name</label>
                     <div class="col-sm-8">
-                      <input name="birthday" v-model="mom_cat" v-validate="'required'"
-                             :class="{'input': true, 'is-danger': errors.has('mom_cat') }" class="form-control" type="text">
-                      <small v-show="errors.has('mom_cat')" class="help is-danger form-text">{{ errors.first('mom_cat')
+                      <input name="birthday" v-model="name" v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('name') }" class="form-control" type="text">
+                      <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name')
                         }}
                       </small>
                     </div>
@@ -189,7 +189,7 @@
       <div class="col-sm-4 float-left">
         <div class="form-group">
           <label class="col-sm-12 control-label">Weight</label>
-          <div class="col-sm-12 row">
+          <div class="col-sm-12 row" v-if="cat_form">
             <div class="col-sm-4">
               <input name="weight" v-model="weight" v-validate="'required|integer'"
                      :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
@@ -208,7 +208,7 @@
 
         <div class="form-group">
           <label class="col-sm-12 form-label">Birthday</label>
-          <div class="col-sm-8">
+          <div class="col-sm-8" v-if="cat_form">
             <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
                    :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
             <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
@@ -255,6 +255,7 @@
         showDanger_litter: false,
         female: false,
         addKittens: false,
+        cat_form: true,
         selectedFile: null,
         singleCat: [],
       }
@@ -317,11 +318,12 @@
       onSubmittedLitter() {
         axios.post(`${process.env.KITTY_URL}/api/v1/litter/`, {
           litter_name: this.litter_name,
-          mom_cat: this.mom_cat,
+          mom_cat: this.name,
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess_litter = true : this.showDanger_litter = true
+            response.status === 201 ? this.showSuccess_litter = true : this.showDanger_litter = true;
+            this.cat_form = true;
           })
           .catch(error => {
             console.log(error);
@@ -354,10 +356,12 @@
         return {litter: litter$}
       },
       showModal () {
-        this.$refs.myModalRef.show()
+        this.$refs.myModalRef.show();
+        // TODO: turn validate off here
+        this.cat_form = false;
       },
       hideModal () {
-        this.$refs.myModalRef.hide()
+        this.$refs.myModalRef.hide();
       }
     },
     beforeMount() {
