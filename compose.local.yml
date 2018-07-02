@@ -1,0 +1,12 @@
+version: "3"
+services:
+  spa:
+    image: node:10.5
+    ports:
+      - 80:80
+      - 443:433
+      - 5000:5000
+    volumes:
+      - ${PWD}:/app
+    command: npm run dev
+    working_dir: /app

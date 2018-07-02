@@ -1,0 +1,10 @@
+version: "3"
+services:
+  spa:
+    image: millerhooks/kittytracker:latest
+    build:
+      context: .
+    ports:
+      - 80:80
+      - 443:433
+      - 8080:8080
