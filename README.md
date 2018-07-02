@@ -56,6 +56,11 @@ git cm "your message"
 git push heroku master
 ```
 
+docker-compose build
+docker-compose -f compose.local.yml up
+
+`docker-compose up` will run your production container
+
 [CHANGELOG]: ./CHANGELOG.md
 [version-badge]: https://img.shields.io/badge/version-1.0.0-blue.svg
 [license-badge]: https://img.shields.io/badge/license-MIT-blue.svg
