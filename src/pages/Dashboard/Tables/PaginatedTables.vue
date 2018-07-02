@@ -82,7 +82,6 @@
   import { Observable } from 'rxjs';
   import { Table, TableColumn, Select, Option } from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
-  import users from './users'
   import Fuse from 'fuse.js'
 
   export default {
@@ -131,7 +130,6 @@
         cats: [],
         page: 1,
         CatIndex: 0,
-        tableData: users,
         pagination: {
           perPage: 5,
           currentPage: 1,
@@ -167,10 +165,10 @@
     },
     methods: {
       handleLike (index, row) {
-        alert(`Your want to like ${row.name}`)
+        alert(`You want to like ${row.name}`)
       },
       handleEdit (index, row) {
-        alert(`Your want to edit ${row.name}`)
+        alert(`You want to edit ${row.name}`)
       },
       handleDelete (index, row) {
         let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id)
