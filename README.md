@@ -59,7 +59,7 @@ git push heroku master
 docker-compose build
 docker-compose -f compose.local.yml up
 
-`docker-compose up` will run your production container
+`docker-compose up` will run your production container on 5000
 
 [CHANGELOG]: ./CHANGELOG.md
 [version-badge]: https://img.shields.io/badge/version-1.0.0-blue.svg
