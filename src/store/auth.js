@@ -10,7 +10,7 @@ const getters = {
   currentUser (state) {
     return state.user
   }
-}
+};
 
 const mutations = {
   [MutationTypes.LOGIN] (state) {
@@ -19,7 +19,7 @@ const mutations = {
   [MutationTypes.LOGOUT] (state) {
     state.user = null
   }
-}
+};
 
 const actions = {
   login ({ commit }) {
@@ -29,7 +29,7 @@ const actions = {
   logout ({ commit }) {
     commit(MutationTypes.LOGOUT)
   }
-}
+};
 
 export default {
   state,
