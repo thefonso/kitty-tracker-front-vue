@@ -241,4 +241,10 @@ a:focus, a:hover, a:active {
 a {
   color: #2A9FD6;
 }
+#lastup-date{
+  color: #fff0ff;
+}
+#lastup-time{
+  color: #fff0ff;
+}
 </style>
