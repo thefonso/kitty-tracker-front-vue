@@ -77,7 +77,7 @@
                 <el-table class="table-bigboy" style="width: 100%" :data="cats">
                   <el-table-column min-width="220">
                     <template slot-scope="{row}">
-                      <el-row class="TableRow d-flex">
+                      <div class="TableRow d-flex">
                         <div class="col-md-4 img-container photo-thumb" v-if="row.photo !== null">
                           <img :src="row.photo" alt="thumb">
                         </div>
@@ -86,19 +86,41 @@
                         </div>
                         <div class="col-md-4 cat-name"><h4>{{row.name}}</h4><p class="card-category">{{row.created | moment("MM-DD-YYYY h:MM a")}}</p></div>
                         <div class="col-md-4 cat-litter">
-                          <div class="btn-group">
+                          <div class="btn-group" v-if="row.litter_mates !== null">
+                            <button type="button" class="btn btn-warning btn-outline">Litter:</button>
+                            <button type="button" class="btn btn-warning btn-outline">{{row.litter_mates ? row.litter_mates : 'none'}}</button>
+                          </div>
+                          <div class="btn-group" v-else>
                             <button type="button" class="btn btn-default btn-outline">Litter:</button>
-                            <button type="button" class="btn btn-default btn-outline" >{{row.litter_mates ? row.litter_mates : 'none'}}</button>
+                            <button type="button" class="btn btn-default btn-outline">{{row.litter_mates ? row.litter_mates : 'none'}}</button>
                           </div>
                         </div>
-                        <div class="col-md-2">
-                          <span>ping</span>
-                        </div>
-                      </el-row>
+                      </div>
                       <el-collapse-item title="Press for more info" :name="row.id">
-                        <div>
-                          Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                        </div>
+                        <!--todo: cat list info for this cat-->
+                        <card>
+                          <div slot="header">
+                            <h4 class="card-title">Cats info at-a-glance</h4>
+                            <p class="card-category">Here is a subtitle for this table</p>
+                          </div>
+                          <div class="table-responsive table-full-width table-striped TableRow d-flex">
+                            <div class="col-sm-4">Name</div>
+                            <div class="col-sm-2">Weight</div>
+                            <div class="col-sm-2">Gender</div>
+                            <div class="col-sm-2">Age</div>
+                            <div class="col-sm-2">Type</div>
+                          </div>
+                          <div class="table-responsive table-full-width table-striped TableRow d-flex">
+                            <div class="col-sm-4">{{row.name}}</div>
+                            <div class="col-sm-2">{{row.weight}}</div>
+                            <div class="col-sm-2">{{row.gender}}</div>
+                            <div class="col-sm-2">{{row.age}}</div>
+                            <div class="col-sm-2">{{row.cat_type}}</div>
+                          </div>
+                        </card>
+                        <!--todo: feeding list for this cat-->
+                        <!--todo: medication list for this cat-->
+                        <!--todo: medical record info for this cat-->
                       </el-collapse-item>
                     </template>
                   </el-table-column>
@@ -117,7 +139,7 @@
   import Vue from 'vue'
   import axios from 'axios';
   import { Observable } from 'rxjs';
-  import { Table, TableColumn, Select, Option, Collapse, CollapseItem } from 'element-ui'
+  import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
   import Fuse from 'fuse.js'
   import LSwitch from 'src/components/Switch.vue'
@@ -134,7 +156,10 @@
       [Table.name]: Table,
       [TableColumn.name]: TableColumn,
       [Collapse.name]: Collapse,
-      [CollapseItem.name]: CollapseItem
+      [CollapseItem.name]: CollapseItem,
+      [Row.name]: Row,
+      [Aside.name]: Aside,
+      [Main.name]: Main,
     },
     computed: {
       pagedData () {
@@ -217,6 +242,11 @@
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
     },
     methods: {
+      getCats () {
+        axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
+          .then(response => {console.log(response.data.results.length); this.cats = response.data.results})
+          .catch(error => console.log(error));
+      },
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
       },
@@ -246,6 +276,18 @@
           }
         })
         return sums
+      },
+      tableRowClassName (row, index) {
+        if (index === 0) {
+          return 'success'
+        } else if (index === 2) {
+          return 'info'
+        } else if (index === 4) {
+          return 'danger'
+        } else if (index === 6) {
+          return 'warning'
+        }
+        return ''
       }
     }
   }
