@@ -67,33 +67,34 @@
     <div class="row">
       <div class="col-md-12">
         <card>
-          <template slot="header">
+          <div slot="header">
             <h4 class="card-title">Table Extended</h4>
             <p class="card-category">A table for content management</p>
             <br />
-          </template>
+          </div>
           <div class="table-responsive">
-
-
               <el-collapse>
                 <el-table class="table-bigboy" style="width: 100%" :data="cats">
                   <el-table-column min-width="220">
                     <template slot-scope="{row}">
-                      <div class="divTableRow">
+                      <el-row class="TableRow d-flex">
                         <div class="col-md-4 img-container photo-thumb" v-if="row.photo !== null">
                           <img :src="row.photo" alt="thumb">
                         </div>
                         <div class="col-md-4 img-container photo-thumb" v-else>
                           <img src="/static/img/bastet.png" alt="bastet">
                         </div>
-                        <div class="col-md-4 cat-name"><h4>{{row.name}}</h4><p class="card-category">{{row.cat_type}}</p></div>
+                        <div class="col-md-4 cat-name"><h4>{{row.name}}</h4><p class="card-category">{{row.created | moment("MM-DD-YYYY h:MM a")}}</p></div>
                         <div class="col-md-4 cat-litter">
                           <div class="btn-group">
                             <button type="button" class="btn btn-default btn-outline">Litter:</button>
                             <button type="button" class="btn btn-default btn-outline" >{{row.litter_mates ? row.litter_mates : 'none'}}</button>
                           </div>
                         </div>
-                      </div>
+                        <div class="col-md-2">
+                          <span>ping</span>
+                        </div>
+                      </el-row>
                       <el-collapse-item title="Press for more info" :name="row.id">
                         <div>
                           Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
@@ -264,7 +265,7 @@
       animation: fadeIn 0.5s;
     }
   }
-  .divTableRow{
+  .TableRow{
     display: inline-flex;
   }
   .cat-name{
