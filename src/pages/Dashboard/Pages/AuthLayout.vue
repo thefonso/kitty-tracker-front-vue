@@ -73,9 +73,8 @@
               </ul>
             </nav>
             <div class="copyright">
-              &copy; 2017-{{ getYear() }} Coded with
-              <i class="fa fa-heart heart"></i> by
-              <a href="https://github.com/thefonso" target="_blank">Alfonso Rush</a>.
+              &copy; 2017-{{ getYear() }} by cat lovers
+              <i class="fa fa-heart heart"></i>(company name here?).
             </div>
           </div>
         </footer>

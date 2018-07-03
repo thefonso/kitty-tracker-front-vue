@@ -1,8 +1,10 @@
 <template>
+  <!--TODO: have cats list below, displayed via this paginated tables module-->
   <div>
     <card title="Paginated tables">
         <div>
           <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+            <!--number of items per page selector-->
             <el-select
               class="select-default mb-3"
               style="width: 200px"
@@ -16,6 +18,7 @@
                 :value="item">
               </el-option>
             </el-select>
+            <!--search box-->
             <el-input type="search"
                       class="mb-3"
                       style="width: 200px"
@@ -43,10 +46,11 @@
                      @click="handleLike(props.$index, props.row)">
                     <i class="fa fa-heart"></i></a>
                   <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
-                     @click="handleEdit(props.$index, props.row)"><i
-                    class="fa fa-edit"></i></a>
+                     @click="handleEdit(props.$index, props.row)">
+                    <i class="fa fa-edit"></i></a>
                   <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
-                     @click="handleDelete(props.$index, props.row)"><i class="fa fa-times"></i></a>
+                     @click="handleDelete(props.$index, props.row)">
+                    <i class="fa fa-times"></i></a>
                 </template>
               </el-table-column>
             </el-table>
@@ -64,12 +68,13 @@
         </div>
       </card>
 
+  <!--CAT LIST with sub fields-->
     <div class="row">
       <div class="col-md-12">
         <card>
           <div slot="header">
-            <h4 class="card-title">Table Extended</h4>
-            <p class="card-category">A table for content management</p>
+            <h4 class="card-title">Cat List</h4>
+            <p class="card-category">All your cats all the time</p>
             <br />
           </div>
           <div class="table-responsive">
@@ -97,7 +102,7 @@
                         </div>
                       </div>
                       <el-collapse-item title="Press for more info" :name="row.id">
-                        <!--todo: cat list info for this cat-->
+                        <!--todo: main "cat list" info for this cat-->
                         <card>
                           <div slot="header">
                             <h4 class="card-title">Cats info at-a-glance</h4>
@@ -120,18 +125,17 @@
                         </card>
                         <!--todo: feeding list for this cat-->
                         <!--todo: medication list for this cat-->
-                        <!--todo: medical record info for this cat-->
+                        <!--todo: medical record info for this cat???-->
                       </el-collapse-item>
                     </template>
                   </el-table-column>
                 </el-table>
               </el-collapse>
-
-
           </div>
         </card>
       </div>
     </div>
+    <!--CAT LIST with sub fields ENDS-->
 
   </div>
 </template>
