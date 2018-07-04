@@ -6,6 +6,7 @@ import store from './store';
 import VueMoment from 'vue-moment'
 import moment from 'moment-timezone'
 import LightBootstrap from './light-bootstrap-main';
+import 'bootstrap';
 // Plugins
 import App from './App.vue';
 import Rx from 'rxjs';

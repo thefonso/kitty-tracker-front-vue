@@ -72,70 +72,21 @@
   <!--CAT LIST with sub fields-->
     <div class="row">
       <div class="col-md-12">
-        <card>
-          <div slot="header">
-            <h4 class="card-title">Cats</h4>
-            <p class="card-category">All your cats all the time</p>
-            <br />
-          </div>
-          <div class="table-responsive">
-              <el-collapse>
-                <el-table class="table-bigboy" style="width: 100%" :data="cats">
-                  <el-table-column min-width="220">
 
-                    <template slot-scope="{row}">
-                      <div class="TableRow d-flex" role="button">
-                        <div class="col-md-4 img-container photo-thumb" v-if="row.photo !== null">
-                          <img :src="row.photo" alt="thumb">
-                        </div>
-                        <div class="col-md-4 img-container photo-thumb" v-else>
-                          <img src="/static/img/bastet.png" alt="bastet">
-                        </div>
-                        <div class="col-md-4 cat-name"><h4>{{row.name}}</h4><p class="card-category">{{row.created | moment("MM-DD-YYYY h:MM a")}}</p></div>
-                        <div class="col-md-4 cat-litter">
-                          <div class="btn-group" v-if="row.litter_mates !== null">
-                            <button type="button" class="btn btn-warning btn-outline">Litter:</button>
-                            <button type="button" class="btn btn-warning btn-outline">{{row.litter_mates ? row.litter_mates : 'none'}}</button>
-                          </div>
-                          <div class="btn-group" v-else>
-                            <button type="button" class="btn btn-default btn-outline">Litter:</button>
-                            <button type="button" class="btn btn-default btn-outline">{{row.litter_mates ? row.litter_mates : 'none'}}</button>
-                          </div>
-                        </div>
-                      </div>
-                      <el-collapse-item :name="row.id">
-                        <!--note: main "cat list" info for this cat-->
-                        <card>
-                          <div slot="header" :id="'FUCK' + row.id">
-                            <h4 class="card-title">Cats info at-a-glance</h4>
-                            <p class="card-category">Feedings / Medications</p>
-                          </div>
-                          <div class="table-responsive table-full-width table-striped TableRow d-flex">
-                            <div class="col-sm-4">Name</div>
-                            <div class="col-sm-2">Weight</div>
-                            <div class="col-sm-2">Gender</div>
-                            <div class="col-sm-2">Age</div>
-                            <div class="col-sm-2">Type</div>
-                          </div>
-                          <div class="table-responsive table-full-width table-striped TableRow d-flex">
-                            <div class="col-sm-4">{{row.name}}</div>
-                            <div class="col-sm-2">{{row.weight}}</div>
-                            <div class="col-sm-2">{{row.gender}}</div>
-                            <div class="col-sm-2">{{row.age}}</div>
-                            <div class="col-sm-2">{{row.cat_type}}</div>
-                          </div>
-                        </card>
-                        <!--todo: feeding list for this cat-->
-                        <!--todo: medication list for this cat-->
-                        <!--todo: medical record info for this cat???-->
-                      </el-collapse-item>
-                    </template>
-
-                  </el-table-column>
-                </el-table>
-              </el-collapse>
+        <p>
+          <a class="btn btn-primary" data-toggle="collapse" href="#collapseExample" role="button" aria-expanded="false" aria-controls="collapseExample">
+            Link with href
+          </a>
+          <button class="btn btn-primary" type="button" data-toggle="collapse" data-target="#collapseExample" aria-expanded="false" aria-controls="collapseExample">
+            Button with data-target
+          </button>
+        </p>
+        <div class="collapse" id="collapseExample">
+          <div class="card card-body">
+            Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident.
           </div>
-        </card>
+        </div>
+
       </div>
     </div>
     <!--CAT LIST with sub fields ENDS-->
