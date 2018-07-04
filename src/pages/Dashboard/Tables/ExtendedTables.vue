@@ -1,73 +1,7 @@
 <template>
   <div>
-    <!--TODO: have cats list below, displayed via this paginated tables module DO THIS LAST-->
-      <!--<card title="Paginated tables">-->
-        <!--<div>-->
-          <!--<div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">-->
-            <!--&lt;!&ndash;number of items per page selector&ndash;&gt;-->
-            <!--<el-select-->
-              <!--class="select-default mb-3"-->
-              <!--style="width: 200px"-->
-              <!--v-model="pagination.perPage"-->
-              <!--placeholder="Per page">-->
-              <!--<el-option-->
-                <!--class="select-default"-->
-                <!--v-for="item in pagination.perPageOptions"-->
-                <!--:key="item"-->
-                <!--:label="item"-->
-                <!--:value="item">-->
-              <!--</el-option>-->
-            <!--</el-select>-->
-            <!--&lt;!&ndash;search box&ndash;&gt;-->
-            <!--<el-input type="search"-->
-                      <!--class="mb-3"-->
-                      <!--style="width: 200px"-->
-                      <!--placeholder="Search records"-->
-                      <!--v-model="searchQuery"-->
-                      <!--aria-controls="datatables"/>-->
-          <!--</div>-->
-          <!--<div class="col-sm-12">-->
-            <!--<el-table stripe-->
-                      <!--style="width: 100%;"-->
-                      <!--:data="queriedData"-->
-                      <!--border>-->
-              <!--&lt;!&ndash;TODO: how to manipulate this block to display full CAT on primary table?&ndash;&gt;-->
-              <!--<el-table-column v-for="column in tableColumns"-->
-                               <!--:key="column.label"-->
-                               <!--:min-width="column.minWidth"-->
-                               <!--:prop="column.prop"-->
-                               <!--:label="column.label">-->
-              <!--</el-table-column>-->
-              <!--<el-table-column-->
-                <!--:min-width="120"-->
-                <!--fixed="right"-->
-                <!--label="Actions">-->
-                <!--<template slot-scope="props">-->
-                  <!--<a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"-->
-                     <!--@click="handleLike(props.$index, props.row)">-->
-                    <!--<i class="fa fa-heart"></i></a>-->
-                  <!--<a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"-->
-                     <!--@click="handleEdit(props.$index, props.row)">-->
-                    <!--<i class="fa fa-edit"></i></a>-->
-                  <!--<a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"-->
-                     <!--@click="handleDelete(props.$index, props.row)">-->
-                    <!--<i class="fa fa-times"></i></a>-->
-                <!--</template>-->
-              <!--</el-table-column>-->
-            <!--</el-table>-->
-          <!--</div>-->
-        <!--</div>-->
-        <!--<div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">-->
-          <!--<div class="">-->
-            <!--<p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>-->
-          <!--</div>-->
-          <!--<l-pagination class="pagination-no-border"-->
-                        <!--v-model="pagination.currentPage"-->
-                        <!--:per-page="pagination.perPage"-->
-                        <!--:total="pagination.total">-->
-          <!--</l-pagination>-->
-        <!--</div>-->
-      <!--</card>-->
+    <!--TODO: have cats list below, displayed via paginated tables module DO THIS LAST-->
+
 
   <!--CAT LIST with sub fields-->
     <div class="row">
@@ -80,30 +14,52 @@
           </div>
           <div class="table-responsive">
             <div id="accordion">
-            <div class="card">
-              <div class="card-header" id="headingOne">
-                <h5 class="mb-0">
-                  <button class="btn btn-link" data-toggle="collapse" data-target="#collapseOne" aria-expanded="false" aria-controls="collapseOne">
-                    <div class="table-bigboy" style="width: 100%" :data="cats">
-                      pong
+              <div class="card" v-for="cat in cats">
+                <div class="card-header" :id="'headingOne'+cat.id">
+
+                    <div role="button" style="width: 100%" class="btn btn-link" data-toggle="collapse" :data-target="'#collapseOne'+cat.id" aria-expanded="false" :aria-controls="'collapseOne'+cat.id">
+                      <div class="table-bigboy" style="width: 100%">
+                        <table style="min-width: 220px">
+                          <template>
+                            <div class="TableRow d-flex" role="button">
+                              <div class="col-md-4 img-container photo-thumb" v-if="cat.photo !== null">
+                                <img :src="cat.photo" alt="thumb">
+                              </div>
+                              <div class="col-md-4 img-container photo-thumb" v-else>
+                                <img src="/static/img/bastet.png" alt="bastet">
+                              </div>
+                              <div class="col-md-4 cat-name"><h4>{{cat.name}}</h4><p class="card-category">{{cat.created | moment("MM-DD-YYYY h:MM a")}}</p></div>
+                              <div class="col-md-4 cat-litter">
+                                <div class="btn-group" v-if="cat.litter_mates !== null">
+                                  <button type="button" class="btn btn-warning btn-outline">Litter:</button>
+                                  <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
+                                </div>
+                                <div class="btn-group" v-else>
+                                  <button type="button" class="btn btn-default btn-outline">Litter:</button>
+                                  <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
+                                </div>
+                              </div>
+                            </div>
+                            <!--TODO: old sub card was located here-->
+
+                          </template>
+                        </table>
+                      </div>
                     </div>
-                  </button>
-                </h5>
-              </div>
-              <!--sub row here-->
-              <div id="collapseOne" class="collapse" aria-labelledby="headingOne" data-parent="#accordion">
-                <div class="card-body">
-                  Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+
+                </div>
+                <!--sub row here-->
+                <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
+                  <div class="card-body">
+                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-          </div>
         </card>
       </div>
-    </div>
-    <!--CAT LIST with sub fields ENDS-->
-
+    </div><!--CAT LIST with sub fields ENDS-->
   </div>
 </template>
 <script>
@@ -168,6 +124,7 @@
     data () {
       return {
         activeName: 'first',
+        cat: '',
         cats: [],
         catFeedings: [],
         catMedications: [],
