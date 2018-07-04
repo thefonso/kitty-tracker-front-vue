@@ -1,79 +1,80 @@
 <template>
-  <!--TODO: have cats list below, displayed via this paginated tables module-->
   <div>
-    <card title="Paginated tables">
-        <div>
-          <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-            <!--number of items per page selector-->
-            <el-select
-              class="select-default mb-3"
-              style="width: 200px"
-              v-model="pagination.perPage"
-              placeholder="Per page">
-              <el-option
-                class="select-default"
-                v-for="item in pagination.perPageOptions"
-                :key="item"
-                :label="item"
-                :value="item">
-              </el-option>
-            </el-select>
-            <!--search box-->
-            <el-input type="search"
-                      class="mb-3"
-                      style="width: 200px"
-                      placeholder="Search records"
-                      v-model="searchQuery"
-                      aria-controls="datatables"/>
-          </div>
-          <div class="col-sm-12">
-            <el-table stripe
-                      style="width: 100%;"
-                      :data="queriedData"
-                      border>
-              <el-table-column v-for="column in tableColumns"
-                               :key="column.label"
-                               :min-width="column.minWidth"
-                               :prop="column.prop"
-                               :label="column.label">
-              </el-table-column>
-              <el-table-column
-                :min-width="120"
-                fixed="right"
-                label="Actions">
-                <template slot-scope="props">
-                  <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
-                     @click="handleLike(props.$index, props.row)">
-                    <i class="fa fa-heart"></i></a>
-                  <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
-                     @click="handleEdit(props.$index, props.row)">
-                    <i class="fa fa-edit"></i></a>
-                  <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
-                     @click="handleDelete(props.$index, props.row)">
-                    <i class="fa fa-times"></i></a>
-                </template>
-              </el-table-column>
-            </el-table>
-          </div>
-        </div>
-        <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-          <div class="">
-            <p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
-          </div>
-          <l-pagination class="pagination-no-border"
-                        v-model="pagination.currentPage"
-                        :per-page="pagination.perPage"
-                        :total="pagination.total">
-          </l-pagination>
-        </div>
-      </card>
+    <!--TODO: have cats list below, displayed via this paginated tables module DO THIS LAST-->
+      <!--<card title="Paginated tables">-->
+        <!--<div>-->
+          <!--<div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">-->
+            <!--&lt;!&ndash;number of items per page selector&ndash;&gt;-->
+            <!--<el-select-->
+              <!--class="select-default mb-3"-->
+              <!--style="width: 200px"-->
+              <!--v-model="pagination.perPage"-->
+              <!--placeholder="Per page">-->
+              <!--<el-option-->
+                <!--class="select-default"-->
+                <!--v-for="item in pagination.perPageOptions"-->
+                <!--:key="item"-->
+                <!--:label="item"-->
+                <!--:value="item">-->
+              <!--</el-option>-->
+            <!--</el-select>-->
+            <!--&lt;!&ndash;search box&ndash;&gt;-->
+            <!--<el-input type="search"-->
+                      <!--class="mb-3"-->
+                      <!--style="width: 200px"-->
+                      <!--placeholder="Search records"-->
+                      <!--v-model="searchQuery"-->
+                      <!--aria-controls="datatables"/>-->
+          <!--</div>-->
+          <!--<div class="col-sm-12">-->
+            <!--<el-table stripe-->
+                      <!--style="width: 100%;"-->
+                      <!--:data="queriedData"-->
+                      <!--border>-->
+              <!--&lt;!&ndash;TODO: how to manipulate this block to display full CAT on primary table?&ndash;&gt;-->
+              <!--<el-table-column v-for="column in tableColumns"-->
+                               <!--:key="column.label"-->
+                               <!--:min-width="column.minWidth"-->
+                               <!--:prop="column.prop"-->
+                               <!--:label="column.label">-->
+              <!--</el-table-column>-->
+              <!--<el-table-column-->
+                <!--:min-width="120"-->
+                <!--fixed="right"-->
+                <!--label="Actions">-->
+                <!--<template slot-scope="props">-->
+                  <!--<a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"-->
+                     <!--@click="handleLike(props.$index, props.row)">-->
+                    <!--<i class="fa fa-heart"></i></a>-->
+                  <!--<a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"-->
+                     <!--@click="handleEdit(props.$index, props.row)">-->
+                    <!--<i class="fa fa-edit"></i></a>-->
+                  <!--<a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"-->
+                     <!--@click="handleDelete(props.$index, props.row)">-->
+                    <!--<i class="fa fa-times"></i></a>-->
+                <!--</template>-->
+              <!--</el-table-column>-->
+            <!--</el-table>-->
+          <!--</div>-->
+        <!--</div>-->
+        <!--<div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">-->
+          <!--<div class="">-->
+            <!--<p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>-->
+          <!--</div>-->
+          <!--<l-pagination class="pagination-no-border"-->
+                        <!--v-model="pagination.currentPage"-->
+                        <!--:per-page="pagination.perPage"-->
+                        <!--:total="pagination.total">-->
+          <!--</l-pagination>-->
+        <!--</div>-->
+      <!--</card>-->
 
   <!--CAT LIST with sub fields-->
     <div class="row">
       <div class="col-md-12">
         <card>
           <div slot="header">
-            <h4 class="card-title">Cat List</h4>
+            <h4 class="card-title">Cats</h4>
             <p class="card-category">All your cats all the time</p>
             <br />
           </div>
@@ -81,8 +82,9 @@
               <el-collapse>
                 <el-table class="table-bigboy" style="width: 100%" :data="cats">
                   <el-table-column min-width="220">
+
                     <template slot-scope="{row}">
-                      <div class="TableRow d-flex">
+                      <div class="TableRow d-flex" role="button">
                         <div class="col-md-4 img-container photo-thumb" v-if="row.photo !== null">
                           <img :src="row.photo" alt="thumb">
                         </div>
@@ -101,12 +103,12 @@
                           </div>
                         </div>
                       </div>
-                      <el-collapse-item title="Press for more info" :name="row.id">
-                        <!--todo: main "cat list" info for this cat-->
+                      <el-collapse-item :name="row.id">
+                        <!--note: main "cat list" info for this cat-->
                         <card>
-                          <div slot="header">
+                          <div slot="header" :id="'FUCK' + row.id">
                             <h4 class="card-title">Cats info at-a-glance</h4>
-                            <p class="card-category">Here is a subtitle for this table</p>
+                            <p class="card-category">Feedings / Medications</p>
                           </div>
                           <div class="table-responsive table-full-width table-striped TableRow d-flex">
                             <div class="col-sm-4">Name</div>
@@ -128,6 +130,7 @@
                         <!--todo: medical record info for this cat???-->
                       </el-collapse-item>
                     </template>
+
                   </el-table-column>
                 </el-table>
               </el-collapse>
@@ -202,6 +205,8 @@
       return {
         activeName: 'first',
         cats: [],
+        catFeedings: [],
+        catMedications: [],
         page: 1,
         CatIndex: 0,
         pagination: {
@@ -238,9 +243,7 @@
       }
     },
     beforeMount () {
-      axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
-        .then(response => {console.log(response.data.results.length); this.cats = response.data.results})
-        .catch(error => console.log(error));
+      this.getCats();
     },
     mounted () {
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
@@ -249,6 +252,16 @@
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
           .then(response => {console.log(response.data.results.length); this.cats = response.data.results})
+          .catch(error => console.log(error));
+      },
+      getFeedings(value) {
+        axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${value}`)
+          .then(response => {console.log(response.data.results); this.catFeedings = response.data.results})
+          .catch(error => console.log(error));
+      },
+      getMedications(value) {
+        axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
+          .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
       handleLike (index, row) {
@@ -292,11 +305,23 @@
           return 'warning'
         }
         return ''
-      }
+      },
+      myClickEvent() {
+        console.log(this.$refs);
+        // console.log(myID);
+        // const elem = this.$refs.myBtn.$el;
+        // elem.click();
+        // this.$refs.myBtn.$el.
+
+        // document.getElementById(myID).hidden;
+      },
     }
   }
 </script>
 <style lang="scss" scoped>
+  .el-collapse-item__header{
+    border-bottom: none;
+  }
   .photo-thumb img{
     width: 100px;
     height: 100px;
