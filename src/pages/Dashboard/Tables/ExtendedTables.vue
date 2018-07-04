@@ -17,7 +17,11 @@
               <div class="card" v-for="cat in cats">
                 <div class="card-header" :id="'headingOne'+cat.id">
 
-                    <div role="button" style="width: 100%" class="btn btn-link" data-toggle="collapse" :data-target="'#collapseOne'+cat.id" aria-expanded="false" :aria-controls="'collapseOne'+cat.id">
+                    <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getFeedings(cat.name)"
+                         data-toggle="collapse"
+                         :data-target="'#collapseOne'+cat.id"
+                         aria-expanded="false"
+                         :aria-controls="'collapseOne'+cat.id">
                       <div class="table-bigboy" style="width: 100%">
                         <table style="min-width: 220px">
                           <template>
@@ -28,7 +32,30 @@
                               <div class="col-md-4 img-container photo-thumb" v-else>
                                 <img src="/static/img/bastet.png" alt="bastet">
                               </div>
-                              <div class="col-md-4 cat-name"><h4>{{cat.name}}</h4><p class="card-category">{{cat.created | moment("MM-DD-YYYY h:MM a")}}</p></div>
+                              <div class="col-md-4 cat-name">
+                                <h4>{{cat.name}}</h4>
+                                <p>added: {{cat.created | moment("MM-DD-YYYY h:MM a")}}</p>
+
+                                <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
+                                  <div style="display: table-row-group">
+                                    <div class="card-category" style="display: table-row">
+                                      <div class="cell" style="display: table-cell">weight</div>
+                                      <div class="cell" style="display: table-cell">gender</div>
+                                      <div class="cell" style="display: table-cell">age</div>
+                                      <div class="cell" style="display: table-cell">type</div>
+                                    </div>
+                                  </div>
+                                  <div style="display: table-row-group">
+                                    <div class="table-striped" style="display: table-row">
+                                      <div style="display: table-cell">{{cat.weight}}</div>
+                                      <div style="display: table-cell">{{cat.gender}}</div>
+                                      <div style="display: table-cell">{{cat.age}}</div>
+                                      <div style="display: table-cell">{{cat.cat_type}}</div>
+                                    </div>
+                                  </div>
+                                </div>
+
+                              </div>
                               <div class="col-md-4 cat-litter">
                                 <div class="btn-group" v-if="cat.litter_mates !== null">
                                   <button type="button" class="btn btn-warning btn-outline">Litter:</button>
@@ -50,9 +77,41 @@
                 </div>
                 <!--sub row here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
-                  <div class="card-body">
-                    Anim pariatur cliche reprehenderit, enim eiusmod high life accusamus terry richardson ad squid. 3 wolf moon officia aute, non cupidatat skateboard dolor brunch. Food truck quinoa nesciunt laborum eiusmod. Brunch 3 wolf moon tempor, sunt aliqua put a bird on it squid single-origin coffee nulla assumenda shoreditch et. Nihil anim keffiyeh helvetica, craft beer labore wes anderson cred nesciunt sapiente ea proident. Ad vegan excepteur butcher vice lomo. Leggings occaecat craft beer farm-to-table, raw denim aesthetic synth nesciunt you probably haven't heard of them accusamus labore sustainable VHS.
-                  </div>
+
+                    <card>
+                      <vue-tabs value="Description">
+                        <v-tab title="Feedings" style="width: 100%;">
+                          <div class="table-responsive-sm">
+                            <table class="table table-striped table-bordered" >
+                              <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">WBF</th>
+                                <th scope="col">AFT</th>
+                                <th scope="col">FT</th>
+                                <th scope="col">ST</th>
+                                <th scope="col">STT</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for="fed in catFeedings">
+                                <th scope="row">{{fed.id}}</th>
+                                <td>{{fed.weight_before_food}}</td>
+                                <td>{{fed.amount_of_food_taken}}</td>
+                                <td>{{fed.food_type}}</td>
+                                <td>{{fed.stimulated}}</td>
+                                <td>{{fed.stimulation_type}}</td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
+                        </v-tab>
+                        <v-tab title="Medications">
+                          <p>We are Houses Inc., a group of architects and interior designers based in Chicago and operating for clients worldwide. We’ve been designing stunningly beautiful houses and making clients happy for years.</p>
+                        </v-tab>
+                      </vue-tabs>
+                    </card>
+
                 </div>
               </div>
             </div>
@@ -170,6 +229,11 @@
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
     },
     methods: {
+      unaFunc: function(row, expanded){
+        if(document.getElementsByClassName('el-table__expand-icon--expanded').length > 0)
+          if(expanded)
+            document.getElementsByClassName('el-table__expand-icon--expanded')[0].click()
+      },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
           .then(response => {console.log(response.data.results.length); this.cats = response.data.results})
@@ -261,7 +325,7 @@
     display: inline-flex;
   }
   .cat-name{
-
+    text-align: center;
   }
   .cat-litter{
 
