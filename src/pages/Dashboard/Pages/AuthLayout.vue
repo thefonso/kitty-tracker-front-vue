@@ -4,7 +4,8 @@
       <nav class="navbar navbar-expand-lg navbar-transparent navbar-absolute">
         <div class="container">
           <div class="navbar-wrapper">
-            <a class="navbar-brand" href="#pablo">KittyTracker</a>
+            <router-link to="/"><a class="navbar-brand">KittyTracker</a></router-link>
+            <!--<a class="navbar-brand" href="#">KittyTracker</a>-->
             <button class="navbar-toggler"
                     type="button"
                     @click="showMenu = !showMenu"
@@ -57,20 +58,20 @@
           <div
             class="container d-flex flex-lg-row flex-column justify-content-lg-between justify-content-center align-items-center">
             <nav>
-              <ul>
-                <li>
-                  <router-link to="/">Home</router-link>
-                </li>
-                <li>
-                  <router-link to="/">Company</router-link>
-                </li>
-                <li>
-                  <router-link to="/">Portfolio</router-link>
-                </li>
-                <li>
-                  <router-link to="/">Blog</router-link>
-                </li>
-              </ul>
+              <!--<ul>-->
+                <!--<li>-->
+                  <!--<router-link to="/">Home</router-link>-->
+                <!--</li>-->
+                <!--<li>-->
+                  <!--<router-link to="/">Company</router-link>-->
+                <!--</li>-->
+                <!--<li>-->
+                  <!--<router-link to="/">Portfolio</router-link>-->
+                <!--</li>-->
+                <!--<li>-->
+                  <!--<router-link to="/">Blog</router-link>-->
+                <!--</li>-->
+              <!--</ul>-->
             </nav>
             <div class="copyright">
               &copy; 2017-{{ getYear() }} by cat lovers
