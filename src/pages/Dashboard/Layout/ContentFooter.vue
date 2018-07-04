@@ -10,7 +10,7 @@
       </nav>
       <div class="copyright">
         &copy; 2017-{{ getYear() }} for cat lovers
-        <i class="fa fa-heart heart"></i>(company name here?).
+        <i class="fa fa-heart heart"></i>.
       </div>
     </div>
   </footer>
