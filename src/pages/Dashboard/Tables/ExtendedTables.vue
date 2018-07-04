@@ -17,7 +17,7 @@
               <div class="card" v-for="cat in cats">
                 <div class="card-header" :id="'headingOne'+cat.id">
 
-                    <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getFeedings(cat.name)"
+                    <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
                          data-toggle="collapse"
                          :data-target="'#collapseOne'+cat.id"
                          aria-expanded="false"
@@ -107,7 +107,30 @@
                           </div>
                         </v-tab>
                         <v-tab title="Medications">
-                          <p>We are Houses Inc., a group of architects and interior designers based in Chicago and operating for clients worldwide. We’ve been designing stunningly beautiful houses and making clients happy for years.</p>
+                          <div class="table-responsive-sm">
+                            <table class="table table-striped table-bordered" >
+                              <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Freq</th>
+                                <th scope="col">Dosage</th>
+                                <th scope="col">Notes</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for="med in catMedications">
+                                <th scope="row">{{med.id}}</th>
+                                <td>{{med.name}}</td>
+                                <td>{{med.duration}}</td>
+                                <td>{{med.frequency}}</td>
+                                <td>{{med.dosage}}</td>
+                                <td>{{med.notes}}</td>
+                              </tr>
+                              </tbody>
+                            </table>
+                          </div>
                         </v-tab>
                       </vue-tabs>
                     </card>
