@@ -100,6 +100,17 @@
       getError (fieldName) {
         return this.errors.first(fieldName)
       },
+      medicationSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            console.log('it submitted');
+            this.postMedications(result);
+          }else{
+            console.log('it blew up');
+            // this.showDanger = true;
+          }
+        });
+      },
       validateBeforeSubmit() {
         this.$validator.validateAll().then((result) => {
           if (result) {

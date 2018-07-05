@@ -135,38 +135,76 @@
                         </v-tab>
                         <v-tab title="Medications">
                           <div class="table-responsive-sm">
-                            <table class="table table-striped table-bordered" >
-                              <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Freq</th>
-                                <th scope="col">Dosage</th>
-                                <th scope="col">Notes</th>
-                                <th scope="col">Actions</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr v-for="med in catMedications">
-                                <th scope="row">{{med.id}}</th>
-                                <td>{{med.name}}</td>
-                                <td>{{med.duration}}</td>
-                                <td>{{med.frequency}}</td>
-                                <td>{{med.dosage}}</td>
-                                <td>{{med.notes}}</td>
-                                <td>
-                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                     @click="handleEdit(med.id, cat.name)">
-                                    <i class="fa fa-edit"></i>
-                                  </a>
-                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                     @click="handleDelete(med.id, cat.name)">
-                                    <i class="fa fa-times"></i>
-                                  </a></td>
-                              </tr>
-                              </tbody>
-                            </table>
+                            <div style="display:table" class="table table-striped table-bordered" >
+                              <div style="display: table-header-group">
+                              <div class="row">
+                                <div class="col-sm-1">#</div>
+                                <div class="col-sm-1">Med Name</div>
+                                <div class="col-sm-2">Duration</div>
+                                <div class="col-sm-2">Freq</div>
+                                <div class="col-sm-2">Dosage</div>
+                                <div class="col-sm-2">Notes</div>
+                                <div class="col-sm-2">Actions</div>
+                              </div>
+                              </div>
+
+                              <div style="display: table-row-group">
+                                <div class="row" v-for="med in catMedications" v-if="editMeds === true" >
+                                  <div class="col-sm-1">{{med.id}}</div>
+                                  <div class="col-sm-1">{{med.name}}</div>
+                                  <div class="col-sm-2">{{med.duration}}</div>
+                                  <div class="col-sm-2">{{med.frequency}}</div>
+                                  <div class="col-sm-2">{{med.dosage}}</div>
+                                  <div class="col-sm-2">{{med.notes}}</div>
+                                  <div class="col-sm-2">
+                                    <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                       @click="editMeds = false">
+                                      <i class="fa fa-edit"></i>
+                                    </a>
+                                    <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                       @click="handleDelete(med.id, cat.name)">
+                                      <i class="fa fa-times"></i>
+                                    </a>
+                                  </div>
+                                </div>
+                                <form @submit.prevent="medicationSubmit">
+                                <div class="row" v-for="med in catMedications" v-if="editMeds === false">
+                                    <div class="col-sm-1">{{med.id}}</div>
+                                    <div class="col-sm-1">
+                                      <div class="form-group">
+                                        <label>name</label>
+                                        <input name="name" v-model="name" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" :placeholder="med.name">
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <div class="form-group">
+                                        <label for="duration">duration</label>
+                                        <input name="duration" v-model="duration" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('duration')}" id="duration" :placeholder="med.duration">
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <div class="form-group">
+                                        <label for="frequency">frequency</label>
+                                        <input name="frequency" v-model="frequency" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('frequency')}" id="frequency" :placeholder="med.frequency">
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <div class="form-group">
+                                        <label for="dosage">dosage</label>
+                                        <input name="dosage" v-model="dosage" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('dosage')}" id="dosage" :placeholder="med.dosage">
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2">
+                                      <div class="form-group">
+                                        <label>notes</label>
+                                        <textarea class="form-control" id="InputNotes" rows="6" name="notes" v-model="notes" :placeholder="med.notes"></textarea>
+                                      </div>
+                                    </div>
+                                    <div class="col-sm-2"><button type="submit" class="btn btn-primary submit-button btn-text float-left">Submit</button></div>
+                                </div>
+                                </form>
+                              </div>
+                            </div>
                           </div>
                         </v-tab>
                       </vue-tabs>
@@ -243,6 +281,11 @@
     },
     data () {
       return {
+        name:   '',
+        duration: '',
+        frequency: '',
+        dosage_unit: 'ML',
+        dosage:    '',
         activeName: 'first',
         cat: '',
         cats: [],
@@ -297,6 +340,7 @@
         dismissCountDown2: 0,
         nursing: false,
         handleAdd: false,
+        editMeds: true,
       }
     },
     beforeMount () {
@@ -475,11 +519,43 @@
           .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
+      medicationSubmit(){
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            console.log('it submitted');
+            this.postMedications(result);
+          }else{
+            console.log('it blew up');
+          }
+        });
+      },
+      postMedications(values) {
+        console.log("POST-MEDICATIONS");
+        console.log(values);
+        // axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
+        //   cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+        //   name: this.name,
+        //   duration: this.duration,
+        //   frequency: this.frequency,
+        //   dosage_unit: this.dosage_unit,
+        //   dosage: this.dosage,
+        //   notes: this.notes
+        // })
+        //   .then(response => {
+        //     console.log(response);
+        //     response.status === 201 ? this.showSuccess = true : this.showDanger = false
+        //   })
+        //   .catch(error => {
+        //     console.log(error);
+        //     this.showDanger = true;
+        //   })
+      },
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
       },
       handleEdit (index, row) {
-        alert(`You want to edit ${index} ${row}`)
+        // alert(`You want to edit ${index} ${row}`)
+        this.editMeds = false;
       },
       handleDelete (index, row) {
         alert(`You want to delete ${index} ${row}`);
