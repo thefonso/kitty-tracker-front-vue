@@ -4,6 +4,8 @@
       <div class="col-sm-8">
         <div class="card card-wizard" id="wizardCard">
           <form-wizard shape="tab"
+                       title="Add a Cat"
+                       subtitle="tell us about your kitty"
                        @on-complete="wizardComplete"
                        error-color="#FB404B"
                        color="#35495E">
@@ -50,6 +52,7 @@
   import swal from 'sweetalert2'
 
   export default {
+    name: 'wizard',
     data () {
       return {
         wizardModel: {}

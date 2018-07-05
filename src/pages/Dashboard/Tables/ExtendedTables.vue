@@ -8,10 +8,18 @@
       <div class="col-md-12">
         <card>
           <div slot="header">
-            <h4 class="card-title">Cats</h4>
-            <p class="card-category">All your cats all the time</p>
+            <div class="d-flex justify-content-between">
+              <div>
+                <h4 class="card-title">Cats</h4>
+                <p class="card-category">All your cats all the time</p>
+              </div>
+              <div>
+                <button class="btn btn-round btn-sm" v-on:click="handleAdd = !handleAdd">Add a Cat</button>
+              </div>
+            </div>
             <br />
           </div>
+          <Wizard v-show="handleAdd"></Wizard>
           <div class="table-responsive">
             <div id="accordion">
               <div class="card" v-for="cat in cats">
@@ -25,7 +33,7 @@
                       <div class="table-bigboy" style="width: 100%">
                         <table class="col-sm-12">
                           <template>
-                            <div class="d-flex justify-content-between" role="button">
+                            <div class="d-flex justify-content-between primary-cat-row" role="button">
                               <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
                                 <img :src="cat.photo" alt="thumb">
                               </div>
@@ -66,10 +74,12 @@
                               </div>
                               <div class="col-md-2 cat-actions">
                                 <div class="cell">
-                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'">
+                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                     @click="handleEdit(cat.id, cat.name)">
                                     <i class="fa fa-edit"></i>
                                   </a>
-                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'">
+                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                     @click="handleDelete(cat.id, cat.name)">
                                     <i class="fa fa-times"></i>
                                   </a>
                                 </div>
@@ -146,10 +156,12 @@
                                 <td>{{med.dosage}}</td>
                                 <td>{{med.notes}}</td>
                                 <td>
-                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'">
+                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                     @click="handleEdit(med.id, cat.name)">
                                     <i class="fa fa-edit"></i>
                                   </a>
-                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'">
+                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                     @click="handleDelete(med.id, cat.name)">
                                     <i class="fa fa-times"></i>
                                   </a></td>
                               </tr>
@@ -177,6 +189,7 @@
   import Fuse from 'fuse.js'
   import LSwitch from 'src/components/Switch.vue'
   import VueTabs from 'vue-nav-tabs'
+  import Wizard from  '../Forms/Wizard'
 
   Vue.use(VueTabs);
 
@@ -193,6 +206,7 @@
       [Row.name]: Row,
       [Aside.name]: Aside,
       [Main.name]: Main,
+      Wizard,
     },
     computed: {
       pagedData () {
@@ -281,7 +295,8 @@
         dismissSecs: 4,
         dismissCountDown: 0,
         dismissCountDown2: 0,
-        nursing: false
+        nursing: false,
+        handleAdd: false,
       }
     },
     beforeMount () {
@@ -473,6 +488,9 @@
           this.cats.splice(indexToDelete, 1)
         }
       },
+      // handleAdd (index, row) {
+      //   alert(`You want to Add a Cat`)
+      // },
       getSummaries (param) {
         const { columns } = param
         const sums = []
@@ -516,9 +534,6 @@
   }
 </script>
 <style lang="scss" scoped>
-  .cat-actions{
-    z-index: 2000;
-  }
   .el-collapse-item__header{
     border-bottom: none;
   }
@@ -541,5 +556,12 @@
   }
   .cat-name{
     text-align: center;
+  }
+  .cat-actions{
+    z-index: 2;
+    transform-style: preserve-3d;
+  }
+  .primary-cat-row{
+    z-index: 1;
   }
 </style>

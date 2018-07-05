@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h5 class="text-center">Please tell us more about yourself.</h5>
+    <h5 class="text-center">Please tell us more about your cat.</h5>
     <div class="row">
       <div class="col-md-6">
         <fg-input label="First Name"
