@@ -1,13 +1,4 @@
-# [Vue Light Bootstrap Dashboard PRO](https://github.com/creativetimofficial/vue-light-bootstrap-dashboard-pro) [![version][version-badge]][CHANGELOG] [![license][license-badge]][LICENSE]
-
-> Admin dashboard based on paper dashboard UI template + vue-router
-
-This project is a vue version of [Light bootstrap dashboard PRO](https://www.creative-tim.com/product/light-bootstrap-dashboard-pro)
-designed for vue js. The dashboard includes Bootstrap 4, vue-router, chartist, google-maps and several other plugins/components.
-
-Check the [Live Demo here](http://vuejs.creative-tim.com/vue-light-bootstrap-dashboard-pro).
-
-## [Documentation](http://vuejs.creative-tim.com/vue-light-bootstrap-dashboard-pro/documentation)
+# Admin dashboard based on paper dashboard UI template + vue-router
 
 ## :cloud: Build Setup
 

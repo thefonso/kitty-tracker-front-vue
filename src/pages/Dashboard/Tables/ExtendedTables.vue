@@ -64,7 +64,7 @@
                                   <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
                                 </div>
                               </div>
-                              <div class="col-md-2 cat-litter">
+                              <div class="col-md-2 cat-actions">
                                 <div class="cell">
                                   <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'">
                                     <i class="fa fa-edit"></i>
@@ -84,12 +84,11 @@
                 </div>
                 <!--TODO: new sub row here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
-
                     <card>
                       <vue-tabs value="Description">
                         <v-tab title="Feedings" style="width: 100%;">
                           <div class="table-responsive-sm">
-                            <table class="table table-striped table-bordered" >
+                            <table class="table table-striped table-bordered">
                               <thead>
                               <tr>
                                 <th scope="col">#</th>
@@ -98,6 +97,7 @@
                                 <th scope="col">FT</th>
                                 <th scope="col">ST</th>
                                 <th scope="col">STT</th>
+                                <th scope="col">Actons</th>
                               </tr>
                               </thead>
                               <tbody>
@@ -108,6 +108,16 @@
                                 <td>{{fed.food_type}}</td>
                                 <td>{{fed.stimulated}}</td>
                                 <td>{{fed.stimulation_type}}</td>
+                                <td>
+                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                     @click="handleEdit(fed.id, cat.name)">
+                                    <i class="fa fa-edit"></i>
+                                  </a>
+                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                     @click="handleDelete(fed.id, cat.name)">
+                                    <i class="fa fa-times"></i>
+                                  </a>
+                                </td>
                               </tr>
                               </tbody>
                             </table>
@@ -124,6 +134,7 @@
                                 <th scope="col">Freq</th>
                                 <th scope="col">Dosage</th>
                                 <th scope="col">Notes</th>
+                                <th scope="col">Actions</th>
                               </tr>
                               </thead>
                               <tbody>
@@ -134,6 +145,13 @@
                                 <td>{{med.frequency}}</td>
                                 <td>{{med.dosage}}</td>
                                 <td>{{med.notes}}</td>
+                                <td>
+                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'">
+                                    <i class="fa fa-edit"></i>
+                                  </a>
+                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'">
+                                    <i class="fa fa-times"></i>
+                                  </a></td>
                               </tr>
                               </tbody>
                             </table>
@@ -141,7 +159,6 @@
                         </v-tab>
                       </vue-tabs>
                     </card>
-
                 </div>
               </div>
             </div>
@@ -249,7 +266,22 @@
             minWidth: 120
           }
         ],
-        fuseSearch: null
+        fuseSearch: null,
+        weight_before_food: '',
+        weight_after_food: '',
+        amount_of_food_taken: '',
+        food_type: '',
+        notes:    '',
+        stimulated: '',
+        stimulation_type: '',
+        showSuccess: false,
+        showDanger: false,
+        constant: 0,
+        thisCat: [],
+        dismissSecs: 4,
+        dismissCountDown: 0,
+        dismissCountDown2: 0,
+        nursing: false
       }
     },
     beforeMount () {
@@ -259,10 +291,114 @@
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
     },
     methods: {
-      unaFunc: function(row, expanded){
-        if(document.getElementsByClassName('el-table__expand-icon--expanded').length > 0)
-          if(expanded)
-            document.getElementsByClassName('el-table__expand-icon--expanded')[0].click()
+      showSwal (type) {
+        if (type === 'basic') {
+          swal({
+            title: `Here's a message!`,
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-success btn-fill'
+          })
+        } else if (type === 'title-and-text') {
+          swal({
+            title: `Here's a message!`,
+            text: `It's pretty, isn't it?`,
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-info btn-fill'
+          })
+        } else if (type === 'success-message') {
+          swal({
+            title: `Good job!`,
+            text: 'You clicked the button!',
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-success btn-fill',
+            type: 'success'
+          })
+        } else if (type === 'warning-message-and-confirmation') {
+          swal({
+            title: 'Are you sure?',
+            text: `You won't be able to revert this!`,
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success btn-fill',
+            cancelButtonClass: 'btn btn-danger btn-fill',
+            confirmButtonText: 'Yes, delete it!',
+            buttonsStyling: false
+          }).then(function () {
+            swal({
+              title: 'Deleted!',
+              text: 'Your file has been deleted.',
+              type: 'success',
+              confirmButtonClass: 'btn btn-success btn-fill',
+              buttonsStyling: false
+            })
+          })
+        } else if (type === 'warning-message-and-cancel') {
+          swal({
+            title: 'Are you sure?',
+            text: 'You will not be able to recover this imaginary file!',
+            type: 'warning',
+            showCancelButton: true,
+            confirmButtonText: 'Yes, delete it!',
+            cancelButtonText: 'No, keep it',
+            confirmButtonClass: 'btn btn-success btn-fill',
+            cancelButtonClass: 'btn btn-danger btn-fill',
+            buttonsStyling: false
+          }).then(function () {
+            swal({
+              title: 'Deleted!',
+              text: 'Your imaginary file has been deleted.',
+              type: 'success',
+              confirmButtonClass: 'btn btn-success btn-fill',
+              buttonsStyling: false
+            })
+          }, function (dismiss) {
+            // dismiss can be 'overlay', 'cancel', 'close', 'esc', 'timer'
+            if (dismiss === 'cancel') {
+              swal({
+                title: 'Cancelled',
+                text: 'Your imaginary file is safe :)',
+                type: 'error',
+                confirmButtonClass: 'btn btn-info btn-fill',
+                buttonsStyling: false
+              })
+            }
+          })
+        } else if (type === 'custom-html') {
+          swal({
+            title: 'HTML example',
+            buttonsStyling: false,
+            confirmButtonClass: 'btn btn-success btn-fill',
+            html: 'You can use <b>bold text</b>, ' +
+            '<a href="http://github.com">links</a> ' +
+            'and other HTML tags'
+          })
+        } else if (type === 'auto-close') {
+          swal({
+            title: 'Auto close alert!',
+            text: 'I will close in 2 seconds.',
+            timer: 2000,
+            showConfirmButton: false
+          })
+        } else if (type === 'input-field') {
+          swal({
+            title: 'Input something',
+            html: '<div class="form-group">' +
+            '<input id="input-field" type="text" class="form-control" />' +
+            '</div>',
+            showCancelButton: true,
+            confirmButtonClass: 'btn btn-success btn-fill',
+            cancelButtonClass: 'btn btn-danger btn-fill',
+            buttonsStyling: false
+          }).then(function (result) {
+            swal({
+              type: 'success',
+              html: 'You entered',
+              confirmButtonClass: 'btn btn-success btn-fill',
+              buttonsStyling: false
+
+            })
+          }).catch(swal.noop)
+        }
       },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
@@ -274,6 +410,51 @@
           .then(response => {console.log(response.data.results); this.catFeedings = response.data.results})
           .catch(error => console.log(error));
       },
+      postFeedings(catID, catName) {
+        axios.post(`${process.env.KITTY_URL}/api/v1/feedings/`,{
+          cat: {id: catID, name: catName},
+          weight_unit_measure: 'G',
+          weight_before_food: this.weight_before_food,
+          food_unit_measure: 'G',
+          amount_of_food_taken: this.amount_of_food_taken,
+          food_type: this.food_type,
+          weight_after_food: this.weight_after_food,
+          stimulated: this.stimulated,
+          stimulation_type: this.stimulation_type,
+          notes: this.notes,
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSwal('auto-close') : this.showSwal('success-message');
+          })
+          .catch(error => {
+            console.log(error);
+            this.showSwal('auto-close');
+          })
+      },
+      postFeedingsMom(catID, catName) {
+        axios.post(`${process.env.KITTY_URL}/api/v1/feedings/`,{
+          cat: {id: catID, name: catName},
+          weight_unit_measure: 'G',
+          weight_before_food: '0',
+          food_unit_measure: 'G',
+          amount_of_food_taken: '0',
+          food_type: this.food_type,
+          weight_after_food: this.weight_after_food,
+          stimulated: false,
+          stimulation_type: 'NA',
+          notes: 'kitten',
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showAlert() : this.showAlert2();
+          })
+          .catch(error => {
+            console.log(error);
+            this.dismissCountDown = true;
+            this.showAlert();
+          })
+      },
       getMedications(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
           .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
@@ -283,10 +464,11 @@
         alert(`You want to like ${row.name}`)
       },
       handleEdit (index, row) {
-        alert(`You want to edit ${row.name}`)
+        alert(`You want to edit ${index} ${row}`)
       },
       handleDelete (index, row) {
-        let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id)
+        alert(`You want to delete ${index} ${row}`);
+        let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id);
         if (indexToDelete >= 0) {
           this.cats.splice(indexToDelete, 1)
         }
@@ -334,6 +516,9 @@
   }
 </script>
 <style lang="scss" scoped>
+  .cat-actions{
+    z-index: 2000;
+  }
   .el-collapse-item__header{
     border-bottom: none;
   }
