@@ -23,19 +23,18 @@
                          aria-expanded="false"
                          :aria-controls="'collapseOne'+cat.id">
                       <div class="table-bigboy" style="width: 100%">
-                        <table style="min-width: 220px">
+                        <table class="col-sm-12">
                           <template>
-                            <div class="TableRow d-flex" role="button">
-                              <div class="col-md-4 img-container photo-thumb" v-if="cat.photo !== null">
+                            <div class="d-flex justify-content-between" role="button">
+                              <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
                                 <img :src="cat.photo" alt="thumb">
                               </div>
-                              <div class="col-md-4 img-container photo-thumb" v-else>
+                              <div class="col-md-2 img-container photo-thumb" v-else>
                                 <img src="/static/img/bastet.png" alt="bastet">
                               </div>
                               <div class="col-md-4 cat-name">
                                 <h4>{{cat.name}}</h4>
                                 <p>added: {{cat.created | moment("MM-DD-YYYY h:MM a")}}</p>
-
                                 <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
                                   <div style="display: table-row-group">
                                     <div class="card-category" style="display: table-row">
@@ -54,7 +53,6 @@
                                     </div>
                                   </div>
                                 </div>
-
                               </div>
                               <div class="col-md-4 cat-litter">
                                 <div class="btn-group" v-if="cat.litter_mates !== null">
@@ -66,16 +64,25 @@
                                   <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
                                 </div>
                               </div>
+                              <div class="col-md-2 cat-litter">
+                                <div class="cell">
+                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'">
+                                    <i class="fa fa-edit"></i>
+                                  </a>
+                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'">
+                                    <i class="fa fa-times"></i>
+                                  </a>
+                                </div>
+                              </div>
                             </div>
                             <!--TODO: old sub card was located here-->
-
                           </template>
                         </table>
                       </div>
                     </div>
 
                 </div>
-                <!--sub row here-->
+                <!--TODO: new sub row here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
 
                     <card>
@@ -349,8 +356,5 @@
   }
   .cat-name{
     text-align: center;
-  }
-  .cat-litter{
-
   }
 </style>
