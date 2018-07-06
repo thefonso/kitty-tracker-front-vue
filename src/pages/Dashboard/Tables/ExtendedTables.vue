@@ -134,40 +134,23 @@
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
-                        <div class="table-responsive-sm">
-                          <table class="table table-striped table-bordered" >
-                            <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">Name</th>
-                              <th scope="col">Duration</th>
-                              <th scope="col">Freq</th>
-                              <th scope="col">Dosage</th>
-                              <th scope="col">Notes</th>
-                              <th scope="col">Actions</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="med in catMedications">
-                              <th scope="row">{{med.id}}</th>
-                              <td>{{med.name}}</td>
-                              <td>{{med.duration}}</td>
-                              <td>{{med.frequency}}</td>
-                              <td>{{med.dosage}}</td>
-                              <td>{{med.notes}}</td>
-                              <td>
-                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                   @click="handleEdit(med.id, cat.name)">
-                                  <i class="fa fa-edit"></i>
-                                </a>
-                                <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                   @click="handleDelete(med.id, cat.name)">
-                                  <i class="fa fa-times"></i>
-                                </a></td>
-                            </tr>
-                            </tbody>
-                          </table>
+                        <div class="table-responsive table-full-width" v-if="showRow">
+                          <el-table class="table table-striped table-bordered" :data="catMedications">
+                            <el-table-column label="Id" property="id"></el-table-column>
+                            <el-table-column label="Name" property="name"></el-table-column>
+                            <el-table-column label="Duration" property="duration"></el-table-column>
+                            <el-table-column label="Freq" property="frequency"></el-table-column>
+                            <el-table-column label="Dosage" property="dosage"></el-table-column>
+                            <el-table-column label="Notes" property="notes"></el-table-column>
+                            <el-table-column label="Actions">
+                              <template slot-scope="props">
+                                <el-button @click="handleEdit()">Edit</el-button>
+                              </template>
+                            </el-table-column>
+                          </el-table>
                         </div>
+
+
                       </v-tab>
                     </vue-tabs>
                   </card>
@@ -184,7 +167,7 @@
   import Vue from 'vue'
   import axios from 'axios';
   import { Observable } from 'rxjs';
-  import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main} from 'element-ui'
+  import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
   import Fuse from 'fuse.js'
   import LSwitch from 'src/components/Switch.vue'
@@ -197,6 +180,7 @@
     components: {
       LSwitch,
       LPagination,
+      [Button.name]: Button,
       [Select.name]: Select,
       [Option.name]: Option,
       [Table.name]: Table,
@@ -297,6 +281,12 @@
         dismissCountDown2: 0,
         nursing: false,
         handleAdd: false,
+        showRow: true,
+        name:   '',
+        duration: '',
+        frequency: '',
+        dosage_unit: 'ML',
+        dosage:    '',
       }
     },
     beforeMount () {
@@ -475,22 +465,50 @@
           .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
+      postMedications(){
+        axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
+          cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+          name: this.name,
+          duration: this.duration,
+          frequency: this.frequency,
+          dosage_unit: this.dosage_unit,
+          dosage: this.dosage,
+          notes: this.notes
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSuccess = true : this.showDanger = false
+          })
+          .catch(error => {
+            console.log(error);
+            this.showDanger = true;
+          })
+      },
+      validateMedicationsBeforeSubmit() {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            console.log('it submitted');
+            this.postMedications();
+          }else{
+            console.log('it blew up: ' + result);
+          }
+        });
+      },
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
       },
       handleEdit (index, row) {
-        alert(`You want to edit ${index} ${row}`)
+        alert(`You want to edit`);
+        showRow = false;
       },
       handleDelete (index, row) {
         alert(`You want to delete ${index} ${row}`);
-        let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id);
-        if (indexToDelete >= 0) {
-          this.cats.splice(indexToDelete, 1)
-        }
+        console.log(index);
+        // let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id);
+        // if (indexToDelete >= 0) {
+        //   this.cats.splice(indexToDelete, 1)
+        // }
       },
-      // handleAdd (index, row) {
-      //   alert(`You want to Add a Cat`)
-      // },
       getSummaries (param) {
         const { columns } = param
         const sums = []

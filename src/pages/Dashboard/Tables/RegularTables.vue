@@ -14,7 +14,6 @@
                 <el-table-column label="Age" property="age"></el-table-column>
                 <el-table-column label="Type" property="cat_type"></el-table-column>
             </el-table>
-
           </div>
         </card>
       </div>
