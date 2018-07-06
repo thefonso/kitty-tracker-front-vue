@@ -3,7 +3,7 @@
     <!--TODO: have cats list below, displayed via paginated tables module DO THIS LAST-->
 
 
-  <!--CAT LIST with sub fields-->
+    <!--CAT LIST with sub fields-->
     <div class="row">
       <div class="col-md-12">
         <card>
@@ -25,190 +25,152 @@
               <div class="card" v-for="cat in cats">
                 <div class="card-header" :id="'headingOne'+cat.id">
 
-                    <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
-                         data-toggle="collapse"
-                         :data-target="'#collapseOne'+cat.id"
-                         aria-expanded="false"
-                         :aria-controls="'collapseOne'+cat.id">
-                      <div class="table-bigboy" style="width: 100%">
-                        <table class="col-sm-12">
-                          <template>
-                            <div class="d-flex justify-content-between primary-cat-row" role="button">
-                              <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
-                                <img :src="cat.photo" alt="thumb">
-                              </div>
-                              <div class="col-md-2 img-container photo-thumb" v-else>
-                                <img src="/static/img/bastet.png" alt="bastet">
-                              </div>
-                              <div class="col-md-4 cat-name">
-                                <h4>{{cat.name}}</h4>
-                                <p>added: {{cat.created | moment("MM-DD-YYYY h:MM a")}}</p>
-                                <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
-                                  <div style="display: table-row-group">
-                                    <div class="card-category" style="display: table-row">
-                                      <div class="cell" style="display: table-cell">weight</div>
-                                      <div class="cell" style="display: table-cell">gender</div>
-                                      <div class="cell" style="display: table-cell">age</div>
-                                      <div class="cell" style="display: table-cell">type</div>
-                                    </div>
-                                  </div>
-                                  <div style="display: table-row-group">
-                                    <div class="table-striped" style="display: table-row">
-                                      <div style="display: table-cell">{{cat.weight}}</div>
-                                      <div style="display: table-cell">{{cat.gender}}</div>
-                                      <div style="display: table-cell">{{cat.age}}</div>
-                                      <div style="display: table-cell">{{cat.cat_type}}</div>
-                                    </div>
+                  <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
+                       data-toggle="collapse"
+                       :data-target="'#collapseOne'+cat.id"
+                       aria-expanded="false"
+                       :aria-controls="'collapseOne'+cat.id">
+                    <div class="table-bigboy" style="width: 100%">
+                      <table class="col-sm-12">
+                        <template>
+                          <div class="d-flex justify-content-between primary-cat-row" role="button">
+                            <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
+                              <img :src="cat.photo" alt="thumb">
+                            </div>
+                            <div class="col-md-2 img-container photo-thumb" v-else>
+                              <img src="/static/img/bastet.png" alt="bastet">
+                            </div>
+                            <div class="col-md-4 cat-name">
+                              <h4>{{cat.name}}</h4>
+                              <p>added: {{cat.created | moment("MM-DD-YYYY h:MM a")}}</p>
+                              <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
+                                <div style="display: table-row-group">
+                                  <div class="card-category" style="display: table-row">
+                                    <div class="cell" style="display: table-cell">weight</div>
+                                    <div class="cell" style="display: table-cell">gender</div>
+                                    <div class="cell" style="display: table-cell">age</div>
+                                    <div class="cell" style="display: table-cell">type</div>
                                   </div>
                                 </div>
-                              </div>
-                              <div class="col-md-4 cat-litter">
-                                <div class="btn-group" v-if="cat.litter_mates !== null">
-                                  <button type="button" class="btn btn-warning btn-outline">Litter:</button>
-                                  <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
-                                </div>
-                                <div class="btn-group" v-else>
-                                  <button type="button" class="btn btn-default btn-outline">Litter:</button>
-                                  <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
-                                </div>
-                              </div>
-                              <div class="col-md-2 cat-actions">
-                                <div class="cell">
-                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                     @click="handleEdit(cat.id, cat.name)">
-                                    <i class="fa fa-edit"></i>
-                                  </a>
-                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                     @click="handleDelete(cat.id, cat.name)">
-                                    <i class="fa fa-times"></i>
-                                  </a>
+                                <div style="display: table-row-group">
+                                  <div class="table-striped" style="display: table-row">
+                                    <div style="display: table-cell">{{cat.weight}}</div>
+                                    <div style="display: table-cell">{{cat.gender}}</div>
+                                    <div style="display: table-cell">{{cat.age}}</div>
+                                    <div style="display: table-cell">{{cat.cat_type}}</div>
+                                  </div>
                                 </div>
                               </div>
                             </div>
-                            <!--TODO: old sub card was located here-->
-                          </template>
-                        </table>
-                      </div>
+                            <div class="col-md-4 cat-litter">
+                              <div class="btn-group" v-if="cat.litter_mates !== null">
+                                <button type="button" class="btn btn-warning btn-outline">Litter:</button>
+                                <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
+                              </div>
+                              <div class="btn-group" v-else>
+                                <button type="button" class="btn btn-default btn-outline">Litter:</button>
+                                <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
+                              </div>
+                            </div>
+                            <div class="col-md-2 cat-actions">
+                              <div class="cell">
+                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                   @click="handleEdit(cat.id, cat.name)">
+                                  <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                   @click="handleDelete(cat.id, cat.name)">
+                                  <i class="fa fa-times"></i>
+                                </a>
+                              </div>
+                            </div>
+                          </div>
+                          <!--TODO: old sub card was located here-->
+                        </template>
+                      </table>
                     </div>
+                  </div>
 
                 </div>
                 <!--TODO: new sub row here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
-                    <card>
-                      <vue-tabs value="Description">
-                        <v-tab title="Feedings" style="width: 100%;">
-                          <div class="table-responsive-sm">
-                            <table class="table table-striped table-bordered">
-                              <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">WBF</th>
-                                <th scope="col">AFT</th>
-                                <th scope="col">FT</th>
-                                <th scope="col">ST</th>
-                                <th scope="col">STT</th>
-                                <th scope="col">Actons</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr v-for="fed in catFeedings">
-                                <th scope="row">{{fed.id}}</th>
-                                <td>{{fed.weight_before_food}}</td>
-                                <td>{{fed.amount_of_food_taken}}</td>
-                                <td>{{fed.food_type}}</td>
-                                <td>{{fed.stimulated}}</td>
-                                <td>{{fed.stimulation_type}}</td>
-                                <td>
-                                  <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                     @click="handleEdit(fed.id, cat.name)">
-                                    <i class="fa fa-edit"></i>
-                                  </a>
-                                  <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                     @click="handleDelete(fed.id, cat.name)">
-                                    <i class="fa fa-times"></i>
-                                  </a>
-                                </td>
-                              </tr>
-                              </tbody>
-                            </table>
-                          </div>
-                        </v-tab>
-                        <v-tab title="Medications">
-                          <div class="table-responsive-sm">
-                            <div style="display:table" class="table table-striped table-bordered" >
-                              <div style="display: table-header-group">
-                              <div class="row">
-                                <div class="col-sm-1">#</div>
-                                <div class="col-sm-1">Med Name</div>
-                                <div class="col-sm-2">Duration</div>
-                                <div class="col-sm-2">Freq</div>
-                                <div class="col-sm-2">Dosage</div>
-                                <div class="col-sm-2">Notes</div>
-                                <div class="col-sm-2">Actions</div>
-                              </div>
-                              </div>
-
-                              <div style="display: table-row-group">
-                                <div class="row" v-for="med in catMedications" v-if="editMeds === true" >
-                                  <div class="col-sm-1">{{med.id}}</div>
-                                  <div class="col-sm-1">{{med.name}}</div>
-                                  <div class="col-sm-2">{{med.duration}}</div>
-                                  <div class="col-sm-2">{{med.frequency}}</div>
-                                  <div class="col-sm-2">{{med.dosage}}</div>
-                                  <div class="col-sm-2">{{med.notes}}</div>
-                                  <div class="col-sm-2">
-                                    <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                       @click="editMeds = false">
-                                      <i class="fa fa-edit"></i>
-                                    </a>
-                                    <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                       @click="handleDelete(med.id, cat.name)">
-                                      <i class="fa fa-times"></i>
-                                    </a>
-                                  </div>
-                                </div>
-                                <form @submit.prevent="medicationSubmit">
-                                <div class="row" v-for="med in catMedications" v-if="editMeds === false">
-                                    <div class="col-sm-1">{{med.id}}</div>
-                                    <div class="col-sm-1">
-                                      <div class="form-group">
-                                        <label>name</label>
-                                        <input name="name" v-model="name" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('name') }" type="text" :placeholder="med.name">
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <div class="form-group">
-                                        <label for="duration">duration</label>
-                                        <input name="duration" v-model="duration" v-validate="'required'" class="col" :class="{'input': true, 'is-danger': errors.has('duration')}" id="duration" :placeholder="med.duration">
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <div class="form-group">
-                                        <label for="frequency">frequency</label>
-                                        <input name="frequency" v-model="frequency" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('frequency')}" id="frequency" :placeholder="med.frequency">
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <div class="form-group">
-                                        <label for="dosage">dosage</label>
-                                        <input name="dosage" v-model="dosage" v-validate="'required|integer'" class="col" :class="{'input': true, 'is-danger': errors.has('dosage')}" id="dosage" :placeholder="med.dosage">
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-2">
-                                      <div class="form-group">
-                                        <label>notes</label>
-                                        <textarea class="form-control" id="InputNotes" rows="6" name="notes" v-model="notes" :placeholder="med.notes"></textarea>
-                                      </div>
-                                    </div>
-                                    <div class="col-sm-2"><button type="submit" class="btn btn-primary submit-button btn-text float-left">Submit</button></div>
-                                </div>
-                                </form>
-                              </div>
-                            </div>
-                          </div>
-                        </v-tab>
-                      </vue-tabs>
-                    </card>
+                  <card>
+                    <vue-tabs value="Description">
+                      <v-tab title="Feedings" style="width: 100%;">
+                        <div class="table-responsive-sm">
+                          <table class="table table-striped table-bordered">
+                            <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">WBF</th>
+                              <th scope="col">AFT</th>
+                              <th scope="col">FT</th>
+                              <th scope="col">ST</th>
+                              <th scope="col">STT</th>
+                              <th scope="col">Actons</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="fed in catFeedings">
+                              <th scope="row">{{fed.id}}</th>
+                              <td>{{fed.weight_before_food}}</td>
+                              <td>{{fed.amount_of_food_taken}}</td>
+                              <td>{{fed.food_type}}</td>
+                              <td>{{fed.stimulated}}</td>
+                              <td>{{fed.stimulation_type}}</td>
+                              <td>
+                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                   @click="handleEdit(fed.id, cat.name)">
+                                  <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                   @click="handleDelete(fed.id, cat.name)">
+                                  <i class="fa fa-times"></i>
+                                </a>
+                              </td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </v-tab>
+                      <v-tab title="Medications">
+                        <div class="table-responsive-sm">
+                          <table class="table table-striped table-bordered" >
+                            <thead>
+                            <tr>
+                              <th scope="col">#</th>
+                              <th scope="col">Name</th>
+                              <th scope="col">Duration</th>
+                              <th scope="col">Freq</th>
+                              <th scope="col">Dosage</th>
+                              <th scope="col">Notes</th>
+                              <th scope="col">Actions</th>
+                            </tr>
+                            </thead>
+                            <tbody>
+                            <tr v-for="med in catMedications">
+                              <th scope="row">{{med.id}}</th>
+                              <td>{{med.name}}</td>
+                              <td>{{med.duration}}</td>
+                              <td>{{med.frequency}}</td>
+                              <td>{{med.dosage}}</td>
+                              <td>{{med.notes}}</td>
+                              <td>
+                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
+                                   @click="handleEdit(med.id, cat.name)">
+                                  <i class="fa fa-edit"></i>
+                                </a>
+                                <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
+                                   @click="handleDelete(med.id, cat.name)">
+                                  <i class="fa fa-times"></i>
+                                </a></td>
+                            </tr>
+                            </tbody>
+                          </table>
+                        </div>
+                      </v-tab>
+                    </vue-tabs>
+                  </card>
                 </div>
               </div>
             </div>
@@ -281,11 +243,6 @@
     },
     data () {
       return {
-        name:   '',
-        duration: '',
-        frequency: '',
-        dosage_unit: 'ML',
-        dosage:    '',
         activeName: 'first',
         cat: '',
         cats: [],
@@ -340,7 +297,6 @@
         dismissCountDown2: 0,
         nursing: false,
         handleAdd: false,
-        editMeds: true,
       }
     },
     beforeMount () {
@@ -519,43 +475,11 @@
           .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
-      medicationSubmit(){
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            console.log('it submitted');
-            this.postMedications(result);
-          }else{
-            console.log('it blew up');
-          }
-        });
-      },
-      postMedications(values) {
-        console.log("POST-MEDICATIONS");
-        console.log(values);
-        // axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
-        //   cat: {id: this.$route.params.catID, name: this.$route.params.catName},
-        //   name: this.name,
-        //   duration: this.duration,
-        //   frequency: this.frequency,
-        //   dosage_unit: this.dosage_unit,
-        //   dosage: this.dosage,
-        //   notes: this.notes
-        // })
-        //   .then(response => {
-        //     console.log(response);
-        //     response.status === 201 ? this.showSuccess = true : this.showDanger = false
-        //   })
-        //   .catch(error => {
-        //     console.log(error);
-        //     this.showDanger = true;
-        //   })
-      },
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
       },
       handleEdit (index, row) {
-        // alert(`You want to edit ${index} ${row}`)
-        this.editMeds = false;
+        alert(`You want to edit ${index} ${row}`)
       },
       handleDelete (index, row) {
         alert(`You want to delete ${index} ${row}`);
