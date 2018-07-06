@@ -139,17 +139,47 @@
                             <el-table-column label="Id" property="id"></el-table-column>
                             <el-table-column label="Name" property="name"></el-table-column>
                             <el-table-column label="Duration" property="duration"></el-table-column>
-                            <el-table-column label="Freq" property="frequency"></el-table-column>
+                            <el-table-column label="Freq." property="frequency"></el-table-column>
                             <el-table-column label="Dosage" property="dosage"></el-table-column>
                             <el-table-column label="Notes" property="notes"></el-table-column>
                             <el-table-column label="Actions">
                               <template slot-scope="props">
-                                <el-button @click="handleEdit()">Edit</el-button>
+                                <el-button @click="handleEdit(false)">Edit</el-button>
                               </template>
                             </el-table-column>
                           </el-table>
                         </div>
 
+                        <div class="table-responsive table-full-width" v-if="!showRow">
+                          <card class="stacked-form" v-for="med in catMedications" :key="med.id">
+                            <form :id="'form'+med.id" method="#" action="#" @submit.prevent>
+                              <div class="d-flex justify-content-between">
+                                <div class="col-md-1">
+                                  <fg-input label="ID"><div class="form-control-static">{{med.id}}</div></fg-input>
+                                </div>
+                                <div class="col-md-2">
+                                  <fg-input label="Name" type="text" :placeholder="med.name"></fg-input>
+                                </div>
+                                <div class="col-md-2">
+                                  <fg-input label="Duration" type="text" :placeholder="med.duration"></fg-input>
+                                </div>
+                                <div class="col-md-1">
+                                  <fg-input label="Freq." type="text" :placeholder="med.frequency"></fg-input>
+                                </div>
+                                <div class="col-md-1">
+                                  <fg-input label="Dosage" type="text" :placeholder="med.dosage"></fg-input>
+                                </div>
+                                <div class="col-md-2">
+                                  <fg-input label="Notes" type="Textarea" :placeholder="med.notes"></fg-input>
+                                </div>
+                                <div class="col-md-1 d-flex align-items-center">
+                                  <button type="submit" class="btn btn-sm btn-info" @click="handleEdit(true)">Submit</button>
+                                </div>
+
+                              </div>
+                            </form>
+                          </card>
+                        </div>
 
                       </v-tab>
                     </vue-tabs>
@@ -497,9 +527,8 @@
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
       },
-      handleEdit (index, row) {
-        alert(`You want to edit`);
-        showRow = false;
+      handleEdit (bool) {
+        this.showRow = bool;
       },
       handleDelete (index, row) {
         alert(`You want to delete ${index} ${row}`);
