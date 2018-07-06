@@ -152,30 +152,58 @@
 
                         <div class="table-responsive table-full-width" v-if="!showRow">
                           <card class="stacked-form" v-for="med in catMedications" :key="med.id">
-                            <form :id="'form'+med.id" method="#" action="#" @submit.prevent>
+                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
                               <div class="d-flex justify-content-between">
                                 <div class="col-md-1">
                                   <fg-input label="ID"><div class="form-control-static">{{med.id}}</div></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input label="Name" type="text" :placeholder="med.name"></fg-input>
+                                  <fg-input name="name"
+                                            label="Name"
+                                            v-validate="'required'"
+                                            v-model="name"
+                                            type="text"
+                                            :placeholder="med.name"
+                                            :error="getError('requiredText')"></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input label="Duration" type="text" :placeholder="med.duration"></fg-input>
+                                  <fg-input name="duration"
+                                            label="Duration"
+                                            v-validate="'required'"
+                                            v-model="duration"
+                                            type="text"
+                                            :placeholder="med.duration"
+                                            :error="getError('duration')"></fg-input>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input label="Freq." type="text" :placeholder="med.frequency"></fg-input>
+                                  <fg-input name="frequency"
+                                            v-validate="'required|integer'"
+                                            v-model="frequency"
+                                            :error="getError('frequency')"
+                                            label="Freq."
+                                            type="text"
+                                            :placeholder="med.frequency"></fg-input>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input label="Dosage" type="text" :placeholder="med.dosage"></fg-input>
+                                  <fg-input name="dosage"
+                                            v-validate="'required|integer'"
+                                            v-model="dosage"
+                                            :error="getError('dosage')"
+                                            label="Dosage"
+                                            type="text"
+                                            :placeholder="med.dosage"></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input label="Notes" type="Textarea" :placeholder="med.notes"></fg-input>
+                                  <fg-input name="notes"
+                                            v-model="notes"
+                                            :error="getError('notes')"
+                                            label="Notes"
+                                            type="textarea"
+                                            :placeholder="med.notes"></fg-input>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
-                                  <button type="submit" class="btn btn-sm btn-info" @click="handleEdit(true)">Submit</button>
+                                  <button type="submit" class="btn btn-sm btn-info">Submit</button>
                                 </div>
-
                               </div>
                             </form>
                           </card>
@@ -197,6 +225,7 @@
   import Vue from 'vue'
   import axios from 'axios';
   import { Observable } from 'rxjs';
+  import swal from 'sweetalert2'
   import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
   import Fuse from 'fuse.js'
@@ -435,9 +464,12 @@
           }).catch(swal.noop)
         }
       },
+      getError (fieldName) {
+        return this.errors.first(fieldName)
+      },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
-          .then(response => {console.log(response.data.results.length); this.cats = response.data.results})
+          .then(response => {this.cats = response.data.results})
           .catch(error => console.log(error));
       },
       getFeedings(value) {
@@ -495,33 +527,50 @@
           .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
-      postMedications(){
+      postMedications(catID, catName){
         axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
-          cat: {id: this.$route.params.catID, name: this.$route.params.catName},
+          cat: {id: catID, name: catName},
           name: this.name,
           duration: this.duration,
           frequency: this.frequency,
-          dosage_unit: this.dosage_unit,
+          dosage_unit: 'ML',
           dosage: this.dosage,
           notes: this.notes
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess = true : this.showDanger = false
+            response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
+            this.handleEdit(true);
           })
           .catch(error => {
             console.log(error);
-            this.showDanger = true;
+            this.showSwal('auto-close');
           })
       },
-      validateMedicationsBeforeSubmit() {
+      putMedications(catID, catName){
+        axios.put(`${process.env.KITTY_URL}/api/v1/medications/`,{
+          cat: {id: catID, name: catName},
+          name: this.name,
+          duration: this.duration,
+          frequency: this.frequency,
+          dosage_unit: 'ML',
+          dosage: this.dosage,
+          notes: this.notes
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
+            this.handleEdit(true);
+          })
+          .catch(error => {
+            console.log(error);
+            this.showSwal('auto-close');
+          })
+      },
+      validateMedicationsBeforeSubmit(catID, catName) {
         this.$validator.validateAll().then((result) => {
-          if (result) {
-            console.log('it submitted');
-            this.postMedications();
-          }else{
-            console.log('it blew up: ' + result);
-          }
+          if (result) {console.log('it submitted: ');
+          }else{console.log('it blew up: ');}
         });
       },
       handleLike (index, row) {
@@ -567,15 +616,6 @@
           return 'warning'
         }
         return ''
-      },
-      myClickEvent() {
-        console.log(this.$refs);
-        // console.log(myID);
-        // const elem = this.$refs.myBtn.$el;
-        // elem.click();
-        // this.$refs.myBtn.$el.
-
-        // document.getElementById(myID).hidden;
       },
     }
   }

@@ -28,12 +28,13 @@
           </div>
         </fg-input>
 
-        <fg-input name="number"
-                  type="number"
+        <fg-input type="number"
                   label="Number"
+                  name="number"
                   v-validate="modelValidations.number"
                   v-model="model.number"
-                  :error="getError('number')">
+                  :error="getError('number')"
+        >
           <div slot="infoBlock">
             <code>number:true</code>
           </div>
