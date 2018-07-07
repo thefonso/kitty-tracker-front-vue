@@ -119,14 +119,8 @@
                               <td>{{fed.stimulated}}</td>
                               <td>{{fed.stimulation_type}}</td>
                               <td>
-                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                   @click="handleEdit(fed.id, cat.name)">
-                                  <i class="fa fa-edit"></i>
-                                </a>
-                                <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                   @click="handleDelete(fed.id, cat.name)">
-                                  <i class="fa fa-times"></i>
-                                </a>
+                                <button class="btn btn-sm btn-info" @click="feedEdit(med.id, false)">Edit</button>
+                                <button class="btn btn-sm btn-danger" @click="feedEdit(med.id, false)">Delete</button>
                               </td>
                             </tr>
                             </tbody>
@@ -134,28 +128,43 @@
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
-                        <div class="table-responsive table-full-width" v-if="showRow">
-                          <el-table class="table table-striped table-bordered" :data="catMedications">
-                            <el-table-column label="Id" property="id"></el-table-column>
-                            <el-table-column label="Name" property="name"></el-table-column>
-                            <el-table-column label="Duration" property="duration"></el-table-column>
-                            <el-table-column label="Freq." property="frequency"></el-table-column>
-                            <el-table-column label="Dosage" property="dosage"></el-table-column>
-                            <el-table-column label="Notes" property="notes"></el-table-column>
-                            <el-table-column label="Actions">
-                              <template slot-scope="props">
-                                <el-button @click="handleEdit(false)">Edit</el-button>
-                              </template>
-                            </el-table-column>
-                          </el-table>
+                        <div class="table-responsive-sm" v-if="showRow">
+                          <table class="table table-striped table-bordered" >
+                              <thead>
+                              <tr>
+                                <th scope="col">#</th>
+                                <th scope="col">Name</th>
+                                <th scope="col">Duration</th>
+                                <th scope="col">Freq</th>
+                                <th scope="col">Dosage</th>
+                                <th scope="col">Notes</th>
+                                <th scope="col">Actions</th>
+                              </tr>
+                              </thead>
+                              <tbody>
+                              <tr v-for="med in catMedications">
+                                <td>{{med.id}}</td>
+                                <td>{{med.name}}</td>
+                                <td>{{med.duration}}</td>
+                                <td>{{med.frequency}}</td>
+                                <td>{{med.dosage}}</td>
+                                <td>{{med.notes}}</td>
+                                <td>
+                                  <button class="btn btn-sm btn-info" @click="medEdit(med.id, false)">Edit</button>
+                                  <button class="btn btn-sm btn-danger" @click="medEdit(med.id, false)">Delete</button>
+                                </td>
+                              </tr>
+                              </tbody>
+                            </table>
                         </div>
 
+
                         <div class="table-responsive table-full-width" v-if="!showRow">
-                          <card class="stacked-form" v-for="med in catMedications" :key="med.id">
-                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
-                              <div class="d-flex justify-content-between">
+                          <card class="stacked-form" v-for="ce in medToEdit" :key="ce.id">
+                            <form :id="'form'+ce.id" @submit.prevent="validateMedicationsBeforeSubmit(ce.id, ce.name, 'edit')">
+                              <div class="d-flex justify-content-start">
                                 <div class="col-md-1">
-                                  <fg-input label="ID"><div class="form-control-static">{{med.id}}</div></fg-input>
+                                  <fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input>
                                 </div>
                                 <div class="col-md-2">
                                   <fg-input name="name"
@@ -163,7 +172,7 @@
                                             v-validate="'required'"
                                             v-model="name"
                                             type="text"
-                                            :placeholder="med.name"
+                                            :placeholder="ce.name"
                                             :error="getError('requiredText')"></fg-input>
                                 </div>
                                 <div class="col-md-2">
@@ -172,7 +181,7 @@
                                             v-validate="'required'"
                                             v-model="duration"
                                             type="text"
-                                            :placeholder="med.duration"
+                                            :placeholder="ce.duration"
                                             :error="getError('duration')"></fg-input>
                                 </div>
                                 <div class="col-md-1">
@@ -182,7 +191,7 @@
                                             :error="getError('frequency')"
                                             label="Freq."
                                             type="text"
-                                            :placeholder="med.frequency"></fg-input>
+                                            :placeholder="ce.frequency"></fg-input>
                                 </div>
                                 <div class="col-md-1">
                                   <fg-input name="dosage"
@@ -191,7 +200,7 @@
                                             :error="getError('dosage')"
                                             label="Dosage"
                                             type="text"
-                                            :placeholder="med.dosage"></fg-input>
+                                            :placeholder="ce.dosage"></fg-input>
                                 </div>
                                 <div class="col-md-2">
                                   <fg-input name="notes"
@@ -199,13 +208,15 @@
                                             :error="getError('notes')"
                                             label="Notes"
                                             type="textarea"
-                                            :placeholder="med.notes"></fg-input>
+                                            :placeholder="ce.notes"></fg-input>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
                                   <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                  <button class="btn btn-sm btn-warning" @click="handleEdit(true)">Cancel</button>
                                 </div>
                               </div>
                             </form>
+
                           </card>
                         </div>
 
@@ -291,6 +302,8 @@
         cats: [],
         catFeedings: [],
         catMedications: [],
+        medToEdit: [],
+        feedToEdit: [],
         page: 1,
         CatIndex: 0,
         pagination: {
@@ -524,10 +537,10 @@
       },
       getMedications(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
-          .then(response => {console.log(response.data.results); this.catMedications = response.data.results})
+          .then(response => {console.log("catMedications: ");console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
-      postMedications(catID, catName){
+      addMedications(catID, catName){
         axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
           cat: {id: catID, name: catName},
           name: this.name,
@@ -547,7 +560,7 @@
             this.showSwal('auto-close');
           })
       },
-      putMedications(catID, catName){
+      editMedications(catID, catName){
         axios.put(`${process.env.KITTY_URL}/api/v1/medications/`,{
           cat: {id: catID, name: catName},
           name: this.name,
@@ -567,9 +580,11 @@
             this.showSwal('auto-close');
           })
       },
-      validateMedicationsBeforeSubmit(catID, catName) {
+      validateMedicationsBeforeSubmit(catID, catName, action) {
         this.$validator.validateAll().then((result) => {
-          if (result) {console.log('it submitted: ');
+          if (result) {
+            console.log('it submitted: ');
+            action = 'edit' ? editMedications(catID, catName) : addMedications(catID, catName)
           }else{console.log('it blew up: ');}
         });
       },
@@ -577,7 +592,23 @@
         alert(`You want to like ${row.name}`)
       },
       handleEdit (bool) {
+        // map / filter / reduce
         this.showRow = bool;
+        console.log(this.showRow);
+      },
+      medEdit (medID, bool) {
+        // map / filter / reduce
+        this.showRow = bool;
+        this.medToEdit = this.catMedications.filter(function(medToChange){
+          return medToChange.id == medID;
+        });
+      },
+      feedEdit (fedID, bool) {
+        // map / filter / reduce
+        this.showRow = bool;
+        this.feedToEdit = this.catFeedings.filter(function(fedToChange){
+          return fedToChange.id == medID;
+        });
       },
       handleDelete (index, row) {
         alert(`You want to delete ${index} ${row}`);
