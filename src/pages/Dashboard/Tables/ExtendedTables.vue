@@ -128,36 +128,24 @@
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
-                        <div class="table-responsive-sm" v-if="showRow">
-                          <table class="table table-striped table-bordered" >
-                              <thead>
-                              <tr>
-                                <th scope="col">#</th>
-                                <th scope="col">Name</th>
-                                <th scope="col">Duration</th>
-                                <th scope="col">Freq</th>
-                                <th scope="col">Dosage</th>
-                                <th scope="col">Notes</th>
-                                <th scope="col">Actions</th>
-                              </tr>
-                              </thead>
-                              <tbody>
-                              <tr v-for="med in catMedications">
-                                <td>{{med.id}}</td>
-                                <td>{{med.name}}</td>
-                                <td>{{med.duration}}</td>
-                                <td>{{med.frequency}}</td>
-                                <td>{{med.dosage}}</td>
-                                <td>{{med.notes}}</td>
-                                <td>
-                                  <button class="btn btn-sm btn-info" @click="medEdit(med.id, false)">Edit</button>
-                                  <button class="btn btn-sm btn-danger" @click="medEdit(med.id, false)">Delete</button>
-                                </td>
-                              </tr>
-                              </tbody>
-                            </table>
+                        <div class="table-responsive table-full-width" v-if="showRow">
+                          <card class="stacked-form" v-for="med in catMedications" :key="med.id">
+                            <!--<form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">-->
+                              <div class="d-flex justify-content-start">
+                                <div class="col-md-1">{{med.id}}</div>
+                                <div class="col-md-2">{{med.name}}</div>
+                                <div class="col-md-2">{{med.duration}}</div>
+                                <div class="col-md-1">{{med.frequency}}</div>
+                                <div class="col-md-1">{{med.dosage}}</div>
+                                <div class="col-md-2">{{med.notes}}</div>
+                                <div class="col-md-1 d-flex align-items-center">
+                                  <button type="submit" class="btn btn-sm btn-info">Submit</button>
+                                  <button class="btn btn-sm btn-warning" @click="handleEdit(true)">Cancel</button>
+                                </div>
+                              </div>
+                            <!--</form>-->
+                          </card>
                         </div>
-
 
                         <div class="table-responsive table-full-width" v-if="!showRow">
                           <card class="stacked-form" v-for="ce in medToEdit" :key="ce.id">
@@ -167,48 +155,19 @@
                                   <fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input name="name"
-                                            label="Name"
-                                            v-validate="'required'"
-                                            v-model="name"
-                                            type="text"
-                                            :placeholder="ce.name"
-                                            :error="getError('requiredText')"></fg-input>
+                                  <fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="ce.name" :error="getError('requiredText')"></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input name="duration"
-                                            label="Duration"
-                                            v-validate="'required'"
-                                            v-model="duration"
-                                            type="text"
-                                            :placeholder="ce.duration"
-                                            :error="getError('duration')"></fg-input>
+                                  <fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="ce.duration" :error="getError('duration')"></fg-input>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input name="frequency"
-                                            v-validate="'required|integer'"
-                                            v-model="frequency"
-                                            :error="getError('frequency')"
-                                            label="Freq."
-                                            type="text"
-                                            :placeholder="ce.frequency"></fg-input>
+                                  <fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="ce.frequency"></fg-input>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input name="dosage"
-                                            v-validate="'required|integer'"
-                                            v-model="dosage"
-                                            :error="getError('dosage')"
-                                            label="Dosage"
-                                            type="text"
-                                            :placeholder="ce.dosage"></fg-input>
+                                  <fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="ce.dosage"></fg-input>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input name="notes"
-                                            v-model="notes"
-                                            :error="getError('notes')"
-                                            label="Notes"
-                                            type="textarea"
-                                            :placeholder="ce.notes"></fg-input>
+                                  <fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="ce.notes"></fg-input>
                                 </div>
                                 <div class="col-md-1 d-flex align-items-center">
                                   <button type="submit" class="btn btn-sm btn-info">Submit</button>
@@ -216,7 +175,6 @@
                                 </div>
                               </div>
                             </form>
-
                           </card>
                         </div>
 
@@ -595,6 +553,9 @@
         // map / filter / reduce
         this.showRow = bool;
         console.log(this.showRow);
+      },
+      testSubmit(one,two,three){
+        console.log(one,two,three);
       },
       medEdit (medID, bool) {
         // map / filter / reduce
