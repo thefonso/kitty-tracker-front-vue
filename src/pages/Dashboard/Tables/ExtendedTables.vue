@@ -161,7 +161,7 @@
 
                         <div class="table-responsive table-full-width" v-if="!showRow">
                           <card class="stacked-form" v-for="ce in medToEdit" :key="ce.id">
-                            <form :id="'form'+ce.id" @submit.prevent="validateMedicationsBeforeSubmit(ce.id, ce.name, 'edit')">
+                            <form :id="'form'+ce.id" @submit.prevent="validateMedicationsBeforeSubmit(ce.id, ce.name, ce.cat.id, ce.cat.name)">
                               <div class="d-flex justify-content-start">
                                 <div class="col-md-1">
                                   <fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input>
@@ -297,6 +297,7 @@
     },
     data () {
       return {
+        medID: '',
         activeName: 'first',
         cat: '',
         cats: [],
@@ -540,15 +541,17 @@
           .then(response => {console.log("catMedications: ");console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
-      addMedications(catID, catName){
+      postMedications(medID, medName, catID, catName){
         axios.post(`${process.env.KITTY_URL}/api/v1/medications/`,{
+          id: medID,
           cat: {id: catID, name: catName},
           name: this.name,
           duration: this.duration,
           frequency: this.frequency,
           dosage_unit: 'ML',
           dosage: this.dosage,
-          notes: this.notes
+          notes: this.notes,
+          showRow: 'true'
         })
           .then(response => {
             console.log(response);
@@ -560,15 +563,17 @@
             this.showSwal('auto-close');
           })
       },
-      editMedications(catID, catName){
+      putMedications(medID, medName, catID, catName){
         axios.put(`${process.env.KITTY_URL}/api/v1/medications/`,{
+          id: medID,
           cat: {id: catID, name: catName},
           name: this.name,
           duration: this.duration,
           frequency: this.frequency,
           dosage_unit: 'ML',
           dosage: this.dosage,
-          notes: this.notes
+          notes: this.notes,
+          showRow: 'true'
         })
           .then(response => {
             console.log(response);
@@ -580,11 +585,12 @@
             this.showSwal('auto-close');
           })
       },
-      validateMedicationsBeforeSubmit(catID, catName, action) {
+      validateMedicationsBeforeSubmit(medID, medName, catID, catName) {
         this.$validator.validateAll().then((result) => {
           if (result) {
             console.log('it submitted: ');
-            action = 'edit' ? editMedications(catID, catName) : addMedications(catID, catName)
+            // this.postMedications(medID, medName, catID, catName);
+            this.putMedications(medID, medName, catID, catName);
           }else{console.log('it blew up: ');}
         });
       },
