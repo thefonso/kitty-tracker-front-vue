@@ -130,36 +130,35 @@
                       <v-tab title="Medications">
                         <div class="table-responsive table-full-width" v-if="showRow">
                           <card class="stacked-form" v-for="med in catMedications" :key="med.id">
-                            <!--<form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">-->
+                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">
                               <div class="d-flex justify-content-start">
-                                <div class="col-md-1"><fg-input label="ID"><div class="form-control-static">{{med.id}}</div></fg-input><span>{{med.id}}</span></div>
-                                <div class="col-md-2"><fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input><span>{{med.name}}</span></div>
-                                <div class="col-md-2"><fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input><span>{{med.duration}}</span></div>
-                                <div class="col-md-1"><fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="med.frequency"></fg-input><span>{{med.frequency}}</span></div>
-                                <div class="col-md-1"><fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="med.dosage"></fg-input><span>{{med.dosage}}</span></div>
-                                <div class="col-md-2"><fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="med.notes"></fg-input><span>{{med.notes}}</span></div>
-                                <div class="col-md-1 d-flex align-items-center">
-                                  <button class="btn btn-sm btn-info" @click="medEdit(med.id, false)">Edit</button>
-                                  <button class="btn btn-sm btn-danger" @click="medEdit(med.id, false)">Delete</button>
+                                <div class="col-md-1">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id" label="ID"></fg-input>
+                                  <span v-if="med.showRow">{{med.id}}</span>
                                 </div>
-                              </div>
-                            <!--</form>-->
-                          </card>
-                        </div>
-
-                        <div class="table-responsive table-full-width" v-if="!showRow">
-                          <card class="stacked-form" v-for="ce in medToEdit" :key="ce.id">
-                            <form :id="'form'+ce.id" @submit.prevent="validateMedicationsBeforeSubmit(ce.id, ce.name, 'edit')">
-                              <div class="d-flex justify-content-start">
-                                <div class="col-md-1"><fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input></div>
-                                <div class="col-md-2"><fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="ce.name" :error="getError('requiredText')"></fg-input></div>
-                                <div class="col-md-2"><fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="ce.duration" :error="getError('duration')"></fg-input></div>
-                                <div class="col-md-1"><fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="ce.frequency"></fg-input></div>
-                                <div class="col-md-1"><fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="ce.dosage"></fg-input></div>
-                                <div class="col-md-2"><fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="ce.notes"></fg-input></div>
+                                <div class="col-md-2">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="name" v-validate="'required'" label="Name" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input>
+                                  <span v-if="med.showRow">{{med.name}}</span>
+                                </div>
+                                <div class="col-md-2">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="duration"  v-validate="'required'" label="Duration" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input>
+                                  <span v-if="med.showRow">{{med.duration}}</span>
+                                </div>
+                                <div class="col-md-1">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="med.frequency"></fg-input>
+                                  <span v-if="med.showRow">{{med.frequency}}</span>
+                                </div>
+                                <div class="col-md-1">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="med.dosage"></fg-input>
+                                  <span v-if="med.showRow">{{med.dosage}}</span>
+                                </div>
+                                <div class="col-md-2">
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="med.notes"></fg-input>
+                                  <span v-if="med.showRow">{{med.notes}}</span>
+                                </div>
                                 <div class="col-md-1 d-flex align-items-center">
-                                  <button type="submit" class="btn btn-sm btn-info">Submit</button>
-                                  <button class="btn btn-sm btn-warning" @click="handleEdit(true)">Cancel</button>
+                                  <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow'><span v-if="med.showRow">Edit</span><span v-if="!med.showRow">Cancel</span></button>
+                                  <button type="submit" class="btn btn-sm btn-info" v-if="!med.showRow">Submit</button>
                                 </div>
                               </div>
                             </form>
@@ -507,6 +506,7 @@
           })
       },
       editMedications(catID, catName){
+        console.log("edit meds called:");
         axios.put(`${process.env.KITTY_URL}/api/v1/medications/`,{
           cat: {id: catID, name: catName},
           name: this.name,
@@ -517,6 +517,7 @@
           notes: this.notes
         })
           .then(response => {
+            console.log("editMedications success");
             console.log(response);
             response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
             this.handleEdit(true);
@@ -526,11 +527,11 @@
             this.showSwal('auto-close');
           })
       },
-      validateMedicationsBeforeSubmit(catID, catName, action) {
+      validateMedicationsBeforeSubmit(catID, catName) {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            console.log('it submitted: ');
-            action = 'edit' ? editMedications(catID, catName) : addMedications(catID, catName)
+            editMedications(catID, catName);
+            console.log('sent to edit: ');
           }else{console.log('it blew up: ');}
         });
       },
