@@ -139,8 +139,8 @@
                                 <div class="col-md-1">{{med.dosage}}</div>
                                 <div class="col-md-2">{{med.notes}}</div>
                                 <div class="col-md-1 d-flex align-items-center">
-                                  <button type="submit" class="btn btn-sm btn-info">Submit</button>
-                                  <button class="btn btn-sm btn-warning" @click="handleEdit(true)">Cancel</button>
+                                  <button class="btn btn-sm btn-info" @click="medEdit(med.id, false)">Edit</button>
+                                  <button class="btn btn-sm btn-danger" @click="medEdit(med.id, false)">Delete</button>
                                 </div>
                               </div>
                             <!--</form>-->
@@ -151,24 +151,12 @@
                           <card class="stacked-form" v-for="ce in medToEdit" :key="ce.id">
                             <form :id="'form'+ce.id" @submit.prevent="validateMedicationsBeforeSubmit(ce.id, ce.name, 'edit')">
                               <div class="d-flex justify-content-start">
-                                <div class="col-md-1">
-                                  <fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input>
-                                </div>
-                                <div class="col-md-2">
-                                  <fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="ce.name" :error="getError('requiredText')"></fg-input>
-                                </div>
-                                <div class="col-md-2">
-                                  <fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="ce.duration" :error="getError('duration')"></fg-input>
-                                </div>
-                                <div class="col-md-1">
-                                  <fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="ce.frequency"></fg-input>
-                                </div>
-                                <div class="col-md-1">
-                                  <fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="ce.dosage"></fg-input>
-                                </div>
-                                <div class="col-md-2">
-                                  <fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="ce.notes"></fg-input>
-                                </div>
+                                <div class="col-md-1"><fg-input label="ID"><div class="form-control-static">{{ce.id}}</div></fg-input></div>
+                                <div class="col-md-2"><fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="ce.name" :error="getError('requiredText')"></fg-input></div>
+                                <div class="col-md-2"><fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="ce.duration" :error="getError('duration')"></fg-input></div>
+                                <div class="col-md-1"><fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="ce.frequency"></fg-input></div>
+                                <div class="col-md-1"><fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="ce.dosage"></fg-input></div>
+                                <div class="col-md-2"><fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="ce.notes"></fg-input></div>
                                 <div class="col-md-1 d-flex align-items-center">
                                   <button type="submit" class="btn btn-sm btn-info">Submit</button>
                                   <button class="btn btn-sm btn-warning" @click="handleEdit(true)">Cancel</button>
