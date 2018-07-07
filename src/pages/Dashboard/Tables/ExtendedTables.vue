@@ -132,12 +132,12 @@
                           <card class="stacked-form" v-for="med in catMedications" :key="med.id">
                             <!--<form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">-->
                               <div class="d-flex justify-content-start">
-                                <div class="col-md-1">{{med.id}}</div>
-                                <div class="col-md-2">{{med.name}}</div>
-                                <div class="col-md-2">{{med.duration}}</div>
-                                <div class="col-md-1">{{med.frequency}}</div>
-                                <div class="col-md-1">{{med.dosage}}</div>
-                                <div class="col-md-2">{{med.notes}}</div>
+                                <div class="col-md-1"><fg-input label="ID"><div class="form-control-static">{{med.id}}</div></fg-input><span>{{med.id}}</span></div>
+                                <div class="col-md-2"><fg-input name="name" label="Name" v-validate="'required'" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input><span>{{med.name}}</span></div>
+                                <div class="col-md-2"><fg-input name="duration" label="Duration" v-validate="'required'" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input><span>{{med.duration}}</span></div>
+                                <div class="col-md-1"><fg-input name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="med.frequency"></fg-input><span>{{med.frequency}}</span></div>
+                                <div class="col-md-1"><fg-input name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="med.dosage"></fg-input><span>{{med.dosage}}</span></div>
+                                <div class="col-md-2"><fg-input name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="med.notes"></fg-input><span>{{med.notes}}</span></div>
                                 <div class="col-md-1 d-flex align-items-center">
                                   <button class="btn btn-sm btn-info" @click="medEdit(med.id, false)">Edit</button>
                                   <button class="btn btn-sm btn-danger" @click="medEdit(med.id, false)">Delete</button>
