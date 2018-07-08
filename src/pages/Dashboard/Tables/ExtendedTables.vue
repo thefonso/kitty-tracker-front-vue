@@ -100,9 +100,9 @@
                         <div class="table table-striped table-bordered">
                             <div class="medRow d-flex justify-content-start top-row">
                               <div class="col-md-1">#</div>
+                              <div class="col-md-2">FT</div>
                               <div class="col-md-2">WBF</div>
                               <div class="col-md-2">AFT</div>
-                              <div class="col-md-2">FT</div>
                               <div class="col-md-1">ST</div>
                               <div class="col-md-1">STT</div>
                               <div class="col-md-3">Actions</div>
@@ -115,16 +115,16 @@
                                     <span v-if="fed.showRow">{{fed.id}}</span>
                                   </div>
                                   <div class="col-md-2">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.food_type}}</span>
+                                  </div>
+                                  <div class="col-md-2">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" :placeholder="fed.weight_before_food" :error="getError('weight_before_food')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.weight_before_food}}</span>
                                   </div>
                                   <div class="col-md-2">
-                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" :placeholder="fed.amount_of_food_taken" :error="getError('amount_of_food_taken')"></fg-input>
+                                    <fg-input v-if="!fed.showRow && food_type !== 'MN'" :form="'form'+fed.id" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" :placeholder="fed.amount_of_food_taken" :error="getError('amount_of_food_taken')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.amount_of_food_taken}}</span>
-                                  </div>
-                                  <div class="col-md-2">
-                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
-                                    <span v-if="fed.showRow">{{fed.food_type}}</span>
                                   </div>
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" :placeholder="fed.stimulated"></fg-input>
@@ -147,14 +147,6 @@
                             <div class="medRow d-flex justify-content-start">
                               <div class="col-md-1">&nbsp;</div>
                               <div class="col-md-2">
-                                <fg-input v-if="!showButton" form="formaddfeed" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" placeholder="WBF" :error="getError('requiredText')"/>
-                                <span v-if="showButton">&nbsp;</span>
-                              </div>
-                              <div class="col-md-2">
-                                <fg-input v-if="!showButton" form="formaddfeed" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
-                                <span v-if="showButton">&nbsp;</span>
-                              </div>
-                              <div class="col-md-2">
                                 <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
                                   <el-option value="Choose..." selected>Choose...</el-option>
                                   <el-option value="NA" >None / Not Entered</el-option>
@@ -167,8 +159,20 @@
                                 </el-select>
                                 <span v-if="showButton">&nbsp;</span>
                               </div>
+                              <div class="col-md-2">
+                                <fg-input id="weight_before_food" v-if="!showButton && food_type !== 'MN'" form="formaddfeed" name="weight_before_food" v-validate="'required|integer'" v-model="weight_before_food" type="text" placeholder="WBF" :error="getError('requiredText')" v-on:change="fivePercenter"/>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
+                              <div class="col-md-2">
+                                <fg-input v-if="!showButton" form="formaddfeed" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
                               <div class="col-md-1">
-                                <fg-input v-if="!showButton" form="formaddfeed" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" placeholder="ST"/>
+                                <el-select v-if="!showButton" form="formaddfeed" name="stimulated" v-on:change="checkFoodType(food_type)" v-validate="'required|alpha'" v-model="stimulated"  placeholder="ST" :error="getError('stimulated')">
+                                  <el-option value="Choose..." selected>Choose...</el-option>
+                                  <el-option value="true">True</el-option>
+                                  <el-option value="false">False</el-option>
+                                </el-select>
                                 <span v-if="showButton">&nbsp;</span></div>
                               <div class="col-md-1">
                                 <fg-input v-if="!showButton" form="formaddfeed" name="stimulation_type" v-model="stimulation_type" :error="getError('stimulation_type')" type="textarea" placeholder="STT"/>
@@ -692,6 +696,25 @@
           return 'warning'
         }
         return ''
+      },
+      fivePercenter(){
+        let percent_wbf = document.getElementById("weight_before_food").value * 0.05;
+        let wbf = Number(document.getElementById("weight_before_food").value);
+        console.log(typeof percent_wbf);
+        console.log(typeof wbf);
+        document.getElementById("target_weight_after_food").innerHTML = wbf + percent_wbf;
+      },
+      checkFoodType(food_type_taken){
+        if (this.stimulated === "false"){
+          if (food_type_taken === "BO" || food_type_taken === "BS") {
+            // TODO: turn these two alerts into modals?
+            alert("You selected Bottle or Bottle-Syringe: Did you forget to stimulate the kitten?");
+          }
+        }else{
+          if (food_type_taken === "SG" || food_type_taken === "GG" || food_type_taken === "G") {
+            alert("You selected Syringe Gruel, Gruel or Both: Was the kitten stimulated");
+          }
+        }
       },
     }
   }
