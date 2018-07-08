@@ -174,6 +174,33 @@
                               </div>
                             </form>
                           </div>
+                          <form id="formadd" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
+                          <div class="medRow d-flex justify-content-start">
+                            <div class="col-md-1">&nbsp;</div>
+                            <div class="col-md-2">
+                              <fg-input v-if="!showButton" form="formadd" name="name" v-validate="'required'" v-model="name" type="text" placeholder="name" :error="getError('requiredText')"></fg-input>
+                              <span v-if="showButton">&nbsp;</span>
+                            </div>
+                            <div class="col-md-2">
+                              <fg-input v-if="!showButton" form="formadd" name="duration"  v-validate="'required'" v-model="duration" type="text" placeholder="duration" :error="getError('duration')"></fg-input>
+                              <span v-if="showButton">&nbsp;</span>
+                            </div>
+                            <div class="col-md-1">
+                              <fg-input v-if="!showButton" form="formadd" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" type="text" placeholder="frequency"></fg-input>
+                              <span v-if="showButton">&nbsp;</span>
+                            </div>
+                            <div class="col-md-1">
+                              <fg-input v-if="!showButton" form="formadd" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" type="text" placeholder="dosage"></fg-input>
+                              <span v-if="showButton">&nbsp;</span></div>
+                            <div class="col-md-2">
+                              <fg-input v-if="!showButton" form="formadd" name="notes" v-model="notes" :error="getError('notes')" type="textarea" placeholder="notes"></fg-input>
+                              <span v-if="showButton">&nbsp;</span></div>
+                            <div class="col-md-3">
+                              <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
+                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>
+                            </div>
+                          </div>
+                          </form>
                         </div>
                       </v-tab>
                     </vue-tabs>
@@ -309,6 +336,7 @@
         nursing: false,
         handleAdd: false,
         showRow: true,
+        showButton: true,
         name:   '',
         duration: '',
         frequency: '',
@@ -340,7 +368,7 @@
         } else if (type === 'success-message') {
           swal({
             title: `Good job!`,
-            text: 'You clicked the button!',
+            text: 'Record added',
             buttonsStyling: false,
             confirmButtonClass: 'btn btn-success btn-fill',
             type: 'success'
@@ -506,13 +534,12 @@
           notes: this.notes
         })
           .then(response => {
-            console.log(response);
-            response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
-            this.handleEdit(true);
+            console.log(response);console.log(this.showButton);
+            this.showButton = true;
+            response.status === 201 ? this.showSwal('success-message') : null
           })
           .catch(error => {
             console.log(error);
-            this.showSwal('auto-close');
           })
       },
       editMedications(catID, catName){
@@ -540,8 +567,8 @@
       validateMedicationsBeforeSubmit(catID, catName) {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            editMedications(catID, catName);
-            console.log('sent to edit: ');
+            this.addMedications(catID, catName);
+            console.log("ping");console.log(catID, catName);
           }else{console.log('it blew up: ');}
         });
       },
