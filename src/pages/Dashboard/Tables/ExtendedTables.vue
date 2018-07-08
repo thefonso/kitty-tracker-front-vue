@@ -96,35 +96,90 @@
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
                   <card>
                     <vue-tabs value="Description">
-                      <v-tab title="Feedings" style="width: 100%;">
-                        <div class="table-responsive-sm">
-                          <table class="table table-striped table-bordered">
-                            <thead>
-                            <tr>
-                              <th scope="col">#</th>
-                              <th scope="col">WBF</th>
-                              <th scope="col">AFT</th>
-                              <th scope="col">FT</th>
-                              <th scope="col">ST</th>
-                              <th scope="col">STT</th>
-                              <th scope="col">Actons</th>
-                            </tr>
-                            </thead>
-                            <tbody>
-                            <tr v-for="fed in catFeedings">
-                              <th scope="row">{{fed.id}}</th>
-                              <td>{{fed.weight_before_food}}</td>
-                              <td>{{fed.amount_of_food_taken}}</td>
-                              <td>{{fed.food_type}}</td>
-                              <td>{{fed.stimulated}}</td>
-                              <td>{{fed.stimulation_type}}</td>
-                              <td>
-                                <button class="btn btn-sm btn-info" @click="feedEdit(med.id, false)">Edit</button>
-                                <button class="btn btn-sm btn-danger" @click="feedEdit(med.id, false)">Delete</button>
-                              </td>
-                            </tr>
-                            </tbody>
-                          </table>
+                      <v-tab title="Feedings">
+                        <div class="table table-striped table-bordered">
+                            <div class="medRow d-flex justify-content-start top-row">
+                              <div class="col-md-1">#</div>
+                              <div class="col-md-2">WBF</div>
+                              <div class="col-md-2">AFT</div>
+                              <div class="col-md-2">FT</div>
+                              <div class="col-md-1">ST</div>
+                              <div class="col-md-1">STT</div>
+                              <div class="col-md-3">Actions</div>
+                            </div>
+                            <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
+                              <form :id="'form'+fed.id" @submit.prevent="validateMedicationsBeforeSubmit(fed.id, fed.name, 'edit')">
+                                <div class="medRow d-flex justify-content-start">
+                                  <div class="col-md-1">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.id}}</span>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" :placeholder="fed.weight_before_food" :error="getError('weight_before_food')"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.weight_before_food}}</span>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" :placeholder="fed.amount_of_food_taken" :error="getError('amount_of_food_taken')"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.amount_of_food_taken}}</span>
+                                  </div>
+                                  <div class="col-md-2">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.food_type}}</span>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" :placeholder="fed.stimulated"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.stimulated}}</span>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulation_type" v-validate="'required'" v-model="stimulation_type" :error="getError('stimulation_type')" type="text" :placeholder="fed.stimulation_type"></fg-input>
+                                    <span v-if="fed.showRow">{{fed.stimulation_type}}</span>
+                                  </div>
+                                  <div class="col-md-3 d-flex align-items-center cancel-submit">
+                                    <button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>
+                                    <button class="btn btn-sm btn-warning" @click='fed.showRow = !fed.showRow' v-if="!fed.showRow">Cancel</button>
+                                    <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit2</button>
+                                    <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow">Delete</button>
+                                  </div>
+                                </div>
+                              </form>
+                            </div>
+                          <form id="formaddfeed" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
+                            <div class="medRow d-flex justify-content-start">
+                              <div class="col-md-1">&nbsp;</div>
+                              <div class="col-md-2">
+                                <fg-input v-if="!showButton" form="formaddfeed" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" placeholder="WBF" :error="getError('requiredText')"/>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
+                              <div class="col-md-2">
+                                <fg-input v-if="!showButton" form="formaddfeed" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
+                              <div class="col-md-2">
+                                <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
+                                  <el-option value="Choose..." selected>Choose...</el-option>
+                                  <el-option value="NA" >None / Not Entered</el-option>
+                                  <el-option value="MN" >Mom (Nursing)</el-option>
+                                  <el-option value="BO" >Bottle</el-option>
+                                  <el-option value="BS" >Bottle/Syringe</el-option>
+                                  <el-option value="SG" >Syringe Gruel</el-option>
+                                  <el-option value="GG" >Syringe Gruel / Gruel</el-option>
+                                  <el-option value="G" >Gruel</el-option>
+                                </el-select>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
+                              <div class="col-md-1">
+                                <fg-input v-if="!showButton" form="formaddfeed" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" placeholder="ST"/>
+                                <span v-if="showButton">&nbsp;</span></div>
+                              <div class="col-md-1">
+                                <fg-input v-if="!showButton" form="formaddfeed" name="stimulation_type" v-model="stimulation_type" :error="getError('stimulation_type')" type="textarea" placeholder="STT"/>
+                                <span v-if="showButton">&nbsp;</span></div>
+                              <div class="col-md-3">
+                                <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
+                                <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>
+                              </div>
+                            </div>
+                          </form>
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
@@ -139,7 +194,7 @@
                             <div class="col-md-3">Actions</div>
                           </div>
                           <div id="medtable" class="" v-for="med in catMedications" :key="med.id">
-                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">
+                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, cat.id, cat.name)">
                               <div class="medRow d-flex justify-content-start">
                                 <div class="col-md-1">
                                   <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id"></fg-input>
@@ -225,11 +280,13 @@
   import LSwitch from 'src/components/Switch.vue'
   import VueTabs from 'vue-nav-tabs'
   import Wizard from  '../Forms/Wizard'
+  import ElSelectDropdown from "element-ui/packages/select/src/select-dropdown";
 
   Vue.use(VueTabs);
 
   export default{
     components: {
+      ElSelectDropdown,
       LSwitch,
       LPagination,
       [Button.name]: Button,
@@ -542,9 +599,9 @@
             console.log(error);
           })
       },
-      editMedications(catID, catName){
+      editMedications(medID, medName, catID, catName ){
         console.log("edit meds called:");
-        axios.put(`${process.env.KITTY_URL}/api/v1/medications/`,{
+        axios.put(`${process.env.KITTY_URL}/api/v1/medications/${medID}/`,{
           cat: {id: catID, name: catName},
           name: this.name,
           duration: this.duration,
@@ -564,10 +621,11 @@
             this.showSwal('auto-close');
           })
       },
-      validateMedicationsBeforeSubmit(catID, catName) {
+      validateMedicationsBeforeSubmit(medID, medName, catID, catName) {
         this.$validator.validateAll().then((result) => {
           if (result) {
             this.addMedications(catID, catName);
+            // this.editMedications(medID, medName, catID, catName);
             console.log("ping");console.log(catID, catName);
           }else{console.log('it blew up: ');}
         });
@@ -639,6 +697,12 @@
   }
 </script>
 <style lang="scss" scoped>
+  #feedtable:nth-child(even){
+    background-color: #F2F2F2;;
+  }
+  #feedtable button{
+    margin-right: 5px;
+  }
   #medtable:nth-child(even){
     background-color: #F2F2F2;;
   }
