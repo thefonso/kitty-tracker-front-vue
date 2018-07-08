@@ -129,40 +129,50 @@
                       </v-tab>
                       <v-tab title="Medications">
                         <div class="table table-striped table-bordered" v-if="showRow">
-                          <card class="stacked-form" v-for="med in catMedications" :key="med.id">
+                          <div class="medRow d-flex justify-content-start top-row">
+                            <div class="col-md-1">#</div>
+                            <div class="col-md-2">Name</div>
+                            <div class="col-md-2">Duration</div>
+                            <div class="col-md-1">Freq.</div>
+                            <div class="col-md-1">Dose</div>
+                            <div class="col-md-2">Notes</div>
+                            <div class="col-md-3">Actions</div>
+                          </div>
+                          <div id="medtable" class="" v-for="med in catMedications" :key="med.id">
                             <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">
-                              <div class="d-flex justify-content-start">
+                              <div class="medRow d-flex justify-content-start">
                                 <div class="col-md-1">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id" label="ID"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id"></fg-input>
                                   <span v-if="med.showRow">{{med.id}}</span>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="name" v-validate="'required'" label="Name" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="name" v-validate="'required'" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input>
                                   <span v-if="med.showRow">{{med.name}}</span>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="duration"  v-validate="'required'" label="Duration" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="duration"  v-validate="'required'" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input>
                                   <span v-if="med.showRow">{{med.duration}}</span>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" label="Freq." type="text" :placeholder="med.frequency"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" type="text" :placeholder="med.frequency"></fg-input>
                                   <span v-if="med.showRow">{{med.frequency}}</span>
                                 </div>
                                 <div class="col-md-1">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" label="Dosage" type="text" :placeholder="med.dosage"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" type="text" :placeholder="med.dosage"></fg-input>
                                   <span v-if="med.showRow">{{med.dosage}}</span>
                                 </div>
                                 <div class="col-md-2">
-                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="med.notes"></fg-input>
+                                  <fg-input v-if="!med.showRow" :form="'form'+med.id" name="notes" v-model="notes" :error="getError('notes')" type="textarea" :placeholder="med.notes"></fg-input>
                                   <span v-if="med.showRow">{{med.notes}}</span>
                                 </div>
-                                <div class="col-md-1 d-flex align-items-center cancel-submit"><td>
-                                  <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow'><span v-if="med.showRow">Edit</span><span v-if="!med.showRow">Cancel</span></button>
-                                  <button type="submit" class="btn btn-sm btn-info" v-if="!med.showRow">Submit</button></td>
+                                <div class="col-md-3 d-flex align-items-center cancel-submit">
+                                  <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>
+                                  <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
+                                  <button type="submit" class="btn btn-sm btn-danger" v-if="!med.showRow">Submit</button>
                                 </div>
                               </div>
                             </form>
-                          </card>
+                          </div>
                         </div>
                       </v-tab>
                     </vue-tabs>
@@ -601,6 +611,23 @@
   }
 </script>
 <style lang="scss" scoped>
+  #medtable:nth-child(even){
+    background-color: #F2F2F2;;
+  }
+  .medRow{
+    border-bottom: 1px solid #D4D4D4;
+  }
+
+  .medRow div{
+    border-left: 1px solid #D4D4D4;
+  }
+  .top-row div{
+    font-size: 12px;
+    text-transform: uppercase;
+    color: #9A9A9A;
+    font-weight: 400;
+    padding-bottom: 5px;
+  }
   .cancel-submit button{
     padding-right: 15px;
     display: block;
