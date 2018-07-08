@@ -168,7 +168,8 @@
                                 <div class="col-md-3 d-flex align-items-center cancel-submit">
                                   <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>
                                   <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
-                                  <button type="submit" class="btn btn-sm btn-danger" v-if="!med.showRow">Submit</button>
+                                  <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow">Submit</button>
+                                  <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow">Delete</button>
                                 </div>
                               </div>
                             </form>
@@ -614,10 +615,12 @@
   #medtable:nth-child(even){
     background-color: #F2F2F2;;
   }
+  #medtable button{
+    margin-right: 5px;
+  }
   .medRow{
     border-bottom: 1px solid #D4D4D4;
   }
-
   .medRow div{
     border-left: 1px solid #D4D4D4;
   }
