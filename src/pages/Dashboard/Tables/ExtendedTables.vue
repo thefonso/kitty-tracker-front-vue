@@ -128,7 +128,7 @@
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
-                        <div class="table-responsive table-full-width" v-if="showRow">
+                        <div class="table table-striped table-bordered" v-if="showRow">
                           <card class="stacked-form" v-for="med in catMedications" :key="med.id">
                             <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, 'edit')">
                               <div class="d-flex justify-content-start">
@@ -156,15 +156,14 @@
                                   <fg-input v-if="!med.showRow" :form="'form'+med.id" name="notes" v-model="notes" :error="getError('notes')" label="Notes" type="textarea" :placeholder="med.notes"></fg-input>
                                   <span v-if="med.showRow">{{med.notes}}</span>
                                 </div>
-                                <div class="col-md-1 d-flex align-items-center">
+                                <div class="col-md-1 d-flex align-items-center cancel-submit"><td>
                                   <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow'><span v-if="med.showRow">Edit</span><span v-if="!med.showRow">Cancel</span></button>
-                                  <button type="submit" class="btn btn-sm btn-info" v-if="!med.showRow">Submit</button>
+                                  <button type="submit" class="btn btn-sm btn-info" v-if="!med.showRow">Submit</button></td>
                                 </div>
                               </div>
                             </form>
                           </card>
                         </div>
-
                       </v-tab>
                     </vue-tabs>
                   </card>
@@ -602,6 +601,10 @@
   }
 </script>
 <style lang="scss" scoped>
+  .cancel-submit button{
+    padding-right: 15px;
+    display: block;
+  }
   .el-collapse-item__header{
     border-bottom: none;
   }
