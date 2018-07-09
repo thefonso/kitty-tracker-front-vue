@@ -149,7 +149,7 @@
                             </div>
                           <!--TODO: ADD a recorded FEEDING-->
                           <!--<form id="formaddfeed">-->
-                            <div class="medRow d-flex justify-content-start">
+                            <div class="fedRow d-flex justify-content-start">
                               <div class="col-md-1">&nbsp;</div>
                               <div class="col-md-1">
                                 <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
@@ -195,7 +195,7 @@
                                   <el-option value="UF">Urine/Feces</el-option>
                                 </el-select>
                                 <span v-if="showButton">&nbsp;</span></div>
-                              <div class="col-md-3">
+                              <div class="col-md-3 fed-submit-buttons">
                                 <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                                 <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                                 <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
@@ -764,7 +764,20 @@
     }
   }
 </script>
+
 <style lang="scss" scoped>
+  .fedRow{
+    border-bottom: 1px solid #D4D4D4;
+  }
+  .fedRow div{
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid #D4D4D4;
+  }
+  .fed-submit-buttons button{
+    margin-top: 5px;
+    margin-left: 6px;
+  }
   #feedtable:nth-child(even){
     background-color: #F2F2F2;;
   }
