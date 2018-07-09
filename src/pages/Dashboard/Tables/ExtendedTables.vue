@@ -280,6 +280,7 @@
                             <div class="col-md-3">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                               <button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>
+                              <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                             </div>
                           </div>
                           </form>
