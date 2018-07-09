@@ -114,7 +114,7 @@
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id"></fg-input>
                                     <span v-if="fed.showRow">{{fed.id}}</span>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.food_type}}</span>
                                   </div>
@@ -151,7 +151,7 @@
                           <!--<form id="formaddfeed">-->
                             <div class="medRow d-flex justify-content-start">
                               <div class="col-md-1">&nbsp;</div>
-                              <div class="col-md-2">
+                              <div class="col-md-1">
                                 <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
                                   <el-option value="Choose..." selected>Choose...</el-option>
                                   <el-option value="NA" >None / Not Entered</el-option>
