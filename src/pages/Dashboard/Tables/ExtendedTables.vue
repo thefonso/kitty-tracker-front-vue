@@ -2,7 +2,6 @@
   <div>
     <!--TODO: have cats list below, displayed via paginated tables module DO THIS LAST-->
 
-
     <!--CAT LIST with sub fields-->
     <div class="row">
       <div class="col-md-12">
@@ -100,31 +99,36 @@
                         <div class="table table-striped table-bordered">
                             <div class="medRow d-flex justify-content-start top-row">
                               <div class="col-md-1">#</div>
-                              <div class="col-md-2">FT</div>
-                              <div class="col-md-2">WBF</div>
+                              <div class="col-md-1">FT</div>
+                              <div class="col-md-1">WBF</div>
                               <div class="col-md-1">AFT</div>
+                              <div class="col-md-1">WAF</div>
                               <div class="col-md-1">ST</div>
                               <div class="col-md-2">STT</div>
-                              <div class="col-md-3">Actions</div>
+                              <div class="col-md-2">Actions</div>
                             </div>
                             <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
-                              <form :id="'form'+fed.id" @submit.prevent="validateMedicationsBeforeSubmit(fed.id, fed.name, 'edit')">
+                              <form :id="'form'+fed.id" @submit.prevent="validateFeedingsBeforeSubmit(fed.id, fed.name, 'edit')">
                                 <div class="medRow d-flex justify-content-start">
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id"></fg-input>
                                     <span v-if="fed.showRow">{{fed.id}}</span>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.food_type}}</span>
                                   </div>
-                                  <div class="col-md-2">
+                                  <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" :placeholder="fed.weight_before_food" :error="getError('weight_before_food')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.weight_before_food}}</span>
                                   </div>
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow && food_type !== 'MN'" :form="'form'+fed.id" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" :placeholder="fed.amount_of_food_taken" :error="getError('amount_of_food_taken')"></fg-input>
                                     <span v-if="fed.showRow">{{fed.amount_of_food_taken}}</span>
+                                  </div>
+                                  <div class="col-md-1">
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'"  :placeholder="fed.weight_after_food":error="getError('weight_after_food')"/>
+                                    <span v-if="fed.showRow">{{fed.stimulated}}</span>
                                   </div>
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" :placeholder="fed.stimulated"></fg-input>
@@ -143,11 +147,11 @@
                                 </div>
                               </form>
                             </div>
-                          <!--TODO: ADD a recorded feeding form-->
-                          <form id="formaddfeed" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
+                          <!--TODO: ADD a recorded feeding-->
+                          <!--<form id="formaddfeed">-->
                             <div class="medRow d-flex justify-content-start">
-                              <div class="col-md-1">&nbsp;</div>
-                              <div class="col-md-2">
+                              <div class="col-md-1 form-group">&nbsp;</div>
+                              <div class="col-md-1">
                                 <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
                                   <el-option value="Choose..." selected>Choose...</el-option>
                                   <el-option value="NA" >None / Not Entered</el-option>
@@ -160,22 +164,29 @@
                                 </el-select>
                                 <span v-if="showButton">&nbsp;</span>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-md-1 form-group">
                                 <fg-input name="weight_before_food" id="weight_before_food" v-if="!showButton && food_type !== 'MN'" form="formaddfeed" v-validate="'required|integer'" v-model="weight_before_food" type="text" placeholder="WBF" :error="getError('requiredText')" v-on:change="fivePercenter"/>
                                 <span v-if="showButton">&nbsp;</span>
+                                <div v-if="food_type !== 'G' && food_type !== 'MN' && !showButton" class="form-group">
+                                  <label class="gray" for="target_weight_after_food">Target Weight After Food(gm): <div id="target_weight_after_food"></div></label>
+                                </div>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-md-1 form-group">
                                 <fg-input v-if="!showButton" form="formaddfeed" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
                                 <span v-if="showButton">&nbsp;</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-md-1 form-group">
+                                <fg-input v-if="!showButton" name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'"  id="weight_after_food" placeholder="WAF" :error="getError('weight_after_food')"/>
+                                <span v-if="showButton">&nbsp;</span>
+                              </div>
+                              <div class="col-md-1 form-group">
                                 <el-select v-if="!showButton" form="formaddfeed" name="stimulated" v-on:change="checkFoodType(food_type)" v-validate="'required|alpha'" v-model="stimulated"  placeholder="ST" :error="getError('stimulated')">
                                   <el-option value="Choose..." selected>Choose...</el-option>
                                   <el-option value="true">True</el-option>
                                   <el-option value="false">False</el-option>
                                 </el-select>
                                 <span v-if="showButton">&nbsp;</span></div>
-                              <div class="col-md-2">
+                              <div class="col-md-2 form-group">
                                 <el-select v-if="!showButton" form="formaddfeed" name="stimulation_type" id="stimulation_type" v-model="stimulation_type" v-validate="'required|alpha'" :error="getError('stimulation_type')" placeholder="STT">
                                   <el-option value="Choose..." selected>Choose...</el-option>
                                   <el-option value="NA">None / Not Entered</el-option>
@@ -184,13 +195,16 @@
                                   <el-option value="UF">Urine/Feces</el-option>
                                 </el-select>
                                 <span v-if="showButton">&nbsp;</span></div>
-                              <div class="col-md-3">
+                              <div class="col-md-2">
                                 <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                                 <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
-                                <button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>
+                                <!--<button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>-->
+                                <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)">Submit</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="postFeedingsMom(cat.id, cat.name)">Submit mom</button>
                               </div>
                             </div>
-                          </form>
+                          <!--</form>-->
                         </div>
                       </v-tab>
                       <v-tab title="Medications">
@@ -578,12 +592,12 @@
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showAlert() : this.showAlert2();
+            response.status === 201 ? console.log("success") : console.log("fail");
           })
           .catch(error => {
             console.log(error);
             this.dismissCountDown = true;
-            this.showAlert();
+            console.log("fail");
           })
       },
       getMedications(value) {
@@ -631,6 +645,28 @@
             console.log(error);
             this.showSwal('auto-close');
           })
+      },
+      feedingsBeforeSubmit(medID, medName, catID, catName) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.postFeedings(catID, catName);
+          }else{console.log('it blew up: ');}
+        });
+      },
+      validateSubmitNoMom(catID, catName) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.postFeedings(catID, catName);
+          }else{console.log('it blew up 1: ');}
+        });
+      },
+      validateSubmitMom(catID, catName) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.postFeedingsMom(catID, catName);
+            console.log("ping");console.log(catID, catName);
+          }else{console.log('it blew up 2: ');}
+        });
       },
       validateMedicationsBeforeSubmit(medID, medName, catID, catName) {
         this.$validator.validateAll().then((result) => {
