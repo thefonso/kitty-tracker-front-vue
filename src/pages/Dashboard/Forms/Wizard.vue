@@ -1,7 +1,7 @@
 <template>
   <div>
     <div class="row d-flex justify-content-center">
-      <div class="col-sm-8">
+      <div class="col-sm-10">
         <div class="card card-wizard" id="wizardCard">
           <form-wizard shape="tab"
                        title="Add a Cat"

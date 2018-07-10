@@ -1,9 +1,8 @@
 <template>
-  <div>
+  <form id="cat_form" @submit.prevent="validateBeforeSubmit">
     <h5 class="text-center">Please tell us more about your cat.</h5>
     <div class="row">
-      <!--second column BEGINS-->
-
+      <!--second column alerts BEGINS-->
       <div class="row">
         <div class="col-sm-2"></div>
 
@@ -18,11 +17,11 @@
         <div class="col-sm-2"></div>
       </div>
 
-      <div id="pet-content" class="form-group row">
-        <!--<div class="col-2"></div>-->
+      <div id="" class="form-group row">
+        <!--<div class="col-1"></div>-->
 
         <!--second column BEGINS-->
-        <div class="col-sm-12 float-left">
+        <div class="col-sm-6 float-left">
           <div class="form-group">
             <label class="col-sm-6 form-label" for="name">Name</label>
             <div class="col-sm-12">
@@ -35,7 +34,7 @@
 
           <div class="row">
             <div class="form-group col-sm-6">
-              <label class="col-sm-6 form-label">Gender</label>
+              <label class="col-sm-9 form-label">Gender</label>
               <div class="col-sm-9">
                 <div class="form-check form-check-inline">
                   <input class="form-check-input" type="radio" name="gender" id="InputGender1" value="M"
@@ -68,7 +67,6 @@
               <span class="help is-danger" v-show="errors.has('age')">{{ errors.first('age') }}</span>
             </div>
           </div>
-
           <div class="row">
             <div class="form-group col-sm-6">
               <label class="col-sm-12">Cat type</label>
@@ -102,9 +100,10 @@
             <div class="form-group col-sm-6" v-if="age === 'K'">
               <label class="col-sm-12 form-label ">Litter Name</label>
               <div class="col-sm-12">
-                <div class="">
+                <div class="form-check-inline">
                   <select class="form-control" name="litter_set" v-model="litter_mates">
-                    <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
+                    <!--<option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>-->
+                    <option v-for="item in litter" :value="item.name">{{item.name}}</option>
                   </select>
                 </div>
               </div>
@@ -178,20 +177,59 @@
         </div>
         <!--second column ENDS-->
 
+        <!--third column BEGINS-->
+        <div class="col-sm-6">
+          <div class="form-group">
+            <label class="col-sm-12 form-label">Weight</label>
+            <div class="col-sm-12 row" v-if="cat_form">
+              <div class="col-sm-6">
+                <input name="weight" v-model="weight" v-validate="'required|integer'"
+                       :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
+                <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
+              </div>
+              <div class="col-sm-6">
+                <select name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
+                        :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
+                  <option disabled value="">Choose</option>
+                  <option value="G">Grams</option>
+                  <option value="LB">Pounds</option>
+                </select>
+              </div>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-sm-12 form-label">Birthday</label>
+            <div class="col-sm-12" v-if="cat_form">
+              <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
+                     :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
+              <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
+                }}
+              </small>
+            </div>
+          </div>
+          <div class="clear-fix"></div>
+          <div class="form-group">
+            <div class="col-sm-8">
+              <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit</button>
+            </div>
+          </div>
+        </div>
+        <!--third column ENDS-->
 
         <!--<div class="col-1"></div>-->
       </div>
       <!--second column ENDS-->
+
     </div>
-  </div>
+  </form>
 </template>
 <script>
   import axios from 'axios';
   import {Observable} from 'rxjs';
-  import bModal from 'bootstrap-vue/es/components/modal/modal';
-  import bContainer from 'bootstrap-vue/es/components/modal/modal';
-  import bAlert from 'bootstrap-vue/es/components/modal/modal';
-  import bModalDirective from 'bootstrap-vue/es/directives/modal/modal';
+  // import bModal from 'bootstrap-vue/es/components/modal/modal';
+  // import bContainer from 'bootstrap-vue/es/components/modal/modal';
+  // import bAlert from 'bootstrap-vue/es/components/modal/modal';
+  // import bModalDirective from 'bootstrap-vue/es/directives/modal/modal';
 
   export default {
     data () {
@@ -214,6 +252,9 @@
         showDanger: false,
         showSuccess_litter: false,
         showDanger_litter: false,
+        weight: '',
+        weight_unit: '',
+        birthday: '',
       }
     },
     methods: {
@@ -334,12 +375,12 @@
       this.getLitterNames()
     },
     components: {
-      'b-modal': bModal,
-      'b-container': bContainer,
-      'b-alert': bAlert
+      // 'b-modal': bModal,
+      // 'b-container': bContainer,
+      // 'b-alert': bAlert
     },
     directives: {
-      'b-modal': bModalDirective
+      // 'b-modal': bModalDirective
     },
   }
 </script>
@@ -364,7 +405,7 @@
     height: 1.5em;
     color: #4A90E2;
     font-family: "Helvetica Neue";
-    font-size: 1.25em;
+    font-size: 1.0em;
     font-weight: bold;
     line-height: 1.5625em
   }
