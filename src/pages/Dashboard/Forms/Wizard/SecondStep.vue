@@ -2,132 +2,71 @@
   <div>
     <h5 class="text-center">Please give us more details about your platform.</h5>
     <div class="row">
-      <div class="col-12">
-        <fg-input label="Your website"
-                  type="url"
-                  name="website"
-                  v-validate="modelValidations.website"
-                  v-model="model.website"
-                  :error="getError('website')"
-                  placeholder="ex: http://www.creative-tim.com">
-        </fg-input>
+      <!--third column BEGINS-->
+      <div class="col-sm-12">
+        <div class="form-group">
+          <label class="col-sm-12 control-label">Weight</label>
+          <div class="col-sm-12 row" v-if="cat_form">
+            <div class="col-sm-4">
+              <input name="weight" v-model="weight" v-validate="'required|integer'"
+                     :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
+              <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
+            </div>
+            <div class="col-sm-3">
+              <select name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
+                      :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
+                <option disabled value="">Choose</option>
+                <option value="G">Grams</option>
+                <option value="LB">Pounds</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-sm-12 form-label">Birthday</label>
+          <div class="col-sm-8" v-if="cat_form">
+            <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
+                   :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
+            <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
+              }}
+            </small>
+          </div>
+        </div>
+        <div class="clear-fix"></div>
+        <div class="form-group">
+          <div class="col-sm-8">
+            <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit</button>
+          </div>
+        </div>
       </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <fg-input label="Framework Type"
-                  name="framework"
-                  v-model="model.framework"
-                  placeholder="ex: Vue.js">
-        </fg-input>
-      </div>
-      <div class="col-md-6">
-        <fg-input label="Language"
-                  :error="getError('language')">
-          <el-select name="language"
-                     v-validate="modelValidations.language"
-                     class="select-default"
-                     v-model="model.language">
-            <el-option v-for="lang in languageOptions"
-                       :key="lang.value"
-                       class="select-default"
-                       :label="lang.label"
-                       :value="lang.value">
-            </el-option>
-          </el-select>
-        </fg-input>
-      </div>
-    </div>
-    <div class="row">
-      <div class="col-md-6">
-        <fg-input v-validate="modelValidations.bootstrapVersion"
-                  v-model="model.bootstrapVersion"
-                  name="bootstrap version"
-                  :error="getError('bootstrap version')"
-                  label="Bootstrap version">
-          <el-select class="select-default"
-                     v-model="model.bootstrapVersion">
-            <el-option class="select-default" value="1.1">Bootstrap 1.1</el-option>
-            <el-option class="select-default" value="2.0">Bootstrap 2.0</el-option>
-            <el-option class="select-default" value="3.0">Bootstrap 3.0</el-option>
-            <el-option class="select-default" value="4.0">Bootstrap 4.0(alpha)</el-option>
-          </el-select>
-        </fg-input>
-      </div>
-      <div class="col-md-6">
-        <fg-input label="Price">
-          <el-input-number v-model="model.price"
-                           placeholder="ex: 19.00"
-                           name="price">
-          </el-input-number>
-        </fg-input>
-      </div>
+      <!--third column ENDS-->
     </div>
   </div>
 </template>
 <script>
-  import { mapFields } from 'vee-validate'
-  import { Select, Option } from 'element-ui'
+
+
 
   export default {
-    components: {
-      [Select.name]: Select,
-      [Option.name]: Option
-    },
-    computed: {
-      ...mapFields(['website', 'language', 'bootstrapVersion'])
-    },
     data () {
       return {
-        languageOptions: [
-          {value: '', label: '- language -'},
-          {value: 'ms', label: 'Bahasa Melayu'},
-          {value: 'ca', label: 'Català'},
-          {value: 'da', label: 'Dansk'},
-          {value: 'de', label: 'Deutsch'},
-          {value: 'en', label: 'English'},
-          {value: 'es', label: 'Español'},
-          {value: 'el', label: 'Eλληνικά'},
-          {value: 'fr', label: 'Français'},
-          {value: 'it', label: 'Italiano'},
-          {value: 'hu', label: 'Magyar'},
-          {value: 'nl', label: 'Nederlands'},
-          {value: 'no', label: 'Norsk'},
-          {value: 'pl', label: 'Polski'},
-          {value: 'pt', label: 'Português'},
-          {value: 'fi', label: 'Suomi'},
-          {value: 'sv', label: 'Svenska'},
-          {value: 'tr', label: 'Türkçe'},
-          {value: 'is', label: 'Íslenska'},
-          {value: 'cs', label: 'Čeština'},
-          {value: 'ru', label: 'Русский'},
-          {value: 'th', label: 'ภาษาไทย'},
-          {value: 'zh', label: '中文 (简体)'},
-          {value: 'zh-TW', label: '中文 (繁體)'},
-          {value: 'ja', label: '日本語'},
-          {value: 'ko', label: '한국어'}],
-        model: {
-          website: '',
-          frameworkType: '',
-          language: '',
-          bootstrapVersion: '',
-          price: ''
-        },
-        modelValidations: {
-          website: {
-            url: true,
-            required: true
-          },
-          language: {
-            required: true
-          },
-          bootstrapVersion: {
-            required: true
-          }
-        }
+        weight: '',
+        weight_unit: '',
+        birthday: '',
+        cat_form: true,
       }
     },
     methods: {
+      getLitterNamesObserv() {
+        const litter$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/litter/`)
+          .catch(error => console.log(error)))
+          .pluck("data", "results");
+        console.log(litter$);
+        return {litter: litter$}
+      },
+      hideModal () {
+        this.$refs.myModalRef.hide();
+      },
       getError (fieldName) {
         return this.errors.first(fieldName)
       },

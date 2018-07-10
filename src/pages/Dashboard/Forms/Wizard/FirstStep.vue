@@ -24,12 +24,13 @@
         <!--second column BEGINS-->
         <div class="col-sm-12 float-left">
           <div class="form-group">
-            <label class="col-sm-12">Name</label>
+            <label class="col-sm-6 form-label" for="name">Name</label>
             <div class="col-sm-12">
-              <input name="name" v-model="name" v-validate="'required'"
-                     :class="{'input': true, 'is-danger': errors.has('name'),}" class="form-control" type="text">
-              <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
+              <input id="name" name="name" v-validate="'required'" v-model="name" :error="getError('name')"
+                        class="form-control"
+                        type="text"/>
             </div>
+            <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
           </div>
 
           <div class="row">
@@ -100,9 +101,9 @@
             <div class="form-group col-sm-6" v-if="age === 'K'">
               <label class="col-sm-12 form-label ">Litter Name</label>
               <div class="col-sm-12">
-                <div class="form-check-inline">
+                <div class="">
                   <select class="form-control" name="litter_set" v-model="litter_mates">
-                    <option v-for="item in litter" :value="item.name">{{item.name}}</option>
+                    <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
                   </select>
                 </div>
               </div>
@@ -198,9 +199,6 @@
         cat_form: true,
         selectedFile: null,
         singleCat: [],
-        weight: '',
-        weight_unit: '',
-        birthday: '',
         photo: '',
         showSuccess: false,
         showDanger: false,
@@ -291,8 +289,8 @@
         axios.get(`${process.env.KITTY_URL}/api/v1/litter/`)
           .then(request => {
             console.log("litter_value: ");
-            console.log(request.data.results);
             this.litter = request.data.results;
+            console.log(this.litter);
           })
           .catch(error => console.log(error));
       },
@@ -320,7 +318,10 @@
           return res
         })
       }
-    }
+    },
+    beforeMount() {
+      this.getLitterNames()
+    },
   }
 </script>
 <style scoped>
