@@ -67,8 +67,8 @@
               </div>
               <span class="help is-danger" v-show="errors.has('age')">{{ errors.first('age') }}</span>
             </div>
-
           </div>
+
           <div class="row">
             <div class="form-group col-sm-6">
               <label class="col-sm-12">Cat type</label>
@@ -80,6 +80,7 @@
                   <option value="N" v-if="gender === 'F' && age !== 'K'">Nursing</option>
                 </select>
               </div>
+              <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
             </div>
 
             <!--NOTE: litter stuff starts here-->
@@ -108,7 +109,6 @@
                 </div>
               </div>
             </div>
-
           </div>
           <!-- if KITTEN...different assoc with litter modal-->
 
@@ -135,10 +135,14 @@
                   <!--second column-->
                   <div class="col-sm-4 float-left">
                     <div class="form-group">
-                      <label class="col-sm-12">New Litter's Name</label>
+                      <label class="col-sm-12" for="lit_name">New Litter's Name</label>
                       <div class="col-sm-12">
-                        <input name="name" v-model="litter_name" v-validate="'required'"
-                               :class="{'input': true, 'is-danger': errors.has('litter_name'),}" class="form-control" type="text">
+                        <input id="lit_name"
+                               name="litter_name"
+                               v-model="litter_name"
+                               :class="{'input': true, 'is-danger': errors.has('litter_name'),}"
+                               class="form-control"
+                               type="text">
                         <small v-show="errors.has('litter_name')" class="help is-danger form-text">{{ errors.first('litter_name') }}</small>
                       </div>
                     </div>
@@ -149,11 +153,13 @@
                     <div class="form-group">
                       <label class="col-sm-12">Mama cats name</label>
                       <div class="col-sm-8">
-                        <input name="birthday" v-model="name" v-validate="'required'"
-                               :class="{'input': true, 'is-danger': errors.has('name') }" class="form-control" type="text">
-                        <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name')
-                          }}
-                        </small>
+                        <input name="birthday"
+                               v-model="name"
+                               v-validate="'required'"
+                               :class="{'input': true, 'is-danger': errors.has('name') }"
+                               class="form-control"
+                               type="text">
+                        <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
                       </div>
                     </div>
                     <div class="clear-fix"></div>
@@ -163,7 +169,7 @@
                       </div>
                     </div>
                   </div>
-                  <!--<div class="col-1"></div>-->
+                  <div class="col-1"></div>
                 </div>
               </form>
             </b-container>
@@ -182,13 +188,17 @@
 <script>
   import axios from 'axios';
   import {Observable} from 'rxjs';
+  import bModal from 'bootstrap-vue/es/components/modal/modal';
+  import bContainer from 'bootstrap-vue/es/components/modal/modal';
+  import bAlert from 'bootstrap-vue/es/components/modal/modal';
+  import bModalDirective from 'bootstrap-vue/es/directives/modal/modal';
 
   export default {
     data () {
       return {
         name: '',
-        age: '',
         gender: '',
+        age: '',
         cat_type: '',
         litter: [],
         litter_mates: null,
@@ -314,6 +324,7 @@
       },
       validate () {
         return this.$validator.validateAll().then(res => {
+          console.log("fuq");
           this.$emit('on-validated', res, this.model)
           return res
         })
@@ -321,6 +332,14 @@
     },
     beforeMount() {
       this.getLitterNames()
+    },
+    components: {
+      'b-modal': bModal,
+      'b-container': bContainer,
+      'b-alert': bAlert
+    },
+    directives: {
+      'b-modal': bModalDirective
     },
   }
 </script>
