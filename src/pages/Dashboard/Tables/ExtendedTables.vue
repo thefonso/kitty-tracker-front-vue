@@ -18,6 +18,7 @@
             </div>
             <br />
           </div>
+          <!--TODO: ADD a Cat is here-->
           <Wizard v-show="handleAdd"></Wizard>
           <div class="table-responsive">
             <div id="accordion">
@@ -108,7 +109,7 @@
                               <div class="col-md-2">Actions</div>
                             </div>
                             <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
-                              <form :id="'form'+fed.id" @submit.prevent="validateFeedingsBeforeSubmit(fed.id, fed.name, 'edit')">
+                              <form :id="'form'+fed.id" @submit.prevent="updateDeleteFeedsSubmit(fed.id, fed.name, 'edit')">
                                 <div class="medRow d-flex justify-content-start">
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id"></fg-input>
@@ -218,7 +219,7 @@
                             <div class="col-md-3">Actions</div>
                           </div>
                           <div id="medtable" class="" v-for="med in catMedications" :key="med.id">
-                            <form :id="'form'+med.id" @submit.prevent="validateMedicationsBeforeSubmit(med.id, med.name, cat.id, cat.name)">
+                            <form :id="'form'+med.id" @submit.prevent="updateDeleteMedsSubmit(med.id, med.name, cat.id, cat.name)">
                               <div class="medRow d-flex justify-content-start">
                                 <div class="col-md-1">
                                   <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id"></fg-input>
@@ -627,7 +628,7 @@
             console.log(error);
           })
       },
-      editMedications(medID, medName, catID, catName ){
+      editMedications(medID, medName, catID, catName){
         console.log("edit meds called:");
         axios.put(`${process.env.KITTY_URL}/api/v1/medications/${medID}/`,{
           cat: {id: catID, name: catName},
@@ -643,6 +644,28 @@
             console.log(response);
             response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
             this.handleEdit(true);
+          })
+          .catch(error => {
+            console.log(error);
+            this.showSwal('auto-close');
+          })
+      },
+      editFeedings(medID, medName, catID, catName) {
+        axios.put(`${process.env.KITTY_URL}/api/v1/feedings/${medID}/`,{
+          cat: {id: catID, name: catName},
+          weight_unit_measure: 'G',
+          weight_before_food: this.weight_before_food,
+          food_unit_measure: 'G',
+          amount_of_food_taken: this.amount_of_food_taken,
+          food_type: this.food_type,
+          weight_after_food: this.weight_after_food,
+          stimulated: this.stimulated,
+          stimulation_type: this.stimulation_type,
+          notes: this.notes,
+        })
+          .then(response => {
+            console.log(response);
+            response.status === 201 ? this.showSwal('auto-close') : this.showSwal('success-message');
           })
           .catch(error => {
             console.log(error);
@@ -669,6 +692,23 @@
             this.postFeedingsMom(catID, catName);
             console.log("ping");console.log(catID, catName);
           }else{console.log('it blew up 2: ');}
+        });
+      },
+      updateDeleteMedsSubmit(medID, medName, catID, catName) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            // this.addMedications(catID, catName);
+            this.editMedications(medID, medName, catID, catName);
+            console.log("ping");console.log(catID, catName);
+          }else{console.log('it blew up: ');}
+        });
+      },
+      updateDeleteFeedsSubmit(medID, medName, catID, catName) {
+        this.$validator.validateAll().then((result) => {
+          if (result) {
+            this.editFeedings(medID, medName, catID, catName);
+            console.log("ping");console.log(catID, catName);
+          }else{console.log('it blew up: ');}
         });
       },
       validateMedicationsBeforeSubmit(medID, medName, catID, catName) {

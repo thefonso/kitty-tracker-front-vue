@@ -3,9 +3,11 @@ import VueRouter from 'vue-router';
 import axios from 'axios';
 import VueAxios from 'vue-axios';
 import store from './store';
-import VueMoment from 'vue-moment'
-import moment from 'moment-timezone'
+import VueMoment from 'vue-moment';
+import moment from 'moment-timezone';
 import LightBootstrap from './light-bootstrap-main';
+import BootstrapVue from 'bootstrap-vue'
+import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap';
 // Plugins
 import App from './App.vue';
@@ -18,6 +20,7 @@ import routes from './routes/routes'
 Vue.use(VueRx, Rx);
 Vue.use(VueAxios, axios);
 Vue.use(VueMoment, {moment,});
+Vue.use(BootstrapVue);
 Vue.use(VueRouter);
 Vue.use(LightBootstrap);
 
