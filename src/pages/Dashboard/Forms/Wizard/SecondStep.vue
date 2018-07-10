@@ -26,6 +26,7 @@
     name: 'CatPhoto',
     data () {
       return {
+        lastCat: '',
         visible: false,
         singleCat: [],
         rootUrl: process.env.KITTY_URL,
@@ -43,7 +44,7 @@
         const formData = new FormData();
         formData.append('name', this.singleCat.name);
         formData.append('photo', this.selectedFile, this.selectedFile.name);
-        axios.put(`${process.env.KITTY_URL}/api/v1/cats/${this.$route.params.catID}/`,formData,{
+        axios.put(`${process.env.KITTY_URL}/api/v1/cats/${this.singleCat.id}/`,formData,{
           onUploadProgress: progressEvent => {
             console.log('Upload progress: ' + Math.round(progressEvent.loaded / progressEvent.total * 100) + '%')
           }
@@ -63,12 +64,16 @@
       this.visible = true;
     },
     created() {
-      axios.get(`${process.env.KITTY_URL}/api/v1/cats/${this.$route.params.catID}`)
-        .then(request => {
-          console.log(request.data);
-          this.singleCat = request.data;
+      console.log("cats: ");
+
+      const lastCat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
+        .then(request => {console.log(request.data.results);
+          let catArray = request.data.results;
+          this.singleCat = catArray[catArray.length - 1];
+          console.log(this.singleCat.id);
         })
-        .catch(error => console.log(error));
+        .catch(error => console.log(error)));
+        return{singleCat: lastCat$}
     },
   }
 </script>
