@@ -129,7 +129,7 @@
                                   </div>
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'"  :placeholder="fed.weight_after_food":error="getError('weight_after_food')"/>
-                                    <span v-if="fed.showRow">{{fed.stimulated}}</span>
+                                    <span v-if="fed.showRow">{{fed.weight_after_food}}</span>
                                   </div>
                                   <div class="col-md-1">
                                     <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" :placeholder="fed.stimulated"></fg-input>
