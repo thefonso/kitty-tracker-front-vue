@@ -24,7 +24,7 @@
             <div id="accordion">
               <div class="card" v-for="cat in cats">
                 <div class="card-header" :id="'headingOne'+cat.id">
-
+<!--TODO: CAT big one begins here-->
                   <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
                        data-toggle="collapse"
                        :data-target="'#collapseOne'+cat.id"
@@ -79,20 +79,20 @@
                                   <i class="fa fa-edit"></i>
                                 </a>
                                 <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                   @click="handleDelete(cat.id, cat.name)">
+                                   @click="handleDelete(cat.id, cat.name, 'catRow')">
                                   <i class="fa fa-times"></i>
                                 </a>
                               </div>
                             </div>
                           </div>
-                          <!--TODO: old sub card was located here-->
+
                         </template>
                       </table>
                     </div>
                   </div>
-
+<!--TODO: CAT big one ends here-->
                 </div>
-                <!--TODO: new sub row here-->
+<!--TODO: Sub rows are here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
                   <card>
                     <vue-tabs value="Description">
@@ -143,7 +143,7 @@
                                     <button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>
                                     <button class="btn btn-sm btn-warning" @click='fed.showRow = !fed.showRow' v-if="!fed.showRow">Cancel</button>
                                     <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit2</button>
-                                    <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow">Delete</button>
+                                    <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>
                                   </div>
                                 </div>
                               </form>
@@ -200,7 +200,7 @@
                                 <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                                 <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                                 <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
-                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)">Submit</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="postFeedings(cat.id, cat.name)">Submit</button>
                                 <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="postFeedingsMom(cat.id, cat.name)">Submit mom</button>
                               </div>
                             </div>
@@ -249,7 +249,7 @@
                                   <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>
                                   <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
                                   <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow">Submit</button>
-                                  <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow">Delete</button>
+                                  <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow" @click="handleDelete(med.id, med.name, 'medicationRow')">Delete</button>
                                 </div>
                               </div>
                             </form>
@@ -554,6 +554,21 @@
           .then(response => {this.cats = response.data.results})
           .catch(error => console.log(error));
       },
+      deleteCat (catID) {
+        axios.delete(`${process.env.KITTY_URL}/api/v1/cats/${catID}/`)
+          .then(response => {console.log("un Gatto gone:");this.cat = response.data.results})
+          .catch(error => console.log(error));
+      },
+      deleteFeeding (feedID) {
+        axios.delete(`${process.env.KITTY_URL}/api/v1/feedings/${feedID}/`)
+          .then(response => {console.log("feeding gone:"); console.log(response);})
+          .catch(error => console.log(error));
+      },
+      deleteMedication (medID) {
+        axios.delete(`${process.env.KITTY_URL}/api/v1/medications/${medID}/`)
+          .then(response => {console.log("feeding gone:"); console.log(response);})
+          .catch(error => console.log(error));
+      },
       getFeedings(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${value}`)
           .then(response => {console.log(response.data.results); this.catFeedings = response.data.results})
@@ -745,9 +760,18 @@
           return fedToChange.id == medID;
         });
       },
-      handleDelete (index, row) {
-        alert(`You want to delete ${index} ${row}`);
-        console.log(index);
+      handleDelete (id, name, row) {
+        alert(`You want to delete ${id} ${name}`);
+        if (row === 'catRow'){
+          alert('cat delete called');
+          this.deleteCat(id);
+        }else if (row === 'feedingRow'){
+          alert('feeding delete called');
+          this.deleteFeeding(id);
+        }else if (row === 'medicationRow'){
+          alert('medication delete called');
+          this.deleteMedication(id);
+        }
         // let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id);
         // if (indexToDelete >= 0) {
         //   this.cats.splice(indexToDelete, 1)
