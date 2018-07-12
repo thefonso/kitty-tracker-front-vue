@@ -1,41 +1,42 @@
 <template>
   <transition name="fade">
-  <div>
-    <h5 class="text-center">Add a Profile Photo for your cat.</h5>
-    <!--second column alerts BEGINS-->
-    <div class="row">
-      <div class="col-sm-2"></div>
+    <div>
+      <h5 class="text-center">Add a Profile Photo for your cat.</h5>
+      <!--second column alerts BEGINS-->
+      <div class="row">
+        <div class="col-sm-2"></div>
 
-      <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess">
-        <strong>Success!</strong> New kitty photo added.
-      </b-alert>
+        <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess">
+          <strong>Success!</strong> New kitty photo added.
+        </b-alert>
 
-      <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger">
-        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-      </b-alert>
+        <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger">
+          <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+        </b-alert>
 
-      <div class="col-sm-2"></div>
-    </div>
-    <!--second column alerts ENDS-->
-    <div class="row align-center">
-      <div class="col-sm-3"></div>
-      <div class="col-sm-6 align-center" :singleCat="singleCat" v-if="singleCat">
-        <!--photo upload-->
-        <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-          <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
-        </div>
-        <div class="pet-name">{{singleCat.name}}</div>
-        <!--<input style="display: none" type="file" @change="onFileChanged" ref="fileInput">-->
-        <!--<button class="btn btn-primary" @click="$refs.fileInput.click()">Upload Image</button>-->
-        <input class="btn btn-primary" type="file" @change="onFileChanged">
+        <div class="col-sm-2"></div>
       </div>
-      <div class="col-4"></div>
+      <!--second column alerts ENDS-->
+      <div class="row align-center">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6 align-center" :singleCat="singleCat" v-if="singleCat">
+          <!--photo upload-->
+          <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
+            <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
+          </div>
+          <div class="pet-name">{{singleCat.name}}</div>
+          <!--<input style="display: none" type="file" @change="onFileChanged" ref="fileInput">-->
+          <!--<button class="btn btn-primary" @click="$refs.fileInput.click()">Upload Image</button>-->
+          <input class="btn btn-primary" type="file" @change="onFileChanged">
+        </div>
+        <div class="col-4"></div>
+      </div>
     </div>
-  </div>
   </transition>
 </template>
 <script>
   import axios from 'axios';
+  import {Observable} from 'rxjs';
 
   export default {
     name: 'CatPhoto',
@@ -49,6 +50,11 @@
         rootUrl: process.env.KITTY_URL,
         selectedFile: null,
       }
+    },
+    created() {
+      console.log("cats: ");
+      this.fetchEventsList();
+      this.timer = setInterval(this.fetchEventsList, 1000)
     },
     methods: {
       getError (fieldName) {
@@ -85,23 +91,24 @@
             console.log(error);
             this.showDanger = true;
           })
-      }
+      },
+      fetchEventsList: function() {
+        axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
+          .then(request => {let catArray = request.data.results;
+            this.singleCat = catArray[catArray.length - 1];
+            // console.log(this.singleCat.name);
+          })
+          .catch(error => console.log(error));
+      },
+      cancelAutoUpdate: function() { clearInterval(this.timer) }
     },
     mounted(){
       this.visible = true;
     },
-    created() {
-      console.log("cats: ");
-
-      const lastCat$ = Observable.from(axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
-        .then(request => {console.log(request.data.results);
-          let catArray = request.data.results;
-          this.singleCat = catArray[catArray.length - 1];
-          console.log(this.singleCat.id);
-        })
-        .catch(error => console.log(error)));
-        return{singleCat: lastCat$}
-    },
+    beforeDestroy() {
+      clearInterval(this.timer);
+      this.cancelAutoUpdate()
+    }
   }
 </script>
 <style scoped>

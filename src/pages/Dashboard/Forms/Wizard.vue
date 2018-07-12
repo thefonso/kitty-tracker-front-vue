@@ -35,8 +35,14 @@
 
             </tab-content>
 
-            <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Back</button>
-            <button slot="next" class="btn btn-default btn-fill btn-wd btn-next">Next</button>
+            <button slot="prev" class="btn btn-default btn-fill btn-wd btn-back">Back
+              <span class="btn-label btn-label-left"><i class="fa fa-arrow-left"></i></span>
+            </button>
+
+            <button slot="next" class="btn btn-default btn-fill btn-wd btn-next">Next
+              <span class="btn-label btn-label-right"><i class="fa fa-arrow-right"></i></span>
+            </button>
+
             <button slot="finish" class="btn btn-success btn-fill btn-wd">Finish</button>
           </form-wizard>
         </div>
