@@ -194,6 +194,7 @@
                   <option value="G">Grams</option>
                   <option value="LB">Pounds</option>
                 </select>
+                <small v-show="errors.has('weight_unit')" class="help is-danger form-text">{{ errors.first('weight_unit') }}</small>
               </div>
             </div>
           </div>

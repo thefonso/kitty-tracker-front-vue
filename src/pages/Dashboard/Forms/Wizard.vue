@@ -16,7 +16,7 @@
               <first-step ref="firstStep" @on-validated="onStepValidated"></first-step>
             </tab-content>
 
-            <tab-content title="Additional Info"
+            <tab-content title="Add Profile Photo"
                          class="col-12"
                          :before-change="() => validateStep('secondStep')"
                          icon="nc-icon nc-notes">
@@ -27,9 +27,9 @@
                          class="col-12"
                          icon="nc-icon nc-check-2">
               <div>
-                <h2 class="text-center text-space">Yuhuuu!
+                <h2 class="text-center text-space">Congrats!
                   <br>
-                  <small>Click on "<b>Finish</b>" to join our community</small>
+                  <small>Click on "<b>Finish</b>" to reload your kitties</small>
                 </h2>
               </div>
 
@@ -66,13 +66,17 @@
     },
     methods: {
       validateStep (ref) {
+        console.log('ref:');
+        console.log(ref);
         return this.$refs[ref].validate()
       },
       onStepValidated (validated, model) {
+        console.log("validated, model:");
+        console.log(validated, model);
         this.wizardModel = {...this.wizardModel, ...model}
       },
       wizardComplete () {
-        swal('Good job!', 'You clicked the finish button!', 'success')
+        swal('Good job!', 'Your Cat, with photo, has been added!', 'success')
       }
     }
   }

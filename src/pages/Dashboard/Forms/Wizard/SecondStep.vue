@@ -2,6 +2,21 @@
   <transition name="fade">
   <div>
     <h5 class="text-center">Add a Profile Photo for your cat.</h5>
+    <!--second column alerts BEGINS-->
+    <div class="row">
+      <div class="col-sm-2"></div>
+
+      <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess">
+        <strong>Success!</strong> New kitty photo added.
+      </b-alert>
+
+      <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger">
+        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+      </b-alert>
+
+      <div class="col-sm-2"></div>
+    </div>
+    <!--second column alerts ENDS-->
     <div class="row align-center">
       <div class="col-sm-3"></div>
       <div class="col-sm-6 align-center" :singleCat="singleCat" v-if="singleCat">
@@ -27,6 +42,8 @@
     data () {
       return {
         lastCat: '',
+        showSuccess: false,
+        showDanger: false,
         visible: false,
         singleCat: [],
         rootUrl: process.env.KITTY_URL,
@@ -34,6 +51,15 @@
       }
     },
     methods: {
+      getError (fieldName) {
+        return this.errors.first(fieldName)
+      },
+      validate () {
+        return this.$validator.validateAll().then(res => {
+          this.$emit('on-validated', res, this.model)
+          return res
+        })
+      },
       onFileChanged (event) {
         this.selectedFile = event.target.files[0];
         // console.log(event);
@@ -51,12 +77,13 @@
         })
           .then(response => {
             console.log(response.data.photo);
-            // response.status === 201 ? this.showSuccess = true : this.showDanger = true
+            console.log(response.status);
+            response.status === 200 ? this.showSuccess = true : this.showDanger = true;
             this.singleCat = response.data;
           })
           .catch(error => {
             console.log(error);
-            // this.showDanger = true;
+            this.showDanger = true;
           })
       }
     },
