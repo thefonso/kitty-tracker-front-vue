@@ -881,9 +881,9 @@
   }
   // css transition for tabs
   .vue-tabs .tab-content {
-    padding-top: 0px;
+    padding-top: 10px;
     min-height: 100px;
-    display: none;
+    /*display:-ms-flexbox;*/
     .tab-container {
       display: block;
       animation: fadeIn 0.5s;
