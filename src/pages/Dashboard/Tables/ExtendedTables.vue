@@ -830,7 +830,7 @@
   }
 </script>
 
-<style lang="scss" scoped>
+<style lang="scss">
   .fedRow{
     border-bottom: 1px solid #D4D4D4;
   }
@@ -883,7 +883,6 @@
   .vue-tabs .tab-content {
     padding-top: 10px;
     min-height: 100px;
-    /*display:-ms-flexbox;*/
     display: block !important;
     .tab-container {
       display: block;
