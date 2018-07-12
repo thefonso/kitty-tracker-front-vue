@@ -881,9 +881,9 @@
   }
   // css transition for tabs
   .vue-tabs .tab-content {
-    padding-top: 10px;
+    /*padding-top: 10px;*/
     min-height: 100px;
-    display: flex; // to avoid horizontal scroll when animating
+    /*display: flex; // to avoid horizontal scroll when animating*/
     .tab-container {
       display: block;
       animation: fadeIn 0.5s;
