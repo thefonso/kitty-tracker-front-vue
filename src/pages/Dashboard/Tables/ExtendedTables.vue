@@ -884,6 +884,7 @@
     padding-top: 10px;
     min-height: 100px;
     /*display:-ms-flexbox;*/
+    display: block;
     .tab-container {
       display: block;
       animation: fadeIn 0.5s;
