@@ -200,7 +200,7 @@
                                 <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                                 <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                                 <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
-                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)" @click='showButton = !showButton'>Submit42</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)" @click='showButton = !showButton'>Submit</button>
                                 <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="validateSubmitMom(cat.id, cat.name)">Submit mom</button>
                               </div>
                             </div>
