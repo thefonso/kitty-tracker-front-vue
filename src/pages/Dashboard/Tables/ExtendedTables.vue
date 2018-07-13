@@ -92,7 +92,7 @@
                   </div>
 <!--TODO: CAT big one ends here-->
                 </div>
-<!--TODO: Sub rows are here-->
+<!--TODO: Sub rows START here-->
                 <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
                   <card>
                     <vue-tabs value="Description">
@@ -142,7 +142,7 @@
                                   <div class="col-md-3 d-flex align-items-center cancel-submit">
                                     <!--<button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>-->
                                     <button class="btn btn-sm btn-warning" @click='fed.showRow = !fed.showRow' v-if="!fed.showRow">Cancel</button>
-                                    <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit2</button>
+                                    <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit</button>
                                     <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>
                                   </div>
                                 </div>
@@ -200,8 +200,8 @@
                                 <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                                 <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                                 <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
-                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="postFeedings(cat.id, cat.name)">Submit</button>
-                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="postFeedingsMom(cat.id, cat.name)">Submit mom</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)" @click='showButton = !showButton'>Submit42</button>
+                                <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="validateSubmitMom(cat.id, cat.name)">Submit mom</button>
                               </div>
                             </div>
                           <!--</form>-->
@@ -248,7 +248,7 @@
                                 <div class="col-md-3 d-flex align-items-center cancel-submit">
                                   <!--<button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>-->
                                   <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
-                                  <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow">Submit</button>
+                                  <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow" @click="handleAdd(med.id, med.name, 'medicationRow')">Submit</button>
                                   <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow" @click="handleDelete(med.id, med.name, 'medicationRow')">Delete</button>
                                 </div>
                               </div>
@@ -520,7 +520,7 @@
           })
         } else if (type === 'auto-close') {
           swal({
-            title: 'Auto close alert!',
+            title: 'Success!',
             text: 'I will close in 2 seconds.',
             timer: 2000,
             showConfirmButton: false
@@ -694,19 +694,24 @@
         });
       },
       validateSubmitNoMom(catID, catName) {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.postFeedings(catID, catName);
-          }else{console.log('it blew up 1: ');}
-        });
+        this.$validator.validateAll()
+          .then((result) => {
+            this.postFeedings(catID, catName);console.log("validatedNoMom: ");console.log(result);
+          })
+          .catch(error => {
+            console.log('it blew up 1: ');
+            console.log(error);
+        })
       },
       validateSubmitMom(catID, catName) {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.postFeedingsMom(catID, catName);
-            console.log("ping");console.log(catID, catName);
-          }else{console.log('it blew up 2: ');}
-        });
+        this.$validator.validateAll()
+          .then((result) => {
+            this.postFeedingsMom(catID, catName);console.log("validatedNoMom: ");console.log(result);
+          })
+          .catch(error => {
+            console.log('it blew up 1: ');
+            console.log(error);
+          })
       },
       updateDeleteMedsSubmit(medID, medName, catID, catName) {
         this.$validator.validateAll().then((result) => {
@@ -760,21 +765,41 @@
         });
       },
       handleDelete (id, name, row) {
-        alert(`You want to delete ${id} ${name}`);
+        alert(`You want to delete ${name}`);
         if (row === 'catRow'){
-          alert('cat delete called');
-          this.deleteCat(id);
+          alert('Un gatto gone');
+          this.deleteCat(id);//delete cat from database
+          let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
+          this.cats.splice(i, 1) // remove it from array visually
         }else if (row === 'feedingRow'){
-          alert('feeding delete called');
+          alert('feeding deleted');
           this.deleteFeeding(id);
+          let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
+          this.catFeedings.splice(i, 1) // remove it from array visually
         }else if (row === 'medicationRow'){
-          alert('medication delete called');
+          alert('medication deleted');
           this.deleteMedication(id);
+          let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
+          this.catMedications.splice(i, 1) // remove it from array visually
         }
-        // let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === row.id);
-        // if (indexToDelete >= 0) {
-        //   this.cats.splice(indexToDelete, 1)
-        // }
+      },
+      handleAdd (id, name, row) {
+        if (row === 'catRow'){
+          alert('cat added');
+          // this.deleteCat(id);//delete cat from database
+          // let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
+          // this.cats.splice(i, 1) // remove it from array visually
+        }else if (row === 'feedingRow'){
+          alert('feeding added');
+          // this.deleteFeeding(id);
+          // let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
+          // this.catFeedings.splice(i, 1) // remove it from array visually
+        }else if (row === 'medicationRow'){
+          alert('medication added');
+          // this.deleteMedication(id);
+          // let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
+          // this.catMedications.splice(i, 1) // remove it from array visually
+        }
       },
       getSummaries (param) {
         const { columns } = param
