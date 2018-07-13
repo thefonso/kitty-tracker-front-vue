@@ -74,10 +74,10 @@
                             </div>
                             <div class="col-md-2 cat-actions">
                               <div class="cell">
-                                <a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"
-                                   @click="handleEdit(cat.id, cat.name)">
-                                  <i class="fa fa-edit"></i>
-                                </a>
+                                <!--<a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"-->
+                                   <!--@click="handleEdit(cat.id, cat.name)">-->
+                                  <!--<i class="fa fa-edit"></i>-->
+                                <!--</a>-->
                                 <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
                                    @click="handleDelete(cat.id, cat.name, 'catRow')">
                                   <i class="fa fa-times"></i>
@@ -109,10 +109,10 @@
                               <div class="col-md-2">Actions</div>
                             </div>
                             <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
-                              <form :id="'form'+fed.id" @submit.prevent="updateDeleteFeedsSubmit(fed.id, fed.name, 'edit')">
+                              <form :id="'form'+fed.id" @submit.prevent="updateDeleteFeedsSubmit(fed.id, fed.name, cat.id, cat.name)">
                                 <div class="medRow d-flex justify-content-start">
                                   <div class="col-md-1">
-                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id"></fg-input>
+                                    <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id">{{fed.id}}</fg-input>
                                     <span v-if="fed.showRow">{{fed.id}}</span>
                                   </div>
                                   <div class="col-md-1">
@@ -140,7 +140,7 @@
                                     <span v-if="fed.showRow">{{fed.stimulation_type}}</span>
                                   </div>
                                   <div class="col-md-3 d-flex align-items-center cancel-submit">
-                                    <button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>
+                                    <!--<button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>-->
                                     <button class="btn btn-sm btn-warning" @click='fed.showRow = !fed.showRow' v-if="!fed.showRow">Cancel</button>
                                     <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit2</button>
                                     <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>
@@ -246,7 +246,7 @@
                                   <span v-if="med.showRow">{{med.notes}}</span>
                                 </div>
                                 <div class="col-md-3 d-flex align-items-center cancel-submit">
-                                  <button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>
+                                  <!--<button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>-->
                                   <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
                                   <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow">Submit</button>
                                   <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow" @click="handleDelete(med.id, med.name, 'medicationRow')">Delete</button>
@@ -679,12 +679,11 @@
           notes: this.notes,
         })
           .then(response => {
-            console.log(response);
-            response.status === 201 ? this.showSwal('auto-close') : this.showSwal('success-message');
+            console.log(response); console.log(medID, medName, catID, catName);
+            response.status === 201 ? console.log("error") : this.showSwal('success-message');
           })
           .catch(error => {
             console.log(error);
-            this.showSwal('auto-close');
           })
       },
       feedingsBeforeSubmit(medID, medName, catID, catName) {
@@ -718,10 +717,10 @@
           }else{console.log('it blew up: ');}
         });
       },
-      updateDeleteFeedsSubmit(medID, medName, catID, catName) {
+      updateDeleteFeedsSubmit(fedID, fedName, catID, catName) {
         this.$validator.validateAll().then((result) => {
           if (result) {
-            this.editFeedings(medID, medName, catID, catName);
+            this.editFeedings(fedID, fedName, catID, catName);
             console.log("ping");console.log(catID, catName);
           }else{console.log('it blew up: ');}
         });
