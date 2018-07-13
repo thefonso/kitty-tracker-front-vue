@@ -280,7 +280,7 @@
                             </div>
                             <div class="col-md-3">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
-                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton">Submit</button>
+                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton" @click='showButton = !showButton'>Submit72</button>
                               <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                             </div>
                           </div>
@@ -639,8 +639,8 @@
           .then(response => {
             console.log(response);console.log(this.showButton);
             this.showButton = true;
-            response.status === 201 ? this.showSwal('success-message') : null
-            getMedications(cat.name);
+            response.status === 201 ? this.showSwal('success-message') : null;
+            this.getMedications(catName);
           })
           .catch(error => {
             console.log(error);
@@ -733,14 +733,17 @@
           }else{console.log('it blew up: ');}
         });
       },
-      validateMedicationsBeforeSubmit(medID, medName, catID, catName) {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
+      validateMedicationsBeforeSubmit(catID, catName) {
+        this.$validator.validateAll()
+          .then((result) => {
             this.addMedications(catID, catName);
             // this.editMedications(medID, medName, catID, catName);
-            console.log("ping");console.log(catID, catName);
-          }else{console.log('it blew up: ');}
-        });
+            console.log("validatedMedications: ");console.log(result);
+          })
+          .catch(error => {
+            console.log('it blew up: ');
+            console.log(error);
+          });
       },
       handleLike (index, row) {
         alert(`You want to like ${row.name}`)
