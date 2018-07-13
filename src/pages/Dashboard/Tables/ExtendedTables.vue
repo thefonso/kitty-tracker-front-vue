@@ -590,6 +590,7 @@
           .then(response => {
             console.log(response);
             response.status === 201 ? this.showSwal('auto-close') : this.showSwal('success-message');
+            this.getFeedings(catName);
           })
           .catch(error => {
             console.log(error);
@@ -612,6 +613,7 @@
           .then(response => {
             console.log(response);
             response.status === 201 ? console.log("success") : console.log("fail");
+            this.getFeedings(catName);
           })
           .catch(error => {
             console.log(error);
@@ -638,6 +640,7 @@
             console.log(response);console.log(this.showButton);
             this.showButton = true;
             response.status === 201 ? this.showSwal('success-message') : null
+            getMedications(cat.name);
           })
           .catch(error => {
             console.log(error);
