@@ -43,7 +43,7 @@
               <span class="btn-label btn-label-right"><i class="fa fa-arrow-right"></i></span>
             </button>
 
-            <button slot="finish" class="btn btn-success btn-fill btn-wd">Finish</button>
+            <button slot="finish" class="btn btn-success btn-fill btn-wd" v-on:click="handleAdd = !handleAdd">Finish</button>
           </form-wizard>
         </div>
       </div>
@@ -55,6 +55,7 @@
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import FirstStep from './Wizard/FirstStep.vue'
   import SecondStep from './Wizard/SecondStep.vue'
+  import getCats from '../Tables/ExtendedTables.vue'
   import swal from 'sweetalert2'
 
   export default {
@@ -82,7 +83,7 @@
         this.wizardModel = {...this.wizardModel, ...model}
       },
       wizardComplete () {
-        swal('Good job!', 'Your Cat, with photo, has been added!', 'success')
+        this.getCats();
       }
     }
   }

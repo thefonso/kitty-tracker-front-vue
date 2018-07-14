@@ -22,7 +22,7 @@
           <Wizard v-show="handleAdd"></Wizard>
           <div class="table-responsive">
             <div id="accordion">
-              <div class="card" v-for="cat in cats">
+              <div class="card" v-for="cat in sortedCats" :key="cat.id">
                 <div class="card-header" :id="'headingOne'+cat.id">
 <!--TODO: CAT big one begins here-->
                   <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
@@ -255,7 +255,7 @@
                             </form>
                           </div>
                           <!--TODO: add a MEDICATION-->
-                          <form id="formadd" @submit.prevent="validateMedicationsBeforeSubmit(cat.id, cat.name)">
+                          <form id="formadd">
                           <div class="medRow d-flex justify-content-start">
                             <div class="col-md-1">&nbsp;</div>
                             <div class="col-md-2">
@@ -280,7 +280,7 @@
                             </div>
                             <div class="col-md-3">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
-                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton" @click='showButton = !showButton'>Submit72</button>
+                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton" @click='showButton = !showButton' v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)">Submit</button>
                               <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                             </div>
                           </div>
@@ -341,15 +341,15 @@
        * @returns {computed.pagedData}
        */
       queriedData () {
-        let result = this.cats
+        let result = this.cats;
         if (this.searchQuery !== '') {
-          result = this.fuseSearch.search(this.searchQuery)
+          result = this.fuseSearch.search(this.searchQuery);
           this.pagination.total = result.length
         }
         return result.slice(this.from, this.to)
       },
       to () {
-        let highBound = this.from + this.pagination.perPage
+        let highBound = this.from + this.pagination.perPage;
         if (this.total < highBound) {
           highBound = this.total
         }
@@ -359,8 +359,18 @@
         return this.pagination.perPage * (this.pagination.currentPage - 1)
       },
       total () {
-        this.pagination.total = this.cats.length
+        this.pagination.total = this.cats.length;
         return this.cats.length
+      },
+      sortedCats: function() {
+        function compare(a, b) {
+          if (a.created < b.created)
+            return -1;
+          if (a.created > b.created)
+            return 1;
+          return 0;
+        }
+        return this.cats.sort(compare);
       }
     },
     data () {
@@ -437,10 +447,10 @@
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
     },
     methods: {
-      showSwal (type) {
+      showSwal (type, message) {
         if (type === 'basic') {
           swal({
-            title: `Here's a message!`,
+            title: message,
             buttonsStyling: false,
             confirmButtonClass: 'btn btn-success btn-fill'
           })
@@ -454,7 +464,7 @@
         } else if (type === 'success-message') {
           swal({
             title: `Good job!`,
-            text: 'Record added',
+            text: message,
             buttonsStyling: false,
             confirmButtonClass: 'btn btn-success btn-fill',
             type: 'success'
@@ -492,7 +502,7 @@
           }).then(function () {
             swal({
               title: 'Deleted!',
-              text: 'Your imaginary file has been deleted.',
+              text: 'Your cat record has been deleted.',
               type: 'success',
               confirmButtonClass: 'btn btn-success btn-fill',
               buttonsStyling: false
@@ -502,7 +512,7 @@
             if (dismiss === 'cancel') {
               swal({
                 title: 'Cancelled',
-                text: 'Your imaginary file is safe :)',
+                text: 'Your cat record is safe :)',
                 type: 'error',
                 confirmButtonClass: 'btn btn-info btn-fill',
                 buttonsStyling: false
@@ -520,7 +530,7 @@
           })
         } else if (type === 'auto-close') {
           swal({
-            title: 'Success!',
+            title: message,
             text: 'I will close in 2 seconds.',
             timer: 2000,
             showConfirmButton: false
@@ -566,7 +576,7 @@
       },
       deleteMedication (medID) {
         axios.delete(`${process.env.KITTY_URL}/api/v1/medications/${medID}/`)
-          .then(response => {console.log("feeding gone:"); console.log(response);})
+          .then(response => {console.log("medication gone:"); console.log(response);})
           .catch(error => console.log(error));
       },
       getFeedings(value) {
@@ -589,12 +599,12 @@
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSwal('auto-close') : this.showSwal('success-message');
+            response.status === 201 ? this.showSwal('success-message','Feeding added') : null;
             this.getFeedings(catName);
           })
           .catch(error => {
             console.log(error);
-            this.showSwal('auto-close');
+            this.showSwal('auto-close', error);
           })
       },
       postFeedingsMom(catID, catName) {
@@ -639,11 +649,12 @@
           .then(response => {
             console.log(response);console.log(this.showButton);
             this.showButton = true;
-            response.status === 201 ? this.showSwal('success-message') : null;
+            response.status === 201 ? this.showSwal('success-message','Medication added') : console.log(response);
             this.getMedications(catName);
           })
           .catch(error => {
             console.log(error);
+            this.showSwal('auto-close', error);
           })
       },
       editMedications(medID, medName, catID, catName){
@@ -660,12 +671,12 @@
           .then(response => {
             console.log("editMedications success");
             console.log(response);
-            response.status === 201 ? this.showSwal('success-message') : this.showSwal('auto-close');
+            response.status === 201 ? this.showSwal('success-message','record updated') : null;
             this.handleEdit(true);
           })
           .catch(error => {
             console.log(error);
-            this.showSwal('auto-close');
+            this.showSwal('auto-close', error);
           })
       },
       editFeedings(medID, medName, catID, catName) {
@@ -746,7 +757,7 @@
           });
       },
       handleLike (index, row) {
-        alert(`You want to like ${row.name}`)
+        this.showSwal.title(`You want to like ${row.name}`)
       },
       handleEdit (bool) {
         // map / filter / reduce
@@ -771,42 +782,46 @@
         });
       },
       handleDelete (id, name, row) {
-        alert(`You want to delete ${name}`);
+        // alert(`You want to delete ${name}`);
+        this.showSwal('basic', `You want to delete ${name}`);
         if (row === 'catRow'){
-          alert('Un gatto gone');
+          this.showSwal('basic','un gatto gone');
           this.deleteCat(id);//delete cat from database
           let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
           this.cats.splice(i, 1) // remove it from array visually
         }else if (row === 'feedingRow'){
-          alert('feeding deleted');
+          this.showSwal('basic', 'feeding deleted');
           this.deleteFeeding(id);
           let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
           this.catFeedings.splice(i, 1) // remove it from array visually
         }else if (row === 'medicationRow'){
-          alert('medication deleted');
+          this.showSwal('basic', 'medication removed');
           this.deleteMedication(id);
           let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
           this.catMedications.splice(i, 1) // remove it from array visually
         }
       },
-      handleAdd (id, name, row) {
-        if (row === 'catRow'){
-          alert('cat added');
-          // this.deleteCat(id);//delete cat from database
-          // let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
-          // this.cats.splice(i, 1) // remove it from array visually
-        }else if (row === 'feedingRow'){
-          alert('feeding added');
-          // this.deleteFeeding(id);
-          // let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
-          // this.catFeedings.splice(i, 1) // remove it from array visually
-        }else if (row === 'medicationRow'){
-          alert('medication added');
-          // this.deleteMedication(id);
-          // let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
-          // this.catMedications.splice(i, 1) // remove it from array visually
-        }
-      },
+      // handleAdd (id, name, row) {
+      //   if (row === 'catRow'){
+      //     // alert('cat added');
+      //     this.showSwal('success-message', 'cat added');
+      //     // this.deleteCat(id);//delete cat from database
+      //     // let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
+      //     // this.cats.splice(i, 1) // remove it from array visually
+      //   }else if (row === 'feedingRow'){
+      //     // alert('feeding added');
+      //     this.showSwal('success-message', 'feeding added');
+      //     // this.deleteFeeding(id);
+      //     // let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
+      //     // this.catFeedings.splice(i, 1) // remove it from array visually
+      //   }else if (row === 'medicationRow'){
+      //     // alert('medication added');
+      //     this.showSwal('success-message', 'medication added');
+      //     // this.deleteMedication(id);
+      //     // let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
+      //     // this.catMedications.splice(i, 1) // remove it from array visually
+      //   }
+      // },
       getSummaries (param) {
         const { columns } = param
         const sums = []
@@ -848,11 +863,11 @@
         if (this.stimulated === "false"){
           if (food_type_taken === "BO" || food_type_taken === "BS") {
             // TODO: turn these two alerts into modals?
-            alert("You selected Bottle or Bottle-Syringe: Did you forget to stimulate the kitten?");
+            this.showSwal('basic','You selected Bottle or Bottle-Syringe: Did you forget to stimulate the kitten?');
           }
         }else{
           if (food_type_taken === "SG" || food_type_taken === "GG" || food_type_taken === "G") {
-            alert("You selected Syringe Gruel, Gruel or Both: Was the kitten stimulated");
+            this.showSwal('basic','You selected Syringe Gruel, Gruel or Both: Was the kitten stimulated');
           }
         }
       },

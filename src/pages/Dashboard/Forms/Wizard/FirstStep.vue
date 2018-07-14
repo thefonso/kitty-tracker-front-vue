@@ -1,22 +1,22 @@
 <template>
   <form id="cat_form" @submit.prevent="validateBeforeSubmit">
     <h5 class="text-center">Please tell us more about your cat.</h5>
+    <!--second column alerts BEGINS-->
     <div class="row">
-      <!--second column alerts BEGINS-->
-      <div class="row">
-        <div class="col-sm-2"></div>
+      <div class=""></div>
 
-        <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess">
-          <strong>Success!</strong> New kitty added.
-        </b-alert>
+      <b-alert class="col-sm-12" variant="success" dismissible fade :show="showSuccess">
+        <strong>Success!</strong> New kitty added.
+      </b-alert>
 
-        <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger">
-          <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
-        </b-alert>
+      <b-alert class="col-sm-12" variant="danger" dismissible fade :show="showDanger">
+        <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+      </b-alert>
 
-        <div class="col-sm-2"></div>
-      </div>
-
+      <div class=""></div>
+    </div>
+    <!--second column alerts ENDS-->
+    <div class="row">
       <div id="" class="form-group row">
         <!--<div class="col-1"></div>-->
 
@@ -211,7 +211,7 @@
           <div class="clear-fix"></div>
           <div class="form-group">
             <div class="col-sm-8">
-              <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit</button>
+              <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit Cat</button>
             </div>
           </div>
         </div>
@@ -227,6 +227,7 @@
 <script>
   import axios from 'axios';
   import {Observable} from 'rxjs';
+  import showSwal from '../../Tables/ExtendedTables';
   // import bModal from 'bootstrap-vue/es/components/modal/modal';
   // import bContainer from 'bootstrap-vue/es/components/modal/modal';
   // import bAlert from 'bootstrap-vue/es/components/modal/modal';
@@ -305,12 +306,12 @@
           })
       },
       validateBeforeSubmit() {
-        this.$validator.validateAll().then((result) => {
-          if (result) {
-            this.onSubmitted();
-          } else {
-            // this.showDanger = true;
-          }
+        this.$validator.validateAll()
+          .then((result) => { console.log(result);
+              this.onSubmitted();
+          }).catch(error => {
+            console.log(error);
+            this.showDanger = true;
         });
       },
       onSubmittedLitter() {
@@ -367,7 +368,7 @@
       validate () {
         return this.$validator.validateAll().then(res => {
           console.log("fuq");
-          this.$emit('on-validated', res, this.model)
+          this.$emit('on-validated', res, this.model);
           return res
         })
       }

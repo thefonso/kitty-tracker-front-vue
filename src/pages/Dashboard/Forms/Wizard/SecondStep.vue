@@ -47,14 +47,27 @@
         showDanger: false,
         visible: false,
         singleCat: [],
+        catArray: [],
         rootUrl: process.env.KITTY_URL,
         selectedFile: null,
       }
     },
+    computed: {
+      sortedCats: function() {
+        function compare(a, b) {
+          if (a.created < b.created)
+            return -1;
+          if (a.created > b.created)
+            return 1;
+          return 0;
+        }
+        return this.catArray.sort(compare);
+      }
+    },
     created() {
       console.log("cats: ");
-      this.fetchEventsList();
-      this.timer = setInterval(this.fetchEventsList, 1000)
+      this.fetchCatsList();
+      this.timer = setInterval(this.fetchCatsList, 1000)
     },
     methods: {
       getError (fieldName) {
@@ -92,11 +105,12 @@
             this.showDanger = true;
           })
       },
-      fetchEventsList: function() {
+      fetchCatsList: function() {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
-          .then(request => {let catArray = request.data.results;
-            this.singleCat = catArray[catArray.length - 1];
-            // console.log(this.singleCat.name);
+          .then(request => {this.catArray = request.data.results;
+            // this.singleCat = catArray[catArray.length - 1];
+            this.singleCat = this.sortedCats[this.sortedCats.length -1];
+            console.log(this.singleCat.name);
           })
           .catch(error => console.log(error));
       },
