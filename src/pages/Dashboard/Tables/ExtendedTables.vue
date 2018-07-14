@@ -13,7 +13,8 @@
                 <p class="card-category">All your cats all the time</p>
               </div>
               <div>
-                <button class="btn btn-round btn-sm" v-on:click="handleAdd = !handleAdd">Add a Cat</button>
+                <button id="add-a-cat" class="btn btn-round btn-sm" v-on:click="handleAdd = !handleAdd">Add a Cat</button>
+                <button id="reload-cats" class="btn btn-round btn-sm" style="display:none;" v-on:click="getCats">Add a Cat2</button>
               </div>
             </div>
             <br />
@@ -759,13 +760,14 @@
       handleLike (index, row) {
         this.showSwal.title(`You want to like ${row.name}`)
       },
+      changeHandleAdd(value){
+        this.handleAdd = value;
+        console.log("changeHandleAdd called 1: ")
+      },
       handleEdit (bool) {
         // map / filter / reduce
         this.showRow = bool;
         console.log(this.showRow);
-      },
-      testSubmit(one,two,three){
-        console.log(one,two,three);
       },
       medEdit (medID, bool) {
         // map / filter / reduce
@@ -801,27 +803,6 @@
           this.catMedications.splice(i, 1) // remove it from array visually
         }
       },
-      // handleAdd (id, name, row) {
-      //   if (row === 'catRow'){
-      //     // alert('cat added');
-      //     this.showSwal('success-message', 'cat added');
-      //     // this.deleteCat(id);//delete cat from database
-      //     // let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
-      //     // this.cats.splice(i, 1) // remove it from array visually
-      //   }else if (row === 'feedingRow'){
-      //     // alert('feeding added');
-      //     this.showSwal('success-message', 'feeding added');
-      //     // this.deleteFeeding(id);
-      //     // let i = this.catFeedings.map(item => item.id).indexOf(id); // find index of your object
-      //     // this.catFeedings.splice(i, 1) // remove it from array visually
-      //   }else if (row === 'medicationRow'){
-      //     // alert('medication added');
-      //     this.showSwal('success-message', 'medication added');
-      //     // this.deleteMedication(id);
-      //     // let i = this.catMedications.map(item => item.id).indexOf(id); // find index of your object
-      //     // this.catMedications.splice(i, 1) // remove it from array visually
-      //   }
-      // },
       getSummaries (param) {
         const { columns } = param
         const sums = []
