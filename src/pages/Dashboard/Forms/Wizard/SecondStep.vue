@@ -110,7 +110,7 @@
           .then(request => {this.catArray = request.data.results;
             // this.singleCat = catArray[catArray.length - 1];
             this.singleCat = this.sortedCats[this.sortedCats.length -1];
-            console.log(this.singleCat.name);
+            // console.log(this.singleCat.name);
           })
           .catch(error => console.log(error));
       },
