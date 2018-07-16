@@ -75,7 +75,7 @@
                   <option disabled value="">Choose</option>
                   <option value="O">Orphan</option>
                   <option value="P" v-if="gender === 'F' && age !== 'K'">Pregnant</option>
-                  <option value="N" v-if="gender === 'F' && age !== 'K'">Nursing</option>
+                  <option value="N" v-if="age !== 'K'">Nursing</option>
                 </select>
               </div>
               <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
