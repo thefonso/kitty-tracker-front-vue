@@ -6,7 +6,7 @@
           <i :class="$sidebar.isMinimized ? 'fa fa-ellipsis-v' : 'fa fa-navicon'"></i>
         </button>
       </div>
-      <a class="navbar-brand">{{this.$route.name}}</a>
+      <a class="navbar-brand"></a>
       <button type="button"
               class="navbar-toggler navbar-toggler-right"
               :class="{toggled: $sidebar.showSidebar}"
