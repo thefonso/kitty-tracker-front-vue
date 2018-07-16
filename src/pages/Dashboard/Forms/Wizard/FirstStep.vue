@@ -102,8 +102,7 @@
               <div class="col-sm-12">
                 <div class="form-check-inline">
                   <select class="form-control" name="litter_set" v-model="litter_mates">
-                    <!--<option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>-->
-                    <option v-for="item in litter" :value="item.name">{{item.name}}</option>
+                    <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
                   </select>
                 </div>
               </div>

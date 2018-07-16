@@ -36,7 +36,6 @@
 </template>
 <script>
   import axios from 'axios';
-  import {Observable} from 'rxjs';
 
   export default {
     name: 'CatPhoto',

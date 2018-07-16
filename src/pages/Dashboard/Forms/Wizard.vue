@@ -86,8 +86,8 @@
         swal('Good job!', 'Your Cat, with photo, has been added!', 'success');
       },
       clickIt(){
-        document.getElementById("add-a-cat").click();
-        document.getElementById("reload-cats").click();
+        //since user is currently logged in, this will refreash the page
+        this.$router.push('/login');
       }
     }
   }
