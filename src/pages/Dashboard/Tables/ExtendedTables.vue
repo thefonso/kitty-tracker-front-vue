@@ -36,7 +36,7 @@
                         <template>
                           <div class="d-flex justify-content-start primary-cat-row" role="button">
                             <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
-                              <img :src="cat.photo" alt="thumb">
+                              <img :src="cat.photo" alt="thumb" class="rounded-circle">
                             </div>
                             <div class="col-md-2 img-container photo-thumb" v-else>
                               <img src="/static/img/bastet.png" alt="bastet">
