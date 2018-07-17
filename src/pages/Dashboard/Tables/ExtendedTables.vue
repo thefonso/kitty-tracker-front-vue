@@ -34,36 +34,32 @@
                     <div class="table-bigboy" style="width: 100%">
                       <table class="col-sm-12">
                         <template>
-                          <div class="d-flex justify-content-between primary-cat-row" role="button">
+                          <div class="d-flex justify-content-start primary-cat-row" role="button">
                             <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
                               <img :src="cat.photo" alt="thumb">
                             </div>
                             <div class="col-md-2 img-container photo-thumb" v-else>
                               <img src="/static/img/bastet.png" alt="bastet">
                             </div>
-                            <div class="col-md-4 cat-name">
+                            <div class="col-md-2 cat-name">
                               <h4>{{cat.name}}</h4>
-                              <p>added: {{cat.created | moment("MM-DD-YYYY h:MM a")}}</p>
                               <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
                                 <div style="display: table-row-group">
-                                  <div class="card-category" style="display: table-row">
-                                    <div class="cell" style="display: table-cell">weight</div>
-                                    <div class="cell" style="display: table-cell">gender</div>
-                                    <div class="cell" style="display: table-cell">age</div>
-                                    <div class="cell" style="display: table-cell">type</div>
-                                  </div>
-                                </div>
-                                <div style="display: table-row-group">
                                   <div class="table-striped" style="display: table-row">
+                                    <div style="display: table-cell">{{cat.age}}</div>
+                                    <div style="display: table-cell">-</div>
                                     <div style="display: table-cell">{{cat.weight}}</div>
                                     <div style="display: table-cell">{{cat.gender}}</div>
-                                    <div style="display: table-cell">{{cat.age}}</div>
                                     <div style="display: table-cell">{{cat.cat_type}}</div>
                                   </div>
                                 </div>
                               </div>
+                              <span v-if="cat.gender === 'M' ">Male</span>
+                              <span v-if="cat.gender === 'F' ">Female</span>
+                              <p>{{cat.birthday | moment("from", "now", true)}}</p>
                             </div>
-                            <div class="col-md-4 cat-litter">
+                            <div class="col-md-3"><span></span></div>
+                            <div class="col-md-3 cat-litter">
                               <div class="btn-group" v-if="cat.litter_mates !== null">
                                 <button type="button" class="btn btn-warning btn-outline">Litter:</button>
                                 <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
@@ -73,7 +69,7 @@
                                 <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
                               </div>
                             </div>
-                            <div class="col-md-2 cat-actions">
+                            <div class="col-md-2 cat-actions d-flex justify-content-end">
                               <div class="cell">
                                 <!--<a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"-->
                                    <!--@click="handleEdit(cat.id, cat.name)">-->
