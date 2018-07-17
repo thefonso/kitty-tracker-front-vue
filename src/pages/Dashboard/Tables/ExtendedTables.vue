@@ -36,13 +36,13 @@
                         <template>
                           <div class="d-flex justify-content-start primary-cat-row" role="button">
                             <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
-                              <img :src="cat.photo" alt="thumb" class="rounded-circle">
+                              <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid max-width: 100%;height: auto;">
                             </div>
                             <div class="col-md-2 img-container photo-thumb" v-else>
                               <img src="/static/img/bastet.png" alt="bastet">
                             </div>
                             <div class="col-md-2 cat-name">
-                              <h4>{{cat.name}}</h4>
+                              <h4 style="color: #000;text-transform: capitalize;">{{cat.name}}</h4>
                               <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
                                 <div style="display: table-row-group">
                                   <div class="table-striped" style="display: table-row">
