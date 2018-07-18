@@ -12,7 +12,7 @@ import 'bootstrap';
 // Plugins
 import App from './App.vue';
 import Rx from 'rxjs';
-import VueRx from 'vue-rx'
+import VueRx from 'vue-rx';
 
 // router setup
 import routes from './routes/routes'

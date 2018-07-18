@@ -43,8 +43,8 @@
                             </div>
                             <div class="col-md-2 cat-name">
                               <h4 style="color: #000;text-transform: capitalize;">{{cat.name}}</h4>
-                              <div class="col-sm-12" style="border: 1px solid darkgrey; display: table" >
-                                <div style="display: table-row-group">
+                              <div class="col-sm-12" style="border: 0px solid darkgrey; display: table" >
+                                <div class="d-flex justify-content-center">
                                   <div class="table-striped" style="display: table-row">
                                     <div style="display: table-cell">{{cat.age}}</div>
                                     <div style="display: table-cell">-</div>
@@ -54,10 +54,12 @@
                                   </div>
                                 </div>
                               </div>
-                              <span v-if="cat.gender === 'M' ">Male</span>
-                              <span v-if="cat.gender === 'F' ">Female</span>
-                              <p>{{cat.birthday | moment("from", "now", true)}}</p>
+                              <span v-if="cat.gender === 'M' " style="color: black;">Male</span>
+                              <span v-if="cat.gender === 'F' " style="color: black;">Female</span>
+                              <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                             </div>
+                            <!--TODO chart goes here-->
+                            <!--<div class="col-md-3"><HelloWorld></HelloWorld></div>-->
                             <div class="col-md-3"><span></span></div>
                             <div class="col-md-3 cat-litter">
                               <div class="btn-group" v-if="cat.litter_mates !== null">
@@ -302,6 +304,7 @@
   import swal from 'sweetalert2'
   import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
+  import HelloWorld from 'src/components/HelloWorld'
   import Fuse from 'fuse.js'
   import LSwitch from 'src/components/Switch.vue'
   import VueTabs from 'vue-nav-tabs'
@@ -312,6 +315,7 @@
 
   export default{
     components: {
+      HelloWorld,
       ElSelectDropdown,
       LSwitch,
       LPagination,
@@ -848,11 +852,20 @@
           }
         }
       },
+    },
+    beforeDestroy() {
+      if (this.chart) {
+        this.chart.dispose();
+      }
     }
   }
 </script>
 
 <style lang="scss">
+  #chartdiv {
+    width: 30%;
+    height: 210px;
+  }
   .fedRow{
     border-bottom: 1px solid #D4D4D4;
   }
