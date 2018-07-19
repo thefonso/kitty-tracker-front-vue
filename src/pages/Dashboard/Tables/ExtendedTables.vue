@@ -59,9 +59,9 @@
                               <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                             </div>
                             <!--TODO chart goes here-->
-                            <!--<div class="col-md-3"><HelloWorld></HelloWorld></div>-->
-                            <div class="col-md-3"><span></span></div>
-                            <div class="col-md-3 cat-litter">
+                            <div class="col-md-4"><GattoChart></GattoChart></div>
+                            <!--<div class="col-md-3"><span></span></div>-->
+                            <div class="col-md-2 cat-litter">
                               <div class="btn-group" v-if="cat.litter_mates !== null">
                                 <button type="button" class="btn btn-warning btn-outline">Litter:</button>
                                 <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
@@ -304,7 +304,7 @@
   import swal from 'sweetalert2'
   import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
-  import HelloWorld from 'src/components/HelloWorld'
+  import GattoChart from 'src/components/GattoChart'
   import Fuse from 'fuse.js'
   import LSwitch from 'src/components/Switch.vue'
   import VueTabs from 'vue-nav-tabs'
@@ -315,7 +315,7 @@
 
   export default{
     components: {
-      HelloWorld,
+      GattoChart,
       ElSelectDropdown,
       LSwitch,
       LPagination,
