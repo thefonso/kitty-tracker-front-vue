@@ -1,85 +1,150 @@
 <template>
-  <div class="hello" ref="chartdiv"></div>
+  <!-- second chart group -->
+  <div class="chart-block" style="padding-top:50px">
+    <div id="line2" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
+    <div id="column2" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
+  </div>
 </template>
 
 <script>
-  import * as am4core from "@amcharts/amcharts4/core";
-  import * as am4charts from "@amcharts/amcharts4/charts";
-  import am4themes_animated from "@amcharts/amcharts4/themes/animated";
-
-  am4core.useTheme(am4themes_animated);
 
   export default {
-    name: 'GattoChart',
-    mounted() {
-      let chart = am4core.create(this.$refs.chartdiv, am4charts.XYChart);
-
-      chart.paddingRight = 20;
-
-      chart.data = [{
-        "country": "Lithuania",
-        "litres": 501.9
-      }, {
-        "country": "Czech Republic",
-        "litres": 301.9
-      }, {
-        "country": "Ireland",
-        "litres": 201.1
-      }, {
-        "country": "Germany",
-        "litres": 165.8
-      }, {
-        "country": "Australia",
-        "litres": 139.9
-      }, {
-        "country": "Austria",
-        "litres": 128.3
-      }, {
-        "country": "UK",
-        "litres": 99
-      }, {
-        "country": "Belgium",
-        "litres": 60
-      }, {
-        "country": "The Netherlands",
-        "litres": 50
-      }];
-//axis
-      let categoryAxis = chart.xAxes.push(new am4charts.CategoryAxis());
-      categoryAxis.dataFields.category = "country";
-      categoryAxis.title.text = "Countries";
-
-      let valueAxis = chart.yAxes.push(new am4charts.ValueAxis());
-      valueAxis.title.text = "Litres sold (M)";
-
-//series
-      let series = chart.series.push(new am4charts.ColumnSeries());
-      series.name = "Sales";
-      series.columns.template.tooltipText = "Series: {name}\nCategory: {categoryX}\nValue: {valueY}";
-      series.columns.template.fill = am4core.color("#104547");
-      series.dataFields.valueY = "litres";
-      series.dataFields.categoryX = "country";
-
-      let series2 = chart.series.push(new am4charts.LineSeries());
-      series2.name = "Units";
-      series2.stroke = am4core.color("#CDA2AB");
-      series2.strokeWidth = 3;
-      series2.dataFields.valueY = "units";
-      series2.dataFields.categoryX = "country";
-
-    },
-
-    beforeDestroy() {
-      if (this.chart) {
-        this.chart.dispose();
+    name: 'app',
+    data() {
+      return {
       }
+    },
+    created () {
+      /**
+       * Line Chart #2
+       */
+      AmCharts.makeChart( "line2", {
+        "type": "serial",
+        "dataProvider": [ {
+          "day": 1,
+          "value": 120
+        }, {
+          "day": 2,
+          "value": 54
+        }, {
+          "day": 3,
+          "value": -18
+        }, {
+          "day": 4,
+          "value": -12
+        }, {
+          "day": 5,
+          "value": -51
+        }, {
+          "day": 6,
+          "value": 12
+        }, {
+          "day": 7,
+          "value": 56
+        }, {
+          "day": 8,
+          "value": 113
+        }, {
+          "day": 9,
+          "value": 142
+        }, {
+          "day": 10,
+          "value": 125
+        } ],
+        "categoryField": "day",
+        "autoMargins": false,
+        "marginLeft": 0,
+        "marginRight": 5,
+        "marginTop": 0,
+        "marginBottom": 0,
+        "graphs": [ {
+          "valueField": "value",
+          "showBalloon": false,
+          "lineColor": "#ffbf63",
+          "negativeLineColor": "#289eaf"
+        } ],
+        "valueAxes": [ {
+          "gridAlpha": 0,
+          "axisAlpha": 0,
+          "guides": [ {
+            "value": 0,
+            "lineAlpha": 0.1
+          } ]
+        } ],
+        "categoryAxis": {
+          "gridAlpha": 0,
+          "axisAlpha": 0,
+          "startOnAxis": true
+        }
+      } );
+
+      /**
+       * Column Chart #2
+       */
+      AmCharts.makeChart( "column2", {
+        "type": "serial",
+        "dataProvider": [ {
+          "day": 1,
+          "value": -5
+        }, {
+          "day": 2,
+          "value": 3
+        }, {
+          "day": 3,
+          "value": 7
+        }, {
+          "day": 4,
+          "value": -3
+        }, {
+          "day": 5,
+          "value": 3
+        }, {
+          "day": 6,
+          "value": 4
+        }, {
+          "day": 7,
+          "value": 6
+        }, {
+          "day": 8,
+          "value": -3
+        }, {
+          "day": 9,
+          "value": -2
+        }, {
+          "day": 10,
+          "value": 6
+        } ],
+        "categoryField": "day",
+        "autoMargins": false,
+        "marginLeft": 0,
+        "marginRight": 0,
+        "marginTop": 0,
+        "marginBottom": 0,
+        "graphs": [ {
+          "valueField": "value",
+          "type": "column",
+          "fillAlphas": 1,
+          "showBalloon": false,
+          "lineColor": "#ffbf63",
+          "negativeFillColors": "#289eaf",
+          "negativeLineColor": "#289eaf"
+        } ],
+        "valueAxes": [ {
+          "gridAlpha": 0,
+          "axisAlpha": 0
+        } ],
+        "categoryAxis": {
+          "gridAlpha": 0,
+          "axisAlpha": 0
+        }
+      } );
     }
   }
 </script>
 
-<style scoped>
-  .hello {
-    width: 100%;
-    height: 200px;
+<style>
+  .amcharts-chart-div a{
+    text-indent: -9999px;
+    outline: none;
   }
 </style>

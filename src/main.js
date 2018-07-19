@@ -9,6 +9,8 @@ import LightBootstrap from './light-bootstrap-main';
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap-vue/dist/bootstrap-vue.css';
 import 'bootstrap';
+import AmCharts from 'amcharts3'
+import AmSerial from 'amcharts3/amcharts/serial'
 // Plugins
 import App from './App.vue';
 import Rx from 'rxjs';
