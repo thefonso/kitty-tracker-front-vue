@@ -1,8 +1,8 @@
 <template>
   <!-- second chart group -->
   <div class="chart-block" style="padding-top:50px">
-    <div id="line" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
-    <div id="column" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
+    <div ref="line" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
+    <div ref="column" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
   </div>
 </template>
 
@@ -15,11 +15,11 @@
       return {
       }
     },
-    beforeMount () {
+    mounted () {
       /**
        * Line Chart #2
        */
-      AmCharts.makeChart( "line", {
+      AmCharts.makeChart( this.$refs.line, {
         "type": "serial",
         "dataProvider": [ {
           "day": 1,
@@ -82,7 +82,7 @@
       /**
        * Column Chart #2
        */
-      AmCharts.makeChart( "column", {
+      AmCharts.makeChart( this.$refs.column, {
         "type": "serial",
         "dataProvider": [ {
           "day": 1,
