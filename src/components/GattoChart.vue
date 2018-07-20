@@ -1,8 +1,8 @@
 <template>
   <!-- second chart group -->
   <div class="chart-block" style="padding-top:50px">
-    <div id="line2" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
-    <div id="column2" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
+    <div id="line" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
+    <div id="column" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
   </div>
 </template>
 
@@ -19,7 +19,7 @@
       /**
        * Line Chart #2
        */
-      AmCharts.makeChart( "line2", {
+      AmCharts.makeChart( "line", {
         "type": "serial",
         "dataProvider": [ {
           "day": 1,
@@ -82,7 +82,7 @@
       /**
        * Column Chart #2
        */
-      AmCharts.makeChart( "column2", {
+      AmCharts.makeChart( "column", {
         "type": "serial",
         "dataProvider": [ {
           "day": 1,
