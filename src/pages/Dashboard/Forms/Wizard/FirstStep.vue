@@ -25,7 +25,7 @@
           <div class="form-group">
             <label class="col-sm-6 form-label" for="name">Name</label>
             <div class="col-sm-12">
-              <input id="name" name="name" v-validate="'required'" v-model="name" :error="getError('name')"
+              <input id="name" onfocus="this.value=''" name="name" v-validate="'required'" v-model="name" :error="getError('name')"
                         class="form-control"
                         type="text"/>
             </div>
@@ -152,6 +152,7 @@
                       <label class="col-sm-12">Mama cats name</label>
                       <div class="col-sm-8">
                         <input name="birthday"
+                               onfocus="this.value=''"
                                v-model="name"
                                v-validate="'required'"
                                :class="{'input': true, 'is-danger': errors.has('name') }"
@@ -182,7 +183,7 @@
             <label class="col-sm-12 form-label">Weight</label>
             <div class="col-sm-12 row" v-if="cat_form">
               <div class="col-sm-6">
-                <input name="weight" v-model="weight" v-validate="'required|integer'"
+                <input name="weight" onfocus="this.value=''" v-model="weight" v-validate="'required|integer'"
                        :class="{'input': true, 'is-danger': errors.has('weight') }" class="form-control" type="text">
                 <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
               </div>

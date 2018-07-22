@@ -1,6 +1,7 @@
 <template>
   <!-- second chart group -->
   <div class="chart-block" style="padding-top:50px">
+    {{ message }}
     <div ref="line" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
     <div ref="column" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
   </div>
@@ -9,7 +10,7 @@
 <script>
 
   export default {
-
+    props: ['message'],
     name: 'app',
     data() {
       return {

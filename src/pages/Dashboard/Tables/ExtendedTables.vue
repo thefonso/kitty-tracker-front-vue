@@ -59,7 +59,9 @@
                               <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                             </div>
                             <!--TODO chart goes here-->
-                            <div class="col-md-3"><GattoChart></GattoChart></div>
+                            <div class="col-md-3">
+                              <GattoChart :message="catFeedings"></GattoChart>
+                            </div>
                             <!--<div class="col-md-3"><span></span></div>-->
                             <div class="col-md-3 cat-litter">
                               <div class="btn-group" v-if="cat.litter_mates !== null">
@@ -376,6 +378,7 @@
     },
     data () {
       return {
+        variableAtParent: 'DATA FROM PARENT!',
         activeName: 'first',
         cat: '',
         cats: [],
@@ -446,6 +449,11 @@
     },
     mounted () {
       this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
+    },
+    events: {
+      'event_name': function (data) {
+        this.$broadcast('event_name', data);
+      },
     },
     methods: {
       showSwal (type, message) {
