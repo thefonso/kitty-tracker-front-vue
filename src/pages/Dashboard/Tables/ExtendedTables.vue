@@ -60,7 +60,8 @@
                             </div>
                             <!--TODO chart goes here-->
                             <div class="col-md-3">
-                              <GattoChart :message="catFeedings"></GattoChart>
+                              <!--<GattoChart :message="catFeedings"></GattoChart>-->
+                              <GattoChart></GattoChart>
                             </div>
                             <!--<div class="col-md-3"><span></span></div>-->
                             <div class="col-md-3 cat-litter">
@@ -870,6 +871,16 @@
 </script>
 
 <style lang="scss">
+  .table-bigboy .img-container img {
+    width:90%;
+    @media screen and (min-width: 200px){
+        width:90%;
+    }
+    @media screen and (min-width: 1480px){
+        width:50%;
+    }
+  }
+
   #chartdiv {
     width: 30%;
     height: 210px;
