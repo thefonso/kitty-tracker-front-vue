@@ -925,7 +925,7 @@
     padding-bottom: 5px;
   }
   .cancel-submit button{
-    padding-right: 15px;
+    /*padding-right: 15px;*/
     display: block;
   }
   .el-collapse-item__header{
