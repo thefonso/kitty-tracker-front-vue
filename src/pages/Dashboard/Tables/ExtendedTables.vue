@@ -880,7 +880,9 @@
         width:50%;
     }
   }
-
+  .table-bigboy .img-container img {
+    object-fit: cover;
+  }
   #chartdiv {
     width: 30%;
     height: 210px;
