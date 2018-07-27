@@ -1,6 +1,87 @@
 <template>
   <div>
-    <!--TODO: have cats list below, displayed via paginated tables module DO THIS LAST-->
+    <!--TODO: paginated table-->
+    <card title="Paginated tables">
+      <div>
+        <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+          <el-select
+            class="select-default mb-3"
+            style="width: 200px"
+            v-model="pagination.perPage"
+            placeholder="Per page">
+            <el-option
+              class="select-default"
+              v-for="item in pagination.perPageOptions"
+              :key="item"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
+          <el-input type="search"
+                    class="mb-3"
+                    style="width: 200px"
+                    placeholder="Search records"
+                    v-model="searchQuery"
+                    aria-controls="datatables"/>
+        </div>
+        <div class="col-sm-12">
+          <el-table stripe
+                    style="width: 100%;"
+                    :data="queriedData"
+                    border>
+            <el-table-column v-for="column in tableColumns"
+                             :key="column.label"
+                             :min-width="column.minWidth"
+                             :prop="column.prop"
+                             :label="column.label">
+            </el-table-column>
+            <el-table-column
+              :min-width="120"
+              fixed="right"
+              label="Actions">
+              <template slot-scope="props">
+                <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
+                   @click="handleLike(props.$index, props.row)">
+                  <i class="fa fa-heart"></i></a>
+                <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
+                   @click="handleEdit(props.$index, props.row)"><i
+                  class="fa fa-edit"></i></a>
+                <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
+                   @click="handleDelete(props.$index, props.row)"><i class="fa fa-times"></i></a>
+              </template>
+            </el-table-column>
+          </el-table>
+        </div>
+      </div>
+      <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+        <div class="">
+          <p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
+        </div>
+        <l-pagination class="pagination-no-border"
+                      v-model="pagination.currentPage"
+                      :per-page="pagination.perPage"
+                      :total="pagination.total">
+        </l-pagination>
+      </div>
+    </card>
+    <!--TODO: Content modal-->
+
+    <card>
+      <div class="card-content text-center">
+        <h5>Custom content</h5>
+        <button class="btn btn-default btn-fill" @click="openModal('custom')">Try me!</button>
+      </div>
+      <el-dialog
+        center
+        title="Custom Content"
+        :visible.sync="modals.custom">
+        <el-table :data="gridData">
+          <el-table-column min-width="100" property="date" label="Date"></el-table-column>
+          <el-table-column min-width="100" property="name" label="Name"></el-table-column>
+          <el-table-column min-width="150" property="address" label="Address"></el-table-column>
+        </el-table>
+      </el-dialog>
+    </card>
 
     <!--CAT LIST with sub fields-->
     <div class="row">
@@ -298,6 +379,7 @@
         </card>
       </div>
     </div><!--CAT LIST with sub fields ENDS-->
+
   </div>
 </template>
 <script>
@@ -305,7 +387,7 @@
   import axios from 'axios';
   import { Observable } from 'rxjs';
   import swal from 'sweetalert2'
-  import { Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button} from 'element-ui'
+  import { Dialog, Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button,  MessageBox} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
   import GattoChart from 'src/components/GattoChart'
   import Fuse from 'fuse.js'
@@ -315,13 +397,14 @@
   import ElSelectDropdown from "element-ui/packages/select/src/select-dropdown";
 
   Vue.use(VueTabs);
-
+  Vue.prototype.$confirm = MessageBox.confirm;
   export default{
     components: {
       GattoChart,
       ElSelectDropdown,
       LSwitch,
       LPagination,
+      [Dialog.name]: Dialog,
       [Button.name]: Button,
       [Select.name]: Select,
       [Option.name]: Option,
@@ -379,6 +462,29 @@
     },
     data () {
       return {
+        modals: {
+          basic: false,
+          centered: false,
+          custom: false,
+          confirm: false
+        },
+        gridData: [{
+          date: '2016-05-02',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District'
+        }, {
+          date: '2016-05-04',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District'
+        }, {
+          date: '2016-05-01',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District'
+        }, {
+          date: '2016-05-03',
+          name: 'John Smith',
+          address: 'No.1518,  Jinshajiang Road, Putuo District'
+        }],
         variableAtParent: 'DATA FROM PARENT!',
         activeName: 'first',
         cat: '',
@@ -457,6 +563,18 @@
       },
     },
     methods: {
+      openModal (name) {
+        this.modals[name] = true
+      },
+      closeModal (name) {
+        this.modals[name] = false
+      },
+      async handleClose (done) {
+        try {
+          await this.$confirm('Are you sure you want to close this dialog?')
+          done()
+        } catch (e) {}
+      },
       showSwal (type, message) {
         if (type === 'basic') {
           swal({
@@ -767,6 +885,7 @@
           });
       },
       handleLike (index, row) {
+        // alert(`You want to like ${row.name}`)
         this.showSwal.title(`You want to like ${row.name}`)
       },
       changeHandleAdd(value){
@@ -775,6 +894,7 @@
       },
       handleEdit (bool) {
         // map / filter / reduce
+        // alert(`You want to edit ${row.name}`)
         this.showRow = bool;
         console.log(this.showRow);
       },
@@ -871,6 +991,14 @@
 </script>
 
 <style lang="scss">
+  .el-dialog {
+    width: 50%;
+  }
+  @media (max-width: 800px){
+    .el-dialog{
+      width: 90%
+    }
+  }
   .table-bigboy .img-container img {
     width:90%;
     @media screen and (min-width: 200px){

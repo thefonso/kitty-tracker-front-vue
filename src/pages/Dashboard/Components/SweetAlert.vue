@@ -169,7 +169,7 @@
   import Vue from 'vue'
   import { Dialog, Table, TableColumn, MessageBox } from 'element-ui'
 
-  Vue.prototype.$confirm = MessageBox.confirm
+  Vue.prototype.$confirm = MessageBox.confirm;
   export default {
     components: {
       [Dialog.name]: Dialog,
