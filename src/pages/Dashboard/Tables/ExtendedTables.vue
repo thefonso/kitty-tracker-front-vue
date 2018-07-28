@@ -1,6 +1,6 @@
 <template>
   <div>
-    <!--TODO: paginated table-->
+    <!--NOTE: paginated table-->
     <card title="Paginated tables">
       <div>
         <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
@@ -24,7 +24,7 @@
                     v-model="searchQuery"
                     aria-controls="datatables"/>
         </div>
-        <div class="col-sm-12">
+        <div class="col-sm-12" @load="sortedCats">
           <el-table stripe
                     style="width: 100%;"
                     :data="queriedData"
@@ -38,7 +38,7 @@
                               <template slot-scope="scope">
                                 <!--<i class="el-icon-time"></i>-->
                                 <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
-                                   @click="handleLike(scope.$index, scope.row)">
+                                   @click="openCat(scope.$index, scope.row)">
                                   <!--TODO: small profile pic-->
                                   <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
                                     <img :src="scope.row.photo" alt="thumb">
@@ -49,13 +49,6 @@
                                 </a>
                               </template>
             </el-table-column>
-            <!--<el-table-column v-else-if="column.label === 'Pic' && column.prop.photo === null"-->
-                             <!--v-for="column in tableColumns"-->
-                             <!--:key="column.label"-->
-                             <!--:min-width="column.minWidth"-->
-                             <!--:prop="column.prop"-->
-                             <!--:label="column.label">-->
-            <!--</el-table-column>-->
             <el-table-column v-if="column.label !== 'Pic'"
                              v-for="column in tableColumns"
                              :key="column.label"
@@ -91,21 +84,14 @@
                       :total="pagination.total">
         </l-pagination>
       </div>
-    </card>
-    <!--TODO: Content modal-->
-
-    <card>
-      <div class="card-content text-center">
-        <h5>Custom content</h5>
-        <button class="btn btn-default btn-fill" @click="openModal('custom')">Try me!</button>
-      </div>
+      <!--NOTE: cat Modal-->
       <el-dialog
         center
-        title="Custom Content"
+        title=""
         :visible.sync="modals.custom">
         <div class="table-responsive">
           <div id="accordion">
-            <div class="card" v-for="cat in sortedCats" :key="cat.id">
+            <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
                 <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
@@ -176,7 +162,7 @@
                 </div>
                 <!--TODO: CAT big one ends here-->
               </div>
-              <!--TODO: Sub rows START here-->
+              <!--NOTE: Sub rows START here-->
               <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
                 <card>
                   <vue-tabs value="Description">
@@ -379,17 +365,11 @@
         </div>
       </el-dialog>
     </card>
-
-    <!--CAT LIST with sub fields-->
-
-    <!--CAT LIST with sub fields ENDS-->
-
   </div>
 </template>
 <script>
   import Vue from 'vue'
   import axios from 'axios';
-  import { Observable } from 'rxjs';
   import swal from 'sweetalert2'
   import { Dialog, Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button,  MessageBox} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
@@ -472,27 +452,11 @@
           custom: false,
           confirm: false
         },
-        gridData: [{
-          date: '2016-05-02',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-04',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-01',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }, {
-          date: '2016-05-03',
-          name: 'John Smith',
-          address: 'No.1518,  Jinshajiang Road, Putuo District'
-        }],
         variableAtParent: 'DATA FROM PARENT!',
         activeName: 'first',
         cat: '',
         cats: [],
+        thisCat: [],
         catFeedings: [],
         catMedications: [],
         medToEdit: [],
@@ -545,7 +509,6 @@
         showSuccess: false,
         showDanger: false,
         constant: 0,
-        thisCat: [],
         dismissSecs: 4,
         dismissCountDown: 0,
         dismissCountDown2: 0,
@@ -695,6 +658,17 @@
       },
       getError (fieldName) {
         return this.errors.first(fieldName)
+      },
+      getOneCat (catID) {
+        axios.get(`${process.env.KITTY_URL}/api/v1/cats/${catID}/`)
+          .then(response => {console.log(response.data);
+            this.cat = response.data;
+            this.openModal('custom');
+          })
+          .catch(error => console.log(error));
+      },
+      openCat (index, row) {
+        this.getOneCat(row.id)
       },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
