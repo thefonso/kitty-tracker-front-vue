@@ -14,12 +14,14 @@
     name: 'app',
     data() {
       return {
+        chartCat: ''
       }
     },
     mounted () {
       /**
        * Line Chart #2
        */
+      // TODO: line = weight(waf) / day(created?)
       AmCharts.makeChart( this.$refs.line, {
         "type": "serial",
         "dataProvider": [ {
@@ -83,6 +85,7 @@
       /**
        * Column Chart #2
        */
+      // TODO: column = dose / day
       AmCharts.makeChart( this.$refs.column, {
         "type": "serial",
         "dataProvider": [ {

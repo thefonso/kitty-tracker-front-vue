@@ -126,8 +126,8 @@
                           </div>
                           <!--TODO chart goes here-->
                           <div class="col-md-3">
-                            <!--<GattoChart :message="catFeedings"></GattoChart>-->
-                            <GattoChart></GattoChart>
+                            <GattoChart :message="cat.id"></GattoChart>
+                            <!--<GattoChart></GattoChart>-->
                           </div>
                           <!--<div class="col-md-3"><span></span></div>-->
                           <div class="col-md-3 cat-litter">
