@@ -36,10 +36,8 @@
                              :prop="column.prop"
                              :label="column.label">
                               <template slot-scope="scope">
-                                <!--<i class="el-icon-time"></i>-->
-                                <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
+                                <a v-tooltip.top-center="'Open Record'" class="btn-info btn-simple btn-link"
                                    @click="openCat(scope.$index, scope.row)">
-                                  <!--TODO: small profile pic-->
                                   <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
                                     <img :src="scope.row.photo" alt="thumb">
                                   </div>
