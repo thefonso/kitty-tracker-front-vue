@@ -15,9 +15,11 @@
     name: 'app',
     created(){
       this.getFeedingsAgain(this.message);
+      this.getMedicationsAgain(this.message);
     },
     updated(){
       this.getFeedingsAgain(this.message);
+      this.getMedicationsAgain(this.message);
     },
     data() {
       return {
@@ -31,7 +33,7 @@
         AmCharts.makeChart( this.$refs.line, {
           "type": "serial",
           "dataProvider": this.catFeedingsAgain,
-          "categoryField": "day",
+          "categoryField": "created",
           "autoMargins": false,
           "marginLeft": 0,
           "marginRight": 5,
@@ -57,6 +59,35 @@
             "startOnAxis": true
           }
         });
+      },
+      catMedicationsAgain: function(){
+        AmCharts.makeChart( this.$refs.column, {
+          "type": "serial",
+          "dataProvider": this.catMedicationsAgain,
+          "categoryField": "created",
+          "autoMargins": false,
+          "marginLeft": 0,
+          "marginRight": 0,
+          "marginTop": 0,
+          "marginBottom": 0,
+          "graphs": [ {
+            "valueField": "dosage",
+            "type": "column",
+            "fillAlphas": 1,
+            "showBalloon": false,
+            "lineColor": "#ffbf63",
+            "negativeFillColors": "#289eaf",
+            "negativeLineColor": "#289eaf"
+          } ],
+          "valueAxes": [ {
+            "gridAlpha": 0,
+            "axisAlpha": 0
+          } ],
+          "categoryAxis": {
+            "gridAlpha": 0,
+            "axisAlpha": 0
+          }
+        } );
       }
     },
     mounted () {
@@ -131,44 +162,44 @@
       AmCharts.makeChart( this.$refs.column, {
         "type": "serial",
         "dataProvider": [ {
-          "day": 1,
-          "value": -5
+          "created": 1,
+          "dosage": -5
         }, {
-          "day": 2,
-          "value": 3
+          "created": 2,
+          "dosage": 3
         }, {
-          "day": 3,
-          "value": 7
+          "created": 3,
+          "dosage": 7
         }, {
-          "day": 4,
-          "value": -3
+          "created": 4,
+          "dosage": -3
         }, {
-          "day": 5,
-          "value": 3
+          "created": 5,
+          "dosage": 3
         }, {
-          "day": 6,
-          "value": 4
+          "created": 6,
+          "dosage": 4
         }, {
-          "day": 7,
-          "value": 6
+          "created": 7,
+          "dosage": 6
         }, {
-          "day": 8,
-          "value": -3
+          "created": 8,
+          "dosage": -3
         }, {
-          "day": 9,
-          "value": -2
+          "created": 9,
+          "dosage": -2
         }, {
-          "day": 10,
-          "value": 6
+          "created": 10,
+          "dosage": 6
         } ],
-        "categoryField": "day",
+        "categoryField": "created",
         "autoMargins": false,
         "marginLeft": 0,
         "marginRight": 0,
         "marginTop": 0,
         "marginBottom": 0,
         "graphs": [ {
-          "valueField": "value",
+          "valueField": "dosage",
           "type": "column",
           "fillAlphas": 1,
           "showBalloon": false,
@@ -189,16 +220,15 @@
     methods:{
       getFeedingsAgain(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${value}`)
-          .then(response => {
-            console.log("getFeedingsAgain: ");
-            console.log(response.data.results);
+          .then(response => {console.log("getFeedingsAgain: ");console.log(response.data.results);
             this.catFeedingsAgain = response.data.results
           })
           .catch(error => console.log(error));
       },
       getMedicationsAgain(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
-          .then(response => {console.log("catMedications: ");console.log(response.data.results); this.catMedications = response.data.results})
+          .then(response => {console.log("catMedicationsAgain: ");console.log(response.data.results);
+            this.catMedicationsAgain = response.data.results})
           .catch(error => console.log(error));
       },
     }
