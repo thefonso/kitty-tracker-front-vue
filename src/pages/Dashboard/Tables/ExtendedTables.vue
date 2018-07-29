@@ -42,7 +42,7 @@
                                     <img class="rounded-circle" :src="scope.row.photo" alt="thumb">
                                   </div>
                                   <div class="col-md-2 img-container photo-thumb-sm" v-else>
-                                    <img class="rounded-circle" src="/static/img/bastet.png" alt="bastet">
+                                    <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
                                   </div>
                                 </a>
                               </template>
