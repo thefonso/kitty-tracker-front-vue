@@ -105,7 +105,7 @@
                             <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid max-width: 100%;height: auto;">
                           </div>
                           <div class="col-md-2 img-container photo-thumb" v-else>
-                            <img src="/static/img/bastet.png" alt="bastet">
+                            <img src="/static/img/cat_n_mouse.png" alt="bastet">
                           </div>
                           <div class="col-md-2 cat-name">
                             <h4 style="color: #000;text-transform: capitalize;">{{cat.name}}</h4>
