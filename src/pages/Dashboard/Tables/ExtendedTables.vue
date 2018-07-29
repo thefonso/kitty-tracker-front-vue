@@ -39,10 +39,10 @@
                                 <a v-tooltip.top-center="'Open Record'" class="btn-info btn-simple btn-link"
                                    @click="openCat(scope.$index, scope.row)">
                                   <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
-                                    <img :src="scope.row.photo" alt="thumb">
+                                    <img class="rounded-circle" :src="scope.row.photo" alt="thumb">
                                   </div>
                                   <div class="col-md-2 img-container photo-thumb-sm" v-else>
-                                    <img src="/static/img/bastet.png" alt="bastet">
+                                    <img class="rounded-circle" src="/static/img/bastet.png" alt="bastet">
                                   </div>
                                 </a>
                               </template>
@@ -1047,7 +1047,7 @@
   }
   .photo-thumb-sm img{
     width: 50px;
-    height: auto;
+    height: 50px;
     object-fit: cover;
   }
   // css transition for tabs
