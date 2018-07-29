@@ -8,13 +8,55 @@
 </template>
 
 <script>
+  import axios from 'axios';
 
   export default {
     props: ['message'],
     name: 'app',
+    created(){
+      this.getFeedingsAgain(this.message);
+    },
+    updated(){
+      this.getFeedingsAgain(this.message);
+    },
     data() {
       return {
-        chartCat: ''
+        chartCatID: this.message,
+        catFeedingsAgain: [],
+        catMedicationsAgain: [],
+      }
+    },
+    watch: {
+      catFeedingsAgain: function() {
+        AmCharts.makeChart( this.$refs.line, {
+          "type": "serial",
+          "dataProvider": this.catFeedingsAgain,
+          "categoryField": "day",
+          "autoMargins": false,
+          "marginLeft": 0,
+          "marginRight": 5,
+          "marginTop": 0,
+          "marginBottom": 0,
+          "graphs": [ {
+            "valueField": "weight_after_food",
+            "showBalloon": false,
+            "lineColor": "#ffbf63",
+            "negativeLineColor": "#289eaf"
+          } ],
+          "valueAxes": [ {
+            "gridAlpha": 0,
+            "axisAlpha": 0,
+            "guides": [ {
+              "weight_after_food": 0,
+              "lineAlpha": 0.1
+            } ]
+          } ],
+          "categoryAxis": {
+            "gridAlpha": 0,
+            "axisAlpha": 0,
+            "startOnAxis": true
+          }
+        });
       }
     },
     mounted () {
@@ -25,44 +67,44 @@
       AmCharts.makeChart( this.$refs.line, {
         "type": "serial",
         "dataProvider": [ {
-          "day": 1,
-          "value": 120
+          "created": 1,
+          "weight_after_food": 120
         }, {
-          "day": 2,
-          "value": 54
+          "created": 2,
+          "weight_after_food": 54
         }, {
-          "day": 3,
-          "value": -18
+          "created": 3,
+          "weight_after_food": -18
         }, {
-          "day": 4,
-          "value": -12
+          "created": 4,
+          "weight_after_food": -12
         }, {
-          "day": 5,
-          "value": -51
+          "created": 5,
+          "weight_after_food": -51
         }, {
-          "day": 6,
-          "value": 12
+          "created": 6,
+          "weight_after_food": 12
         }, {
-          "day": 7,
-          "value": 56
+          "created": 7,
+          "weight_after_food": 56
         }, {
-          "day": 8,
-          "value": 113
+          "created": 8,
+          "weight_after_food": 113
         }, {
-          "day": 9,
-          "value": 142
+          "created": 9,
+          "weight_after_food": 142
         }, {
-          "day": 10,
-          "value": 125
+          "created": 10,
+          "weight_after_food": 125
         } ],
-        "categoryField": "day",
+        "categoryField": "created",
         "autoMargins": false,
         "marginLeft": 0,
         "marginRight": 5,
         "marginTop": 0,
         "marginBottom": 0,
         "graphs": [ {
-          "valueField": "value",
+          "valueField": "weight_after_food",
           "showBalloon": false,
           "lineColor": "#ffbf63",
           "negativeLineColor": "#289eaf"
@@ -71,7 +113,7 @@
           "gridAlpha": 0,
           "axisAlpha": 0,
           "guides": [ {
-            "value": 0,
+            "weight_after_food": 0,
             "lineAlpha": 0.1
           } ]
         } ],
@@ -85,7 +127,7 @@
       /**
        * Column Chart #2
        */
-      // TODO: column = dose / day
+      // TODO: column = dose(dosage) / day(created?)
       AmCharts.makeChart( this.$refs.column, {
         "type": "serial",
         "dataProvider": [ {
@@ -143,6 +185,22 @@
           "axisAlpha": 0
         }
       } );
+    },
+    methods:{
+      getFeedingsAgain(value) {
+        axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${value}`)
+          .then(response => {
+            console.log("getFeedingsAgain: ");
+            console.log(response.data.results);
+            this.catFeedingsAgain = response.data.results
+          })
+          .catch(error => console.log(error));
+      },
+      getMedicationsAgain(value) {
+        axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
+          .then(response => {console.log("catMedications: ");console.log(response.data.results); this.catMedications = response.data.results})
+          .catch(error => console.log(error));
+      },
     }
   }
 </script>

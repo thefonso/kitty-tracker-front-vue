@@ -126,7 +126,7 @@
                           </div>
                           <!--TODO chart goes here-->
                           <div class="col-md-3">
-                            <GattoChart :message="cat.id"></GattoChart>
+                            <GattoChart :message="cat.name"></GattoChart>
                             <!--<GattoChart></GattoChart>-->
                           </div>
                           <!--<div class="col-md-3"><span></span></div>-->
@@ -659,7 +659,8 @@
       },
       getOneCat (catID) {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/${catID}/`)
-          .then(response => {console.log(response.data);
+          .then(response => {
+            // console.log(response.data);
             this.cat = response.data;
             this.openModal('custom');
           })
