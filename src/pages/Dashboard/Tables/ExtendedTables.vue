@@ -29,7 +29,7 @@
         <div class="col-sm-12" @load="sortedCats">
           <div class="divTable">
             <div class="divTableHeading">
-              <div class="divTableRow d-flex justify-content-around">
+              <div class="d-flex justify-content-around">
                 <div class="divTableHead col-sm-1 center">ID</div>
                 <div class="divTableHead col-sm-1 center">Photo</div>
                 <div class="divTableHead col-sm-1 center">Name</div>
@@ -1218,7 +1218,7 @@
     border-top: 1px solid #dee2e6;
   }
   .divTableBody .divTableRow:hover{
-    background-color: lightgray;
+    background-color: #EEE;
   }
   .center {
     text-align: center;
@@ -1227,7 +1227,7 @@
     cursor: pointer;
   }
   .divTableHeading {
-    background-color: #EEE;
+    /*background-color: #EEE;*/
     display: table-header-group;
     font-weight: bold;
     font-size: small;
