@@ -4,6 +4,7 @@
     <card title="Paginated tables">
       <div>
         <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+          <!--NOTE: pagination box-->
           <el-select
             class="select-default mb-3"
             style="width: 200px"
@@ -17,6 +18,7 @@
               :value="item">
             </el-option>
           </el-select>
+          <!--NOTE search box-->
           <el-input type="search"
                     class="mb-3"
                     style="width: 200px"
@@ -25,51 +27,62 @@
                     aria-controls="datatables"/>
         </div>
         <div class="col-sm-12" @load="sortedCats">
-          <el-table stripe
-                    style="width: 100%;"
-                    :data="queriedData"
-                    border>
-            <el-table-column v-if="column.label === 'Pic' && column.prop.photo !== null"
-                             v-for="column in tableColumns"
-                             :key="column.label"
-                             :min-width="column.minWidth"
-                             :prop="column.prop"
-                             :label="column.label">
-                              <template slot-scope="scope">
-                                <a v-tooltip.top-center="'Open Record'" class="btn-info btn-simple btn-link"
-                                   @click="openCat(scope.$index, scope.row)">
-                                  <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
-                                    <img class="rounded-circle" :src="scope.row.photo" alt="thumb">
-                                  </div>
-                                  <div class="col-md-2 img-container photo-thumb-sm" v-else>
-                                    <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
-                                  </div>
-                                </a>
-                              </template>
-            </el-table-column>
-            <el-table-column v-if="column.label !== 'Pic'"
-                             v-for="column in tableColumns"
-                             :key="column.label"
-                             :min-width="column.minWidth"
-                             :prop="column.prop"
-                             :label="column.label">
-            </el-table-column>
-            <el-table-column
-              :min-width="120"
-              fixed="right"
-              label="Actions">
-              <template slot-scope="props">
-                <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
-                   @click="handleLike(props.$index, props.row)">
-                  <i class="fa fa-heart"></i></a>
-                <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
-                   @click="handleEdit(props.$index, props.row)"><i
-                  class="fa fa-edit"></i></a>
-                <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
-                   @click="handleDelete(props.$index, props.row)"><i class="fa fa-times"></i></a>
-              </template>
-            </el-table-column>
-          </el-table>
+          <div class="divTable">
+            <div class="divTableHeading">
+              <div class="divTableRow d-flex justify-content-around">
+                <div class="divTableHead col-sm-1 center">ID</div>
+                <div class="divTableHead col-sm-1 center">Photo</div>
+                <div class="divTableHead col-sm-1 center">Name</div>
+                <div class="divTableHead col-sm-1 center">Gender</div>
+                <div class="divTableHead col-sm-2 center">Birthdate</div>
+                <div class="divTableHead col-sm-2 center">Age</div>
+                <div class="divTableHead col-sm-1 center">Type</div>
+                <div class="divTableHead col-sm-2 center">Actions</div>
+              </div>
+            </div>
+            <div class="divTableBody">
+              <div class="divTableRow fadecontent d-flex justify-content-around"  v-for="(fed) in queriedData" :key="fed.id">
+                <div class="divTableCell col-sm-1 center hand" v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">
+                  <div style="border: 0px solid darkgrey; display: table" >
+                    <div class="d-flex justify-content-center">
+                      <div class="table-striped" style="display: table-row">
+                        <div style="display: table-cell">{{ fed.age}}</div>
+                        <div style="display: table-cell">-</div>
+                        <div style="display: table-cell">{{ fed.weight }}</div>
+                        <div style="display: table-cell">{{ fed.gender }}</div>
+                        <div style="display: table-cell">{{ fed.cat_type }}</div>
+                      </div>
+                    </div>
+                  </div>
+                </div>
+                <div class="divTableCell col-sm-1 center hand" v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">
+                      <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
+                        <img class="rounded-circle" :src="fed.photo" alt="thumb">
+                      </div>
+                      <div class="img-container photo-thumb-sm" v-else>
+                        <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
+                      </div>
+                </div>
+                <div class="divTableCell col-sm-1 center hand" v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">{{ fed.name }}</div>
+                <div class="divTableCell col-sm-1 center">{{ fed.gender }}</div>
+                <div class="divTableCell col-sm-2 center">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
+                <div class="divTableCell col-sm-2 center">{{ fed.birthday | moment("from", "now", true) }}</div>
+                <div class="divTableCell col-sm-1 center">{{ fed.cat_type }}</div>
+                <div class="divTableCell col-sm-2 center">
+                  <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
+                     @click="handleLike(fed.id, fed.name)">
+                    <i class="fa fa-heart"></i></a>
+                  <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
+                     @click="handleEdit(fed.id, fed.name)"><i
+                    class="fa fa-edit"></i></a>
+                  <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
+                     @click="handleDelete(fed.id, fed.name, 'catRow')">
+                    <i class="fa fa-times"></i>
+                  </a>
+                </div>
+              </div>
+            </div>
+          </div>
         </div>
       </div>
       <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
@@ -92,7 +105,7 @@
             <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
-                <div role="button" style="width: 100%" class="btn btn-link" v-on:click="getMedications(cat.name); getFeedings(cat.name)"
+                <div role="button" style="width: 100%" class="btn btn-link" @click="getMedications(cat.name); getFeedings(cat.name)"
                      data-toggle="collapse"
                      :data-target="'#collapseOne'+cat.id"
                      aria-expanded="false"
@@ -105,7 +118,7 @@
                             <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid max-width: 100%;height: auto;">
                           </div>
                           <div class="col-md-2 img-container photo-thumb" v-else>
-                            <img src="/static/img/cat_n_mouse.png" alt="bastet">
+                            <img src="/static/img/cat_n_mouse.png" alt="default pic">
                           </div>
                           <div class="col-md-2 cat-name">
                             <h4 style="color: #000;text-transform: capitalize;">{{cat.name}}</h4>
@@ -146,10 +159,10 @@
                               <!--@click="handleEdit(cat.id, cat.name)">-->
                               <!--<i class="fa fa-edit"></i>-->
                               <!--</a>-->
-                              <a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"
-                                 @click="handleDelete(cat.id, cat.name, 'catRow')">
-                                <i class="fa fa-times"></i>
-                              </a>
+                              <!--<a class="btn-danger btn-simple btn-link" v-tooltip.top-center="'Delete'"-->
+                                 <!--@click="handleDelete(cat.id, cat.name, 'catRow')">-->
+                                <!--<i class="fa fa-times"></i>-->
+                              <!--</a>-->
                             </div>
                           </div>
                         </div>
@@ -440,7 +453,16 @@
           return 0;
         }
         return this.cats.sort(compare);
-      }
+      },
+      sortedCat() {
+        return this.thisCat.sort((a,b) => {
+          let modifier = 1;
+          if(this.currentSortDir === 'desc') modifier = -1;
+          if(a[this.currentSort] < b[this.currentSort]) return -1 * modifier;
+          if(a[this.currentSort] > b[this.currentSort]) return 1 * modifier;
+          return 0;
+        });
+      },
     },
     data () {
       return {
@@ -455,6 +477,9 @@
         cat: '',
         cats: [],
         thisCat: [],
+        currentSort:'name',
+        currentSortDir:'asc',
+        collapsed: true,
         catFeedings: [],
         catMedications: [],
         medToEdit: [],
@@ -533,6 +558,43 @@
       },
     },
     methods: {
+      foodName(food){
+        console.log(food);
+        switch (food){
+          case "MN":{
+            console.log("Mom");
+            return "Mom";
+            break;
+          }
+          case "G":{
+            return "Gruel";
+            break;
+          }
+          case "GG":{
+            return "Syringe Gruel / Gruel";
+            break;
+          }
+          case "SG":{
+            return "Syringe Gruel";
+            break;
+          }
+          case "BS":{
+            return "Bottle/Syringe";
+            break;
+          }
+          case "BO":{
+            return "Bottle";
+            break;
+          }
+        }
+      },
+      sort(s) {
+        //if s == current sort, reverse
+        if(s === this.currentSort) {
+          this.currentSortDir = this.currentSortDir==='asc'?'desc':'asc';
+        }
+        this.currentSort = s;
+      },
       openModal (name) {
         this.modals[name] = true
       },
@@ -666,8 +728,8 @@
           })
           .catch(error => console.log(error));
       },
-      openCat (index, row) {
-        this.getOneCat(row.id)
+      openCat (catID) {
+        this.getOneCat(catID)
       },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
@@ -1072,5 +1134,127 @@
   }
   .primary-cat-row{
     z-index: 1;
+  }
+  .hand{
+    cursor: pointer;
+  }
+  .fadecontent{
+    opacity: 1;
+  }
+  .fade1-enter,.fade2-enter,.fade3-enter{
+    transform: translateX(20px);
+    opacity: 0;
+  }
+  .fade1-enter-active{
+    transition: all 1s ease;
+  }
+  .fade2-enter-active{
+    transition: all 1s ease 0.5s;
+  }
+  .fade3-enter-active{
+    transition: all 1s ease 1s;
+  }
+
+  .fade1-leave-active,.fade2-leave-active,.fade3-leave-active{
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  .fade1-leave-active{
+    transition: all 1s ease;
+  }
+  .fade2-leave-active{
+    transition: all 1s ease 1s;
+  }
+  .fade3-leave-active{
+    transition: all 1s ease 2s;
+  }
+  #thead th {
+    color: black;
+  }
+  .grey{
+    color: grey;
+  }
+  .heading-row{
+    padding-bottom: 7rem;
+  }
+  .page-heading {
+    color: white;
+    font-family: "Helvetica Neue";
+    font-size: 48px;
+    font-weight: bold;
+    line-height: 58px;
+    margin-bottom: 25px;
+  }
+  .page-heading > span{
+    color: darkgrey;
+  }
+  .meds-table {
+    padding: 3rem 1.5rem;
+    text-align: left;
+  }
+  #feeding-select{
+    left: 0px;
+    top: 0px;
+    text-align: left;
+  }
+  #feeding-select label{
+    float: left;
+    margin: 1px;
+  }
+  #lastup-date{
+
+  }
+  #lastup-time{
+
+  }
+
+  /* Div Table */
+  .divTable{
+    display: table;
+    width: 100%;
+  }
+  .divTableRow {
+    /*display: table-row;*/
+    border-top: 1px solid #dee2e6;
+  }
+  .divTableBody .divTableRow:hover{
+    background-color: lightgray;
+  }
+  .center {
+    text-align: center;
+  }
+  .hand{
+    cursor: pointer;
+  }
+  .divTableHeading {
+    background-color: #EEE;
+    display: table-header-group;
+    font-weight: bold;
+    font-size: small;
+  }
+  .divTableHead {
+    width: max-content;
+    display: inline-block;
+    padding: 0.75rem;
+    vertical-align: top;
+    /*border-top: 1px solid #dee2e6;*/
+  }
+  .divTableCell {
+    display: inline-block;
+    vertical-align: center;
+    padding: 0.75rem;
+    /*border-top: 1px solid #dee2e6;*/
+  }
+  .divTableCell img{
+    display: block;
+    margin: auto;
+  }
+  .divTableFoot {
+    background-color: #EEE;
+    display: table-footer-group;
+    font-weight: bold;
+  }
+  .divTableBody {
+    display: table-row-group;
   }
 </style>
