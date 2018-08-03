@@ -1,30 +1,16 @@
 <template>
   <div>
     <!--NOTE: paginated table-->
-    <card title="Paginated tables">
+    <card title="">
       <div>
         <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
-          <!--NOTE: pagination box-->
-          <el-select
-            class="select-default mb-3"
-            style="width: 200px"
-            v-model="pagination.perPage"
-            placeholder="Per page">
-            <el-option
-              class="select-default"
-              v-for="item in pagination.perPageOptions"
-              :key="item"
-              :label="item"
-              :value="item">
-            </el-option>
-          </el-select>
           <!--NOTE search box-->
           <el-input type="search"
-                    class="mb-3"
-                    style="width: 200px"
-                    placeholder="Search records"
+                    class="select-default mb-3"
+                    style="width: 100px"
+                    placeholder="Search"
                     v-model="searchQuery"
-                    aria-controls="datatables"/>
+                    aria-controls="datatables"/><button @click="">+ CAT</button>
         </div>
         <div class="col-sm-12" @load="sortedCats">
           <div class="divTable">
@@ -55,7 +41,7 @@
                     </div>
                   </div>
                 </div>
-                <div class="divTableCell col-sm-1 center hand" v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
                       <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
                         <img class="rounded-circle" :src="fed.photo" alt="thumb">
                       </div>
@@ -63,11 +49,13 @@
                         <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
                       </div>
                 </div>
-                <div class="divTableCell col-sm-1 center hand" v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">{{ fed.name }}</div>
-                <div class="divTableCell col-sm-1 center">{{ fed.gender }}</div>
-                <div class="divTableCell col-sm-2 center">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
-                <div class="divTableCell col-sm-2 center">{{ fed.birthday | moment("from", "now", true) }}</div>
-                <div class="divTableCell col-sm-1 center">{{ fed.cat_type }}</div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
+                  {{ fed.name }}
+                </div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
+                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
+                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("from", "now", true) }}</div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.cat_type }}</div>
                 <div class="divTableCell col-sm-2 center">
                   <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
                      @click="handleLike(fed.id, fed.name)">
@@ -87,7 +75,22 @@
       </div>
       <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
         <div class="">
-          <p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>
+          <!--<p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>-->
+          <!--TODO: remove this el UI crap. replace with regular html-->
+          <!--NOTE: pagination box-->
+          <el-select
+            class="select-default mb-3"
+            style="width: 70px"
+            v-model="pagination.perPage"
+            placeholder="Per page">
+            <el-option
+              class="select-default"
+              v-for="item in pagination.perPageOptions"
+              :key="item"
+              :label="item"
+              :value="item">
+            </el-option>
+          </el-select>
         </div>
         <l-pagination class="pagination-no-border"
                       v-model="pagination.currentPage"
@@ -105,7 +108,7 @@
             <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
-                <div role="button" style="width: 100%" class="btn btn-link" @click="getMedications(cat.name); getFeedings(cat.name)"
+                <div id="fedMed" role="button" style="width: 100%" class="btn btn-link" @click="getMedications(cat.name); getFeedings(cat.name)"
                      data-toggle="collapse"
                      :data-target="'#collapseOne'+cat.id"
                      aria-expanded="false"
@@ -596,7 +599,8 @@
         this.currentSort = s;
       },
       openModal (name) {
-        this.modals[name] = true
+        this.modals[name] = true;
+        document.getElementById("fedMed").click()
       },
       closeModal (name) {
         this.modals[name] = false
