@@ -5,13 +5,42 @@
       <div>
         <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
           <!--NOTE search box-->
-          <el-input type="search"
-                    class="select-default mb-3"
+          <el-input type="search" class="select-default mb-3"
                     style="width: 100px"
                     placeholder="Search"
                     v-model="searchQuery"
-                    aria-controls="datatables"/><button @click="">+ CAT</button>
+                    aria-controls="datatables"/>
+          <b-btn v-b-toggle.collapse1>
+            <button @click="">+ CAT</button>
+          </b-btn>
         </div>
+        <!--TODO: install new Add-a-Cat here-->
+        <b-collapse id="collapse1" class="mt-2">
+          <b-card>
+            <div class="col-sm-12">
+              <div class="divTable">
+                <div class="divTableHeading">
+                  <div class="d-flex justify-content-around">
+                    <div class="divTableHead col-sm-1 center">ID</div>
+                    <div class="divTableHead col-sm-1 center">Photo</div>
+                    <div class="divTableHead col-sm-1 center">Name</div>
+                    <div class="divTableHead col-sm-1 center">Gender</div>
+                    <div class="divTableHead col-sm-2 center">Birthdate</div>
+                    <div class="divTableHead col-sm-1 center">Type</div>
+                    <div class="divTableHead col-sm-2 center">Litter Number</div>
+                    <div class="divTableHead col-sm-1 center">Weight</div>
+                    <div class="divTableHead col-sm-1 center">Unit</div>
+                  </div>
+                </div>
+                <div class="divTableBody">
+                  <span>content</span>
+                </div>
+              </div>
+            </div>
+          </b-card>
+        </b-collapse>
+
+        <!--NOTE: regular table begins-->
         <div class="col-sm-12" @load="sortedCats">
           <div class="divTable">
             <div class="divTableHeading">
