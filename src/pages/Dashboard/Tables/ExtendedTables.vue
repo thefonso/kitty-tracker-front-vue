@@ -49,9 +49,7 @@
                         <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
                       </div>
                 </div>
-                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
-                  {{ fed.name }}
-                </div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.name }}</div>
                 <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
                 <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
                 <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("from", "now", true) }}</div>
@@ -108,11 +106,7 @@
             <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
-                <div id="fedMed" role="button" style="width: 100%" class="btn btn-link" @click="getMedications(cat.name); getFeedings(cat.name)"
-                     data-toggle="collapse"
-                     :data-target="'#collapseOne'+cat.id"
-                     aria-expanded="false"
-                     :aria-controls="'collapseOne'+cat.id">
+                <b-btn id="fedMed" style="width: 100%" class="btn btn-link" v-b-toggle.collapse3>
                   <div class="table-bigboy" style="width: 100%">
                     <table class="col-sm-12">
                       <template>
@@ -173,11 +167,11 @@
                       </template>
                     </table>
                   </div>
-                </div>
+                </b-btn>
                 <!--TODO: CAT big one ends here-->
               </div>
               <!--NOTE: Sub rows START here-->
-              <div :id="'collapseOne'+cat.id" class="collapse" :aria-labelledby="'headingOne'+cat.id" data-parent="#accordion">
+              <b-collapse id="collapse3" class="collapse" visible>
                 <card>
                   <vue-tabs value="Description">
                     <v-tab title="Feedings">
@@ -373,7 +367,7 @@
                     </v-tab>
                   </vue-tabs>
                 </card>
-              </div>
+              </b-collapse>
             </div>
           </div>
         </div>
@@ -600,7 +594,7 @@
       },
       openModal (name) {
         this.modals[name] = true;
-        document.getElementById("fedMed").click()
+        // document.getElementById("fedMed").click()
       },
       closeModal (name) {
         this.modals[name] = false
@@ -729,6 +723,8 @@
             // console.log(response.data);
             this.cat = response.data;
             this.openModal('custom');
+            this.getMedications(this.cat.name);
+            this.getFeedings(this.cat.name);
           })
           .catch(error => console.log(error));
       },
