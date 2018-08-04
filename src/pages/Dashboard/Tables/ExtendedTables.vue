@@ -11,7 +11,7 @@
                     v-model="searchQuery"
                     aria-controls="datatables"/>
           <b-btn v-b-toggle.collapse1>
-            <button @click="">+ CAT</button>
+            <button @click="handleAdd = !handleAdd">+ CAT</button>
           </b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
@@ -21,10 +21,9 @@
               <div class="divTable">
                 <div class="divTableHeading">
                   <div class="d-flex justify-content-around">
-                    <div class="divTableHead col-sm-1 center">ID</div>
-                    <div class="divTableHead col-sm-1 center">Photo</div>
+                    <div class="divTableHead col-sm-2 center">Photo</div>
                     <div class="divTableHead col-sm-1 center">Name</div>
-                    <div class="divTableHead col-sm-1 center">Gender</div>
+                    <div class="divTableHead col-sm-2 center">Gender</div>
                     <div class="divTableHead col-sm-2 center">Birthdate</div>
                     <div class="divTableHead col-sm-1 center">Type</div>
                     <div class="divTableHead col-sm-2 center">Litter Number</div>
@@ -33,7 +32,9 @@
                   </div>
                 </div>
                 <div class="divTableBody">
-                  <span>content</span>
+                  <!--<Wizard v-show="handleAdd"></Wizard>-->
+                    <AddCat v-show="handleAdd"></AddCat>
+
                 </div>
               </div>
             </div>
@@ -415,6 +416,7 @@
   import LSwitch from 'src/components/Switch.vue'
   import VueTabs from 'vue-nav-tabs'
   import Wizard from  '../Forms/Wizard'
+  import AddCat from  '../Forms/AddCat'
   import ElSelectDropdown from "element-ui/packages/select/src/select-dropdown";
 
   Vue.use(VueTabs);
@@ -437,6 +439,7 @@
       [Aside.name]: Aside,
       [Main.name]: Main,
       Wizard,
+      AddCat,
     },
     computed: {
       pagedData () {
@@ -562,7 +565,7 @@
         dismissCountDown: 0,
         dismissCountDown2: 0,
         nursing: false,
-        handleAdd: false,
+        handleAdd: true,
         showRow: true,
         showButton: true,
         name:   '',

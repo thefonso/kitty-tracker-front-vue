@@ -22,7 +22,9 @@
         <div class="col-sm-6 align-center" :singleCat="singleCat" v-if="singleCat">
           <!--photo upload-->
           <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-            <div class="pet-image-box"><img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image"></div>
+            <div class="pet-image-box">
+              <img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image">
+            </div>
           </div>
           <div class="pet-name">{{singleCat.name}}</div>
           <!--<input style="display: none" type="file" @change="onFileChanged" ref="fileInput">-->

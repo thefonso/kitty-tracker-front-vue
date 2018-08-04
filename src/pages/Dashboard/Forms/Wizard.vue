@@ -55,7 +55,6 @@
   import 'vue-form-wizard/dist/vue-form-wizard.min.css'
   import FirstStep from './Wizard/FirstStep.vue'
   import SecondStep from './Wizard/SecondStep.vue'
-  // import getCats from '../Tables/ExtendedTables.vue'
   import swal from 'sweetalert2'
 
   export default {

@@ -211,7 +211,11 @@
           <div class="clear-fix"></div>
           <div class="form-group">
             <div class="col-sm-8">
-              <button :disabled="errors.any()" type="submit" name="cat-button" value="button1" class="btn btn-primary submit-button">Submit Cat</button>
+              <button :disabled="errors.any()"
+                      type="submit"
+                      name="cat-button"
+                      value="button1"
+                      class="btn btn-primary submit-button">Submit Cat</button>
             </div>
           </div>
         </div>
