@@ -42,25 +42,25 @@
         <!--TODO: DATE PICKER SIZE-->
         <div class="divTableCell col-sm-4 center">
           <!--TODO: new version-->
-          <!--<div class="form-group">-->
-            <!--<label>BirthDate</label>-->
-            <!--<fg-input>-->
-              <!--<el-date-picker v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" type="date"-->
-                              <!--placeholder="yyyy-mm-dd" data-date-format="yyyy/mm/dd"-->
-                              <!--:picker-options="pickerOptions1">-->
-              <!--</el-date-picker>-->
-              <!--<small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>-->
-            <!--</fg-input>-->
-          <!--</div>-->
-          <!--TODO: old version-->
           <div class="form-group">
-            <label>Birthday</label>
-            <div class="col-sm-12" v-if="cat_form">
-              <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
-                     :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
+            <label>BirthDate</label>
+            <fg-input>
+              <el-date-picker v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" type="date"
+                              placeholder="yyyy-mm-dd" data-date-format="yyyy/mm/dd"
+                              :picker-options="pickerOptions1">
+              </el-date-picker>
               <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>
-            </div>
+            </fg-input>
           </div>
+          <!--TODO: old version-->
+          <!--<div class="form-group">-->
+            <!--<label>Birthday</label>-->
+            <!--<div class="col-sm-12" v-if="cat_form">-->
+              <!--<input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"-->
+                     <!--:class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">-->
+              <!--<small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>-->
+            <!--</div>-->
+          <!--</div>-->
         </div>
         <div class="divTableCell col-sm-1 center">
           <label>Type</label>
@@ -193,10 +193,10 @@
     </div>
     <div class="form-group">
       <!--NOTE: someone decided to remove the key form field that all the complex logic was related to.-->
-      <div v-if="cat_type === 'O' || cat_type === 'N'">
+      <div v-if="cat_type === 'O' || cat_type === 'NK'">
         <input type="hidden" name="age" value="K" v-bind="age = 'K'" v-model="age" placeholder="K">
       </div>
-      <div v-if="cat_type !== 'O' || cat_type !== 'N'">
+      <div v-if="cat_type !== 'O' || cat_type !== 'NK'">
         <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
       </div>
 
@@ -265,6 +265,10 @@
             }]
         },
         datePicker: '',
+        options: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        },
         dateTimePicker: '',
         mom_cat: '',
         female: false,
@@ -316,7 +320,7 @@
           cat_type: this.cat_type,
           litter_mates: this.litter_mates,
           weight: this.weight,
-          birthday: this.birthday + "T00:00:00-00:00",
+          birthday: this.birthday,
           weight_unit: this.weight_unit
         })
           .then(response => {
