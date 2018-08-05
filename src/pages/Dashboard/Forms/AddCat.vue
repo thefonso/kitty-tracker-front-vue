@@ -45,7 +45,7 @@
             <label>BirthDate</label>
             <fg-input>
               <el-date-picker v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" type="date"
-                              placeholder="yyyy-mm-dd" format="yyyy-MM-dd"
+                              placeholder="yyyy-mm-dd" data-date-format="yyyy/mm/dd"
                               :picker-options="pickerOptions1">
               </el-date-picker>
               <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>
@@ -67,7 +67,7 @@
           <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
         </div>
         <div class="divTableCell col-sm-2 center">
-          <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
+          <div class="form-group" v-if="cat_type === 'P' || cat_type === 'NM' || cat_type === 'NK'" >
             <label>Create Litter?</label>
             <div>
               <div class="form-check-inline">
@@ -81,7 +81,7 @@
               </div>
             </div>
           </div>
-          <div class="form-group" v-if="cat_type !== 'P' || cat_type !=='N'">
+          <div class="form-group" v-else-if="cat_type !== 'P' || cat_type !=='NM' || cat_type !=='NK'">
             <label>Litter Name</label>
             <div>
               <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
@@ -91,6 +91,8 @@
             </div>
           </div>
         </div>
+
+
         <div class="divTableCell col-sm-1 center">
           <div class="form-group">
             <label>Weight</label>
