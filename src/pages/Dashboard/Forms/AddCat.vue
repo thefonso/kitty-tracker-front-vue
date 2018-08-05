@@ -2,34 +2,61 @@
   <form id="cat_form" @submit.prevent="validateBeforeSubmit">
     <div class="d-flex justify-content-around">
       <div class="divTableHead col-sm-2 center">Photo</div>
-      <div class="divTableCell col-sm-2 center">
+      <div class="divTableCell col-sm-1 center">
         <div class="form-group">
-          <div class="col-sm-12">
-            <input type="text" class="form-control form-control-sm bg-copy-10" id="name" placeholder="Name">
-          </div>
+            <input type="text" onfocus="this.value=''"
+                   class="form-control form-control-sm bg-copy-10 name"
+                   id="name" placeholder="Name">
         </div>
       </div>
       <div class="divTableCell col-sm-2 center">
         <div class="form-group">
-          <div class="col-sm-12">
-            <div class="form-check form-check-inline">
-              <input class="form-check-input bg-copy-10" type="radio" name="gender" id="InputGender1" value="M"
-                     v-model="gender" v-validate="'required'">
-              <label class="form-check-label" for="InputGender1">Male</label>
-            </div>
-            <div class="form-check form-check-inline">
-              <input class="form-check-input bg-copy-10" type="radio" name="gender" id="InputGender2" value="F"
-                     v-model="gender" v-on:click="female = true">
-              <label class="form-check-label" for="InputGender2">Female</label>
-            </div>
-          </div>
+          <select class="bg-copy-10 gender" name="gender" v-model="gender" v-validate="'required'">
+            <option disabled value="">Gender</option>
+            <option value="M">Male</option>
+            <option value="F">Female</option>
+          </select>
         </div>
       </div>
       <div class="divTableCell col-sm-2 center">Birthdate</div>
-      <div class="divTableCell col-sm-1 center">Type</div>
-      <div class="divTableCell col-sm-2 center">Litter Number</div>
-      <div class="divTableCell col-sm-1 center">Weight</div>
-      <div class="divTableCell col-sm-1 center">Unit</div>
+      <div class="divTableCell col-sm-1 center">
+        <div class="form-group">
+          <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
+            <option disabled value="">Type</option>
+            <option value="O">Orphan Kitten</option>
+            <option value="N">Nursing Kitten</option>
+            <option value="N" v-if="age !== 'K'">Nursing Mom</option>
+            <option value="P" v-if="gender === 'F' && age !== 'K'">Pregnant Mom</option>
+            <option value="A">Adult</option>
+          </select>
+        </div>
+      </div>
+      <div class="divTableCell col-sm-2 center">
+        <div class="form-group">
+          <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
+            <option disabled value="">Litter name</option>
+            <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
+          </select>
+        </div>
+      </div>
+      <div class="divTableCell col-sm-1 center">
+        <div class="form-group">
+          <input name="weight" onfocus="this.value=''"
+                 v-model="weight" v-validate="'required|integer'"
+                 :class="{'input': true, 'is-danger': errors.has('weight') }"
+                 class="bg-copy-10 weight" type="text" placeholder="Weight">
+        </div>
+      </div>
+      <div class="divTableCell col-sm-1 center">
+        <div class="form-group">
+          <select class="bg-copy-10 unit" name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
+                  :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
+            <option disabled value="">Unit</option>
+            <option value="G">Grams</option>
+            <option value="LB">Pounds</option>
+          </select>
+        </div>
+      </div>
     </div>
   </form>
 </template>
@@ -196,6 +223,7 @@
 </script>
 
 <style scoped>
+  /*add-a-cat menu begins*/
   .bg-copy-10 {
     height: 17px;
     width: 59px;
@@ -207,14 +235,20 @@
     line-height: 17px;
     text-align: center;
   }
-  .name {
-    height: 17.14px;
-    width: 50px;
-    opacity: 0.85;
-    color: #9B9B9B;
-    font-family: Roboto;
-    font-size: 11px;
-    line-height: 17px;
-    text-align: center;
+  .name{
+    width: 59px;
   }
+  .gender{
+    width: 59px;
+  }
+  .litter_name{
+    width: 122px;
+  }
+  .weight{
+    width: 64px;
+  }
+  .unit{
+    width: 53px;
+  }
+  /*add-a-cat menu ends*/
 </style>

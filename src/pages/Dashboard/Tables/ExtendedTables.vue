@@ -10,9 +10,9 @@
                     placeholder="Search"
                     v-model="searchQuery"
                     aria-controls="datatables"/>
-          <b-btn v-b-toggle.collapse1>
-            <button @click="handleAdd = !handleAdd">+ CAT</button>
-          </b-btn>
+          <b-btn v-b-toggle.collapse1
+                 class="rectangle-255"
+                 @click="handleAdd = !handleAdd"><span class="a-cat-text">+ CAT</span></b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">
@@ -26,7 +26,7 @@
                     <div class="divTableHead col-sm-2 center">Gender</div>
                     <div class="divTableHead col-sm-2 center">Birthdate</div>
                     <div class="divTableHead col-sm-1 center">Type</div>
-                    <div class="divTableHead col-sm-2 center">Litter Number</div>
+                    <div class="divTableHead col-sm-2 center">Litter Name</div>
                     <div class="divTableHead col-sm-1 center">Weight</div>
                     <div class="divTableHead col-sm-1 center">Unit</div>
                   </div>
@@ -1067,6 +1067,15 @@
 </script>
 
 <style lang="scss">
+  /*Add-a-Cat button*/
+
+  .rectangle-255 {
+    /*height: 55px;*/
+    /*width: 62px;*/
+    /*border: 1px solid #9B9B9B;*/
+    /*border-radius: 6px;*/
+    /*background-color: #FF00FF;*/
+  }
   .el-dialog {
     width: 75%;
   }
