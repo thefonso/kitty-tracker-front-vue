@@ -151,7 +151,7 @@
                             <span v-if="cat.gender === 'F' " style="color: black;">Female</span>
                             <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                           </div>
-                          <!--TODO chart goes here-->
+                          <!--TODO sparkline chart goes here-->
                           <div class="col-md-3">
                             <GattoChart :message="cat.name"></GattoChart>
                             <!--<GattoChart></GattoChart>-->
@@ -244,11 +244,15 @@
                           </form>
                         </div>
                         <!--TODO: ADD a recorded FEEDING-->
-                        <!--<form id="formaddfeed">-->
-                        <div class="fedRow d-flex justify-content-start">
+                        <form id="formaddfeed">
+                          <div class="fedRow d-flex justify-content-start">
                           <div class="col-md-1">&nbsp;</div>
                           <div class="col-md-1">
-                            <el-select v-if="!showButton" form="formaddfeed" name="food_type" v-validate="'required|alpha'" v-model="food_type"  placeholder="FT" :error="getError('food_type')">
+                            <el-select v-if="!showButton"
+                                       form="formaddfeed"
+                                       name="food_type"
+                                       v-validate="'required|alpha'" v-model="food_type"
+                                       placeholder="FT" :error="getError('food_type')">
                               <el-option value="Choose..." selected>Choose...</el-option>
                               <el-option value="NA" >None / Not Entered</el-option>
                               <el-option value="MN" >Mom (Nursing)</el-option>
@@ -261,18 +265,30 @@
                             <span v-if="showButton">&nbsp;</span>
                           </div>
                           <div class="col-md-1">
-                            <fg-input name="weight_before_food" id="weight_before_food" v-if="!showButton && food_type !== 'MN'" form="formaddfeed" v-validate="'required|integer'" v-model="weight_before_food" type="text" placeholder="WBF" :error="getError('requiredText')" v-on:change="fivePercenter"/>
+                            <fg-input name="weight_before_food"
+                                      id="weight_before_food"
+                                      v-if="!showButton && food_type !== 'MN'"
+                                      form="formaddfeed" v-validate="'required|integer'"
+                                      v-model="weight_before_food" type="text"
+                                      placeholder="WBF" :error="getError('requiredText')"
+                                      v-on:change="fivePercenter"/>
                             <span v-if="showButton"> </span>
                             <div v-if="food_type !== 'G' && food_type !== 'MN' && !showButton" class="form-group">
                               <div id="target_weight_after_food"></div>
                             </div>
                           </div>
                           <div class="col-md-1">
-                            <fg-input v-if="!showButton" form="formaddfeed" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
+                            <fg-input v-if="!showButton"
+                                      form="formaddfeed" name="amount_of_food_taken"
+                                      v-validate="'required'" v-model="amount_of_food_taken"
+                                      type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
                             <span v-if="showButton"> </span>
                           </div>
                           <div class="col-md-1">
-                            <fg-input v-if="!showButton" name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'"  id="weight_after_food" placeholder="WAF" :error="getError('weight_after_food')"/>
+                            <fg-input v-if="!showButton"
+                                      name="weight_after_food" v-model="weight_after_food"
+                                      v-validate="'required|integer'"  id="weight_after_food"
+                                      placeholder="WAF" :error="getError('weight_after_food')"/>
                             <span v-if="showButton"> </span>
                           </div>
                           <div class="col-md-1">
@@ -299,7 +315,7 @@
                             <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="validateSubmitMom(cat.id, cat.name)">Submit mom</button>
                           </div>
                         </div>
-                        <!--</form>-->
+                        </form>
                       </div>
                     </v-tab>
                     <v-tab title="Medications">
@@ -354,29 +370,46 @@
                           <div class="medRow d-flex justify-content-start">
                             <div class="col-md-1">&nbsp;</div>
                             <div class="col-md-2">
-                              <fg-input v-if="!showButton" form="formadd" name="name" v-validate="'required'" v-model="name" type="text" placeholder="name" :error="getError('requiredText')"></fg-input>
-                              <span v-if="showButton">&nbsp;</span>
+                              <fg-input v-if="!showButton2"
+                                        form="formadd"
+                                        name="name"
+                                        v-validate="'required'" v-model="name"
+                                        type="text" placeholder="name"
+                                        :error="getError('requiredText')"></fg-input>
+                              <span v-if="showButton2">&nbsp;</span>
                             </div>
                             <div class="col-md-2">
-                              <fg-input v-if="!showButton" form="formadd" name="duration"  v-validate="'required'" v-model="duration" type="text" placeholder="duration" :error="getError('duration')"></fg-input>
-                              <span v-if="showButton">&nbsp;</span>
+                              <fg-input v-if="!showButton2"
+                                        form="formadd" name="duration"
+                                        v-validate="'required'" v-model="duration"
+                                        type="text" placeholder="duration" :error="getError('duration')"></fg-input>
+                              <span v-if="showButton2">&nbsp;</span>
                             </div>
                             <div class="col-md-1">
-                              <fg-input v-if="!showButton" form="formadd" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" type="text" placeholder="frequency"></fg-input>
-                              <span v-if="showButton">&nbsp;</span>
+                              <fg-input v-if="!showButton2"
+                                        form="formadd" name="frequency"
+                                        v-validate="'required|integer'" v-model="frequency"
+                                        :error="getError('frequency')" type="text" placeholder="frequency"></fg-input>
+                              <span v-if="showButton2">&nbsp;</span>
                             </div>
                             <div class="col-md-1">
-                              <fg-input v-if="!showButton" form="formadd" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" type="text" placeholder="dosage"></fg-input>
-                              <span v-if="showButton">&nbsp;</span>
+                              <fg-input v-if="!showButton2"
+                                        form="formadd" name="dosage"
+                                        v-validate="'required|integer'" v-model="dosage"
+                                        :error="getError('dosage')" type="text" placeholder="dosage"></fg-input>
+                              <span v-if="showButton2">&nbsp;</span>
                             </div>
                             <div class="col-md-2">
-                              <fg-input v-if="!showButton" form="formadd" name="notes" v-model="notes" :error="getError('notes')" type="textarea" placeholder="notes"></fg-input>
-                              <span v-if="showButton">&nbsp;</span>
+                              <fg-input v-if="!showButton2"
+                                        form="formadd" name="notes"
+                                        v-model="notes" :error="getError('notes')"
+                                        type="textarea" placeholder="notes"></fg-input>
+                              <span v-if="showButton2">&nbsp;</span>
                             </div>
                             <div class="col-md-3">
-                              <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
-                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton" @click='showButton = !showButton' v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)">Submit</button>
-                              <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
+                              <button class="btn btn-sm btn-info btn-outline" @click='showButton2 = !showButton2' v-if="showButton2">Add</button>
+                              <button type="submit" class="btn btn-sm btn-success" v-if="!showButton2" v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)" @click='showButton2 = !showButton2'>Submit</button>
+                              <button class="btn btn-sm btn-warning" @click='showButton2 = !showButton2' v-if="!showButton2">Cancel</button>
                             </div>
                           </div>
                         </form>
@@ -555,6 +588,7 @@
         handleAdd: true,
         showRow: true,
         showButton: true,
+        showButton2: true,
         name:   '',
         duration: '',
         frequency: '',
