@@ -45,7 +45,7 @@
             <label>BirthDate</label>
             <fg-input>
               <el-date-picker v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" type="date"
-                              placeholder="yyyy-mm-dd"
+                              placeholder="yyyy-mm-dd" format="yyyy-MM-dd"
                               :picker-options="pickerOptions1">
               </el-date-picker>
               <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>
@@ -58,8 +58,8 @@
             <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
               <option disabled value="">Type</option>
               <option value="O">Orphan Kitten</option>
-              <option value="N">Nursing Kitten</option>
-              <option value="N">Nursing Mom</option>
+              <option value="NK">Nursing Kitten</option>
+              <option value="NM">Nursing Mom</option>
               <option value="P">Pregnant Mom</option>
               <option value="A">Adult</option>
             </select>
@@ -187,7 +187,7 @@
       <div v-if="cat_type !== 'O' || cat_type !== 'N'">
         <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
       </div>
-      
+
       <div class="col-sm-12 d-flex justify-content-sm-center">
 
         <button :disabled="errors.any()"
