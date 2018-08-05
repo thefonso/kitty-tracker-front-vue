@@ -34,7 +34,6 @@
       <div class="divTableCell col-sm-2 center">
         <div class="form-group">
           <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
-            <option disabled value="">Litter name</option>
             <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
           </select>
         </div>

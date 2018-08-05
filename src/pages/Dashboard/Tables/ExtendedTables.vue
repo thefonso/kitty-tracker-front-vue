@@ -11,13 +11,12 @@
                     v-model="searchQuery"
                     aria-controls="datatables"/>
           <b-btn v-b-toggle.collapse1
-                 class="rectangle-255"
-                 @click="handleAdd = !handleAdd"><span class="a-cat-text">+ CAT</span></b-btn>
+                 class="rectangle-255"><span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span></b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">
           <b-card>
-            <div class="col-sm-12">
+            <div class="col-sm-12 no-padding">
               <div class="divTable">
                 <div class="divTableHeading">
                   <div class="d-flex justify-content-around">
@@ -1067,15 +1066,26 @@
 </script>
 
 <style lang="scss">
-  /*Add-a-Cat button*/
-
+  /*Add-a-Cat button begins*/
   .rectangle-255 {
-    /*height: 55px;*/
-    /*width: 62px;*/
-    /*border: 1px solid #9B9B9B;*/
-    /*border-radius: 6px;*/
-    /*background-color: #FF00FF;*/
+    height: 55px;
+    width: 62px;
+    border: 1px solid #9B9B9B;
+    border-radius: 6px;
+    background-color: #FF00FF;
   }
+  .a-cat-text {
+    height: 20px;
+    width: 58px;
+    color: black;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: 300;
+    letter-spacing: -0.9px;
+    line-height: 17px;
+    text-align: center;
+  }
+  /*Add-a-Cat button ends*/
   .el-dialog {
     width: 75%;
   }
