@@ -1,70 +1,203 @@
 <template>
   <form id="cat_form" @submit.prevent="validateBeforeSubmit">
-    <div class="d-flex justify-content-around">
-      <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-      <div class="divTableCell col-sm-1 center">
-        <div class="form-group">
-            <input type="text" onfocus="this.value=''"
-                   class="form-control form-control-sm bg-copy-10 name"
-                   id="name" placeholder="Name">
+    <!--alerts BEGINS-->
+    <div class="row">
+      <div class=""></div>
+
+      <b-alert class="col-sm-12" variant="success" dismissible fade :show="showSuccess">
+        <strong>Success!</strong> New kitty added.
+      </b-alert>
+
+      <b-alert class="col-sm-12" variant="danger" dismissible fade :show="showDanger">
+        <strong>Problem:</strong> Did you fill out all fields? Are you connected to the internet?
+      </b-alert>
+
+      <div class=""></div>
+    </div>
+    <!--alerts ENDS-->
+    <div class="form-group">
+      <div class="col-sm-12 d-flex justify-content-around">
+        <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
+        <div class="divTableCell col-sm-1 center">
+          <div class="form-group">
+            <label for="name">Name</label>
+            <input id="name" onfocus="this.value=''" name="name" placeholder="name"
+                   v-validate="'required'" v-model="name" :error="getError('name')"
+                   class="form-control form-control-sm name"
+                   type="text"/>
+          </div>
+          <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
         </div>
+        <div class="divTableCell col-sm-2 center">
+          <label>Gender</label>
+          <div class="form-group">
+            <select class="bg-copy-10 gender" id="gender" name="gender" v-model="gender" v-validate="'required'">
+              <option disabled value="">Gender</option>
+              <option value="M">Male</option>
+              <option value="F">Female</option>
+            </select>
+          </div>
+          <span class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</span>
+        </div>
+        <!--TODO: DATE PICKER SIZE-->
+        <div class="divTableCell col-sm-4 center">
+          <div class="form-group">
+            <label>BirthDate</label>
+            <fg-input>
+              <el-date-picker v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" type="date"
+                              placeholder="yyyy-mm-dd"
+                              :picker-options="pickerOptions1">
+              </el-date-picker>
+              <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>
+            </fg-input>
+          </div>
+        </div>
+        <div class="divTableCell col-sm-1 center">
+          <label>Type</label>
+          <div class="form-group">
+            <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
+              <option disabled value="">Type</option>
+              <option value="O">Orphan Kitten</option>
+              <option value="N">Nursing Kitten</option>
+              <option value="N">Nursing Mom</option>
+              <option value="P">Pregnant Mom</option>
+              <option value="A">Adult</option>
+            </select>
+          </div>
+          <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
+        </div>
+        <div class="divTableCell col-sm-2 center">
+          <div class="form-group" v-if="cat_type === 'P' || cat_type === 'N'">
+            <label>Create Litter?</label>
+            <div>
+              <div class="form-check-inline">
+                <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y"
+                       @click="showModal">
+                <label class="form-check-label" for="AddKittens1">Yes</label>
+              </div>
+              <div class="form-check-inline">
+                <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens2" value="N">
+                <label class="form-check-label" for="AddKittens2">No</label>
+              </div>
+            </div>
+          </div>
+          <div class="form-group" v-if="cat_type !== 'P' || cat_type !=='N'">
+            <label>Litter Name</label>
+            <div>
+              <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
+                <option selected value="none">none</option>
+                <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
+              </select>
+            </div>
+          </div>
+        </div>
+        <div class="divTableCell col-sm-1 center">
+          <div class="form-group">
+            <label>Weight</label>
+            <input name="weight" onfocus="this.value=''"
+                   v-model="weight" v-validate="'required|integer'"
+                   :class="{'input': true, 'is-danger': errors.has('weight') }"
+                   class="form-control form-control-sm weight" type="text" placeholder="Weight">
+          </div>
+          <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
+        </div>
+        <div class="divTableCell col-sm-1 center">
+          <label>Unit</label>
+          <div class="form-group">
+            <select class="bg-copy-10 unit" name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
+                    :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
+              <option disabled value="">Unit</option>
+              <option value="G">Grams</option>
+              <option value="LB">Pounds</option>
+            </select>
+            <small v-show="errors.has('weight_unit')" class="help is-danger form-text">{{ errors.first('weight_unit') }}</small>
+          </div>
+        </div>
+        <!--TODO: fill out new kitten litter form here-->
+        <!-- Modal Component -->
+        <b-modal id="kitten_modal" centered size="lg" class="pt-sm-5" ref="myModalRef" hide-footer title="Create A Litter">
+          <b-container fluid>
+            <p class="my-4"></p>
+            <div class="row">
+              <div class="col-sm-2"></div>
+              <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess_litter">
+                <strong>Success!</strong> New litter added.
+              </b-alert>
+
+              <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger_litter">
+                <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
+              </b-alert>
+              <div class="col-sm-2"></div>
+            </div>
+            <form id="kitten-form" @submit.prevent="validateBeforeSubmitLitter">
+              <div id="kitten-content" class="form-group row">
+                <div class="col-2"></div>
+
+                <!--second column-->
+                <div class="col-sm-4 float-left">
+                  <div class="form-group">
+                    <label class="col-sm-12" for="lit_name">New Litter's Name</label>
+                    <div class="col-sm-12">
+                      <input id="lit_name"
+                             name="litter_name"
+                             v-model="litter_name"
+                             :class="{'input': true, 'is-danger': errors.has('litter_name'),}"
+                             class="form-control"
+                             type="text">
+                      <small v-show="errors.has('litter_name')" class="help is-danger form-text">{{ errors.first('litter_name') }}</small>
+                    </div>
+                  </div>
+                  <!--NOTE: litter stuff ends here-->
+                </div>
+                <!--third column-->
+                <div class="col-sm-4 float-left">
+                  <div class="form-group">
+                    <label class="col-sm-12">Mama cats name</label>
+                    <div class="col-sm-8">
+                      <input name="birthday"
+                             onfocus="this.value=''"
+                             v-model="name"
+                             v-validate="'required'"
+                             :class="{'input': true, 'is-danger': errors.has('name') }"
+                             class="form-control"
+                             type="text">
+                      <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
+                    </div>
+                  </div>
+                  <div class="clear-fix"></div>
+                  <div class="form-group">
+                    <div class="col-sm-8">
+                      <button :disabled="errors.any()" type="submit" name="kitten-button" value="button2" class="btn btn-primary submit-button">Submit</button>
+                    </div>
+                  </div>
+                </div>
+                <div class="col-1"></div>
+              </div>
+            </form>
+          </b-container>
+        </b-modal>
+        <!--NOTE: litter stuff ends here-->
       </div>
-      <div class="divTableCell col-sm-2 center">
-        <div class="form-group">
-          <select class="bg-copy-10 gender" name="gender" v-model="gender" v-validate="'required'">
-            <option disabled value="">Gender</option>
-            <option value="M">Male</option>
-            <option value="F">Female</option>
-          </select>
-        </div>
+    </div>
+    <div class="form-group">
+      <!--NOTE: someone decided to remove the key form field that all the complex logic was related to.-->
+      <div v-if="cat_type === 'O' || cat_type === 'N'">
+        <input type="hidden" name="age" value="K" v-bind="age = 'K'" v-model="age" placeholder="K">
       </div>
-      <!--TODO: DATE PICKER-->
-      <div class="divTableCell col-sm-2 center">
-        <div class="form-group">
-          <fg-input>
-            <el-date-picker v-model="datePicker" type="date"
-                            placeholder="Date picker here"
-                            :picker-options="pickerOptions1">
-            </el-date-picker>
-          </fg-input>
-        </div>
+      <div v-if="cat_type !== 'O' || cat_type !== 'N'">
+        <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
       </div>
-      <div class="divTableCell col-sm-1 center">
-        <div class="form-group">
-          <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
-            <option disabled value="">Type</option>
-            <option value="O">Orphan Kitten</option>
-            <option value="N">Nursing Kitten</option>
-            <option value="N" v-if="age !== 'K'">Nursing Mom</option>
-            <option value="P" v-if="gender === 'F' && age !== 'K'">Pregnant Mom</option>
-            <option value="A">Adult</option>
-          </select>
-        </div>
-      </div>
-      <div class="divTableCell col-sm-2 center">
-        <div class="form-group">
-          <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
-            <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
-          </select>
-        </div>
-      </div>
-      <div class="divTableCell col-sm-1 center">
-        <div class="form-group">
-          <input name="weight" onfocus="this.value=''"
-                 v-model="weight" v-validate="'required|integer'"
-                 :class="{'input': true, 'is-danger': errors.has('weight') }"
-                 class="bg-copy-10 weight" type="text" placeholder="Weight">
-        </div>
-      </div>
-      <div class="divTableCell col-sm-1 center">
-        <div class="form-group">
-          <select class="bg-copy-10 unit" name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
-                  :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
-            <option disabled value="">Unit</option>
-            <option value="G">Grams</option>
-            <option value="LB">Pounds</option>
-          </select>
-        </div>
+      
+      <div class="col-sm-12 d-flex justify-content-sm-center">
+
+        <button :disabled="errors.any()"
+                type="submit"
+                name="cat-button"
+                value="button1"
+                class="btn btn-primary submit-button save-button rectangle-79 save">Save</button>
+        <button name="cat-exit"
+                value="button2"
+                class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe">Exit</button>
       </div>
     </div>
   </form>
@@ -240,6 +373,9 @@
       hideModal () {
         this.$refs.myModalRef.hide();
       },
+      hideMe () {
+        document.getElementById("rectangle-255").click();
+      },
       getError (fieldName) {
         return this.errors.first(fieldName)
       },
@@ -291,9 +427,46 @@
     line-height: 17px;
     text-align: center;
   }
-  .date_picker{
+  .date_picker {
     height: 17px;
     width: 84px;
+  }
+  .save-button{
+    margin-right: 5px;
+  }
+  .exit-button{
+    margin-left: 5px;
+  }
+  .rectangle-79 {
+    height: 29px;
+    width: 106px;
+    border: 1px solid #979797;
+    border-radius: 4px;
+    background-color: #23CCEF;
+  }
+  .save{
+    height: 29px;
+    width: 94px;
+    color: #4A4A4A;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: center;
+  }
+  .exit{
+    height: 29px;
+    width: 94px;
+    color: #4A4A4A;
+    font-family: Roboto;
+    font-size: 14px;
+    font-weight: bold;
+    line-height: 20px;
+    text-align: center;
+  }
+  .el-picker-panel .el-date-picker {
+    height: 64px;
+    width: 99px;
   }
   .name{
     width: 59px;

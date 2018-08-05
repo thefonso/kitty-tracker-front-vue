@@ -88,7 +88,8 @@
               <label class="col-sm-12 form-label">Create Litter?</label>
               <div class="col-sm-12">
                 <div class="form-check-inline">
-                  <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y" @click="showModal">
+                  <input class="form-check-input" type="radio" name="AddKittens" id="AddKittens1" value="Y"
+                         @click="showModal">
                   <label class="form-check-label" for="AddKittens1">Yes</label>
                 </div>
                 <div class="form-check-inline">
@@ -203,9 +204,7 @@
             <div class="col-sm-12" v-if="cat_form">
               <input name="birthday" v-model="birthday" v-validate="'required|date_format:YYYY-MM-DD'" class="form-control"
                      :class="{'input': true, 'is-danger': errors.has('birthday') }" type="text" placeholder="  yyyy-mm-dd">
-              <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday')
-                }}
-              </small>
+              <small v-show="errors.has('birthday')" class="help is-danger form-text">{{ errors.first('birthday') }}</small>
             </div>
           </div>
           <div class="clear-fix"></div>

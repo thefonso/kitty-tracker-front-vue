@@ -11,7 +11,7 @@
                     v-model="searchQuery"
                     aria-controls="datatables"/>
           <b-btn v-b-toggle.collapse1
-                 class="rectangle-255"><span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span></b-btn>
+                 class="rectangle-255" id="rectangle-255"><span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span></b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">
@@ -19,21 +19,8 @@
             <div class="col-sm-12 no-padding">
               <div class="divTable">
                 <div class="divTableHeading">
-                  <div class="d-flex justify-content-around">
-                    <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-                    <div class="divTableHead col-sm-1 center">Name</div>
-                    <div class="divTableHead col-sm-2 center">Gender</div>
-                    <div class="divTableHead col-sm-2 center">Birthdate</div>
-                    <div class="divTableHead col-sm-1 center">Type</div>
-                    <div class="divTableHead col-sm-2 center">Litter Name</div>
-                    <div class="divTableHead col-sm-1 center">Weight</div>
-                    <div class="divTableHead col-sm-1 center">Unit</div>
-                  </div>
-                </div>
-                <div class="divTableBody">
                   <!--<Wizard v-show="handleAdd"></Wizard>-->
-                    <AddCat v-show="handleAdd"></AddCat>
-
+                  <AddCat v-show="handleAdd"></AddCat>
                 </div>
               </div>
             </div>
