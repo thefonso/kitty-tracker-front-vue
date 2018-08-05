@@ -1,7 +1,7 @@
 <template>
   <form id="cat_form" @submit.prevent="validateBeforeSubmit">
     <div class="d-flex justify-content-around">
-      <div class="divTableHead col-sm-2 center">Photo</div>
+      <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
       <div class="divTableCell col-sm-1 center">
         <div class="form-group">
             <input type="text" onfocus="this.value=''"
@@ -18,7 +18,17 @@
           </select>
         </div>
       </div>
-      <div class="divTableCell col-sm-2 center">Birthdate</div>
+      <!--TODO: DATE PICKER-->
+      <div class="divTableCell col-sm-2 center">
+        <div class="form-group">
+          <fg-input>
+            <el-date-picker v-model="datePicker" type="date"
+                            placeholder="Date picker here"
+                            :picker-options="pickerOptions1">
+            </el-date-picker>
+          </fg-input>
+        </div>
+      </div>
       <div class="divTableCell col-sm-1 center">
         <div class="form-group">
           <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
@@ -61,9 +71,17 @@
 </template>
 
 <script>
+  import { DatePicker, TimeSelect, Slider, Tag, Input, Button, Select, Option } from 'element-ui'
   import axios from 'axios';
   import {Observable} from 'rxjs';
   import showSwal from '../Tables/ExtendedTables';
+  import {
+    Progress as LProgress,
+    Switch as LSwitch,
+    Radio as LRadio,
+    Checkbox as LCheckbox,
+    FormGroupInput as FgInput
+  } from 'src/components/index'
 
 
   export default {
@@ -77,6 +95,32 @@
         litter: [],
         litter_mates: null,
         litter_name: '',
+        pickerOptions1: {
+          shortcuts: [{
+            text: 'Today',
+            onClick (picker) {
+              picker.$emit('pick', new Date())
+            }
+          },
+            {
+              text: 'Yesterday',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24)
+                picker.$emit('pick', date)
+              }
+            },
+            {
+              text: 'A week ago',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                picker.$emit('pick', date)
+              }
+            }]
+        },
+        datePicker: '',
+        dateTimePicker: '',
         mom_cat: '',
         female: false,
         addKittens: false,
@@ -211,6 +255,19 @@
       this.getLitterNames()
     },
     components: {
+      FgInput,
+      [DatePicker.name]: DatePicker,
+      [TimeSelect.name]: TimeSelect,
+      [Slider.name]: Slider,
+      [Tag.name]: Tag,
+      [Input.name]: Input,
+      [Button.name]: Button,
+      [Option.name]: Option,
+      [Select.name]: Select,
+      LSwitch,
+      LProgress,
+      LRadio,
+      LCheckbox
       // 'b-modal': bModal,
       // 'b-container': bContainer,
       // 'b-alert': bAlert
@@ -233,6 +290,10 @@
     font-size: 11px;
     line-height: 17px;
     text-align: center;
+  }
+  .date_picker{
+    height: 17px;
+    width: 84px;
   }
   .name{
     width: 59px;

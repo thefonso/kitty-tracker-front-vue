@@ -20,7 +20,7 @@
               <div class="divTable">
                 <div class="divTableHeading">
                   <div class="d-flex justify-content-around">
-                    <div class="divTableHead col-sm-2 center">Photo</div>
+                    <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
                     <div class="divTableHead col-sm-1 center">Name</div>
                     <div class="divTableHead col-sm-2 center">Gender</div>
                     <div class="divTableHead col-sm-2 center">Birthdate</div>
