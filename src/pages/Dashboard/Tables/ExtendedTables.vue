@@ -10,6 +10,7 @@
                     placeholder="Search"
                     v-model="searchQuery"
                     aria-controls="datatables"/>
+
           <b-btn v-b-toggle.collapse1
                  class="rectangle-255" id="rectangle-255"><span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span></b-btn>
         </div>
