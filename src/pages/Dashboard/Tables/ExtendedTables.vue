@@ -246,7 +246,7 @@
                           </form>
                         </div>
                         <!--TODO: ADD a recorded FEEDING-->
-                        <form id="formaddfeed">
+                        <!--<form id="formaddfeed">-->
                           <div class="fedRow d-flex justify-content-start">
                           <div class="col-md-1">&nbsp;</div>
                           <div class="col-md-1">
@@ -317,7 +317,7 @@
                             <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="validateSubmitMom(cat.id, cat.name)">Submit mom</button>
                           </div>
                         </div>
-                        </form>
+                        <!--</form>-->
                       </div>
                     </v-tab>
                     <v-tab title="Medications">
@@ -368,7 +368,7 @@
                           </form>
                         </div>
                         <!--TODO: add a MEDICATION-->
-                        <form id="formadd">
+                        <!--<form id="formadd">-->
                           <div class="medRow d-flex justify-content-start">
                             <div class="col-md-1">&nbsp;</div>
                             <div class="col-md-2">
@@ -408,13 +408,13 @@
                                         type="textarea" placeholder="notes"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-3">
+                            <div class="col-md-3 fed-submit-buttons">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton2 = !showButton2' v-if="showButton2">Add</button>
                               <button type="reset" class="btn btn-sm btn-warning" @click='showButton2 = !showButton2' v-if="!showButton2">Cancel</button>
                               <button type="submit" class="btn btn-sm btn-success" v-if="!showButton2" v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)" @click='showButton2 = !showButton2'>Submit</button>
                             </div>
                           </div>
-                        </form>
+                        <!--</form>-->
                       </div>
                     </v-tab>
                   </vue-tabs>
@@ -1218,6 +1218,8 @@
     border-bottom: 1px solid #D4D4D4;
   }
   .medRow div{
+    padding: 0;
+    margin: 0;
     border-left: 1px solid #D4D4D4;
   }
   .top-row div{
