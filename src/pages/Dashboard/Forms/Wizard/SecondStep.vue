@@ -40,7 +40,7 @@
   import axios from 'axios';
 
   export default {
-    name: 'CatPhoto',
+    name: 'second-step',
     data () {
       return {
         lastCat: '',

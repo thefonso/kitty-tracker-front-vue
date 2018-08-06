@@ -201,7 +201,8 @@
                   name="cat-button"
                   value="button1"
                   class="btn btn-primary submit-button save-button rectangle-79 save">Save</button>
-          <button name="cat-exit"
+          <button type="reset"
+                  name="cat-exit"
                   value="button2"
                   class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe">Exit</button>
         </div>
@@ -215,6 +216,7 @@
   import axios from 'axios';
   import {Observable} from 'rxjs';
   import SecondStep from './Wizard/SecondStep.vue'
+  import initialStateAddaCat from '../Tables/ExtendedTables';
   import showSwal from '../Tables/ExtendedTables';
   import {
     Progress as LProgress,
@@ -228,65 +230,14 @@
   export default {
     name: "AddCat",
     data () {
-      return {
-        profilePic: false,
-        name: '',
-        gender: '',
-        age: '',
-        cat_type: '',
-        litter: [],
-        litter_mates: null,
-        litter_name: '',
-        pickerOptions1: {
-          shortcuts: [{
-            text: 'Today',
-            onClick (picker) {
-              picker.$emit('pick', new Date())
-            }
-          },
-            {
-              text: 'Yesterday',
-              onClick (picker) {
-                const date = new Date()
-                date.setTime(date.getTime() - 3600 * 1000 * 24)
-                picker.$emit('pick', date)
-              }
-            },
-            {
-              text: 'A week ago',
-              onClick (picker) {
-                const date = new Date()
-                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
-                picker.$emit('pick', date)
-              }
-            }]
-        },
-        datePicker: '',
-        options: {
-          format: 'DD/MM/YYYY',
-          useCurrent: false,
-        },
-        dateTimePicker: '',
-        mom_cat: '',
-        female: false,
-        addKittens: false,
-        cat_form: true,
-        selectedFile: null,
-        singleCat: [],
-        photo: '',
-        showSuccess: false,
-        showDanger: false,
-        showSuccess_litter: false,
-        showDanger_litter: false,
-        weight: '',
-        weight_unit: '',
-        birthday: '',
-      }
+      return initialStateAddaCat();
     },
     methods: {
+      resetWindow (){
+        this.$data = initialStateAddaCat();
+      },
       onFileChanged (event) {
         this.selectedFile = event.target.files[0];
-        // console.log(event);
         this.onUpload();
       },
       onUpload() {
@@ -322,7 +273,7 @@
         })
           .then(response => {
             console.log(response);
-            response.status === 201 ? this.showSuccess = true : this.showDanger = true
+            response.status === 201 ? this.showSuccess = true : this.showDanger = true;
             this.profilePic = true;
           })
           .catch(error => {

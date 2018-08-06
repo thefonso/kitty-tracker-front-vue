@@ -12,7 +12,9 @@
                     aria-controls="datatables"/>
 
           <b-btn v-b-toggle.collapse1
-                 class="rectangle-255" id="rectangle-255"><span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span></b-btn>
+                 class="rectangle-255" id="rectangle-255">
+            <span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span>
+          </b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">
@@ -309,7 +311,7 @@
                             <span v-if="showButton">&nbsp;</span></div>
                           <div class="col-md-3 fed-submit-buttons">
                             <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
-                            <button class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
+                            <button type="reset" class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                             <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
                             <button type="submit" class="btn btn-sm btn-success" v-if="food_type !== 'MN' && !showButton" v-on:click="validateSubmitNoMom(cat.id, cat.name)" @click='showButton = !showButton'>Submit</button>
                             <button type="submit" class="btn btn-sm btn-success" v-if="food_type === 'MN' && !showButton" v-on:click="validateSubmitMom(cat.id, cat.name)">Submit mom</button>
@@ -408,8 +410,8 @@
                             </div>
                             <div class="col-md-3">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton2 = !showButton2' v-if="showButton2">Add</button>
+                              <button type="reset" class="btn btn-sm btn-warning" @click='showButton2 = !showButton2' v-if="!showButton2">Cancel</button>
                               <button type="submit" class="btn btn-sm btn-success" v-if="!showButton2" v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)" @click='showButton2 = !showButton2'>Submit</button>
-                              <button class="btn btn-sm btn-warning" @click='showButton2 = !showButton2' v-if="!showButton2">Cancel</button>
                             </div>
                           </div>
                         </form>
@@ -429,7 +431,7 @@
   import Vue from 'vue'
   import axios from 'axios';
   import swal from 'sweetalert2'
-  import { Dialog, Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button,  MessageBox} from 'element-ui'
+  import { Dialog, Table, TableColumn, Select, Option, Collapse, CollapseItem, Row, Aside, Main, Button, MessageBox} from 'element-ui'
   import {Pagination as LPagination} from 'src/components/index'
   import GattoChart from 'src/components/GattoChart'
   import Fuse from 'fuse.js'
@@ -654,7 +656,7 @@
       },
       async handleClose (done) {
         try {
-          await this.$confirm('Are you sure you want to close this dialog?')
+          await this.$confirm('Are you sure you want to close this dialog?');
           done()
         } catch (e) {}
       },
@@ -1083,6 +1085,62 @@
       if (this.chart) {
         this.chart.dispose();
       }
+    }
+  }
+  export function initialStateAddaCat (){
+    return {
+      profilePic: false,
+      name: '',
+      gender: '',
+      age: '',
+      cat_type: '',
+      litter: [],
+      litter_mates: null,
+      litter_name: '',
+      pickerOptions1: {
+        shortcuts: [{
+          text: 'Today',
+          onClick (picker) {
+            picker.$emit('pick', new Date())
+          }
+        },
+          {
+            text: 'Yesterday',
+            onClick (picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24)
+              picker.$emit('pick', date)
+            }
+          },
+          {
+            text: 'A week ago',
+            onClick (picker) {
+              const date = new Date()
+              date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+              picker.$emit('pick', date)
+            }
+          }]
+      },
+      datePicker: '',
+      options: {
+        format: 'DD/MM/YYYY',
+        useCurrent: false,
+      },
+      dateTimePicker: '',
+      mom_cat: '',
+      female: false,
+      addKittens: false,
+      cat_form: true,
+      selectedFile: null,
+      singleCat: [],
+      photo: '',
+      showSuccess: false,
+      showDanger: false,
+      showSuccess_litter: false,
+      showDanger_litter: false,
+      weight: '',
+      weight_unit: '',
+      birthday: '',
     }
   }
 </script>
