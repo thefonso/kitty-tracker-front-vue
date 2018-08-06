@@ -459,7 +459,7 @@
       [Aside.name]: Aside,
       [Main.name]: Main,
       Wizard,
-      AddCat,
+      [AddCat.name]: AddCat,
     },
     computed: {
       pagedData () {

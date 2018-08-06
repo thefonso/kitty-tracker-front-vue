@@ -4,8 +4,8 @@
       <div class="col-sm-10">
         <div class="card card-wizard" id="wizardCard">
           <form-wizard shape="tab"
-                       title="Add a Cat"
-                       subtitle="tell us about your kitty"
+                       title=""
+                       subtitle=""
                        @on-complete="wizardComplete"
                        error-color="#FB404B"
                        color="#35495E">

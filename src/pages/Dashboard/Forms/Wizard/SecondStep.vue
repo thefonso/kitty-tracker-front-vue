@@ -100,6 +100,7 @@
             console.log(response.status);
             response.status === 200 ? this.showSuccess = true : this.showDanger = true;
             this.singleCat = response.data;
+            this.$router.push('/login');
           })
           .catch(error => {
             console.log(error);
