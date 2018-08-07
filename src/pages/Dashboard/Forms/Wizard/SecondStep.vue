@@ -1,7 +1,7 @@
 <template>
   <transition name="fade">
     <div>
-      <h5 class="text-center">Add a Profile Photo for your cat.</h5>
+      <h5 class="text-center">Add A Profile Photo</h5>
       <!--second column alerts BEGINS-->
       <div class="row">
         <div class="col-sm-2"></div>
@@ -23,13 +23,13 @@
           <!--photo upload-->
           <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
             <div class="pet-image-box">
-              <img v-bind:src="singleCat.photo" width="200px" height="200px" alt="" class="pet-image">
+              <img v-bind:src="singleCat.photo" alt="" class="pet-image">
             </div>
           </div>
           <div class="pet-name">{{singleCat.name}}</div>
-          <!--<input style="display: none" type="file" @change="onFileChanged" ref="fileInput">-->
-          <!--<button class="btn btn-primary" @click="$refs.fileInput.click()">Upload Image</button>-->
-          <input class="btn btn-primary" type="file" @change="onFileChanged">
+          <input style="display: none" type="file" @change="onFileChanged" ref="fileInput">
+          <button class="btn btn-primary" @click="$refs.fileInput.click()">Upload Image</button>
+          <!--<input class="btn btn-primary" type="file" @change="onFileChanged">-->
         </div>
         <div class="col-4"></div>
       </div>
@@ -47,7 +47,7 @@
         showSuccess: false,
         showDanger: false,
         visible: false,
-        singleCat: [],
+        singleCat: [{"photo": "/static/img/cat_n_mouse.png"}],
         catArray: [],
         rootUrl: process.env.KITTY_URL,
         selectedFile: null,
@@ -100,7 +100,8 @@
             console.log(response.status);
             response.status === 200 ? this.showSuccess = true : this.showDanger = true;
             this.singleCat = response.data;
-            this.$router.push('/login');
+            // NOTE: set a timer to run this line 2 seconds after success response
+            setTimeout(function() { this.$router.push('/login'); }, 2000)
           })
           .catch(error => {
             console.log(error);
@@ -170,16 +171,16 @@
   }
   .pet-image-box {
     box-sizing: border-box;
-    height: 266px;
-    width: 266px;
+    height: 12.167em;
+    width: 12.167em;
     border: 1px solid #DDDDDD;
     border-radius: 5px;
     margin:auto;
   }
   .pet-image {
     margin-top: 7px;
-    height: 251px;
-    width: 251px;
+    height: 10.917em;
+    width: 10.917em;
     border-radius: 1px;
     background-color: #EEEEEE;
   }

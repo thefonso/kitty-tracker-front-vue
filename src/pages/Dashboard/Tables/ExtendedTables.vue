@@ -10,10 +10,9 @@
                     placeholder="Search"
                     v-model="searchQuery"
                     aria-controls="datatables"/>
-
-          <b-btn v-b-toggle.collapse1
-                 class="rectangle-255" id="rectangle-255">
-            <span class="a-cat-text" @click="handleAdd = !handleAdd">+ CAT</span>
+          <!--NOTE: add-a-cat button-->
+          <b-btn v-b-toggle.collapse1 class="rectangle-255" id="rectangle-255">
+            <span class="a-cat-text">+ CAT</span>
           </b-btn>
         </div>
         <!--TODO: install new Add-a-Cat here-->
@@ -23,7 +22,7 @@
               <div class="divTable">
                 <div class="divTableHeading">
                   <!--<Wizard v-show="handleAdd"></Wizard>-->
-                  <AddCat v-show="handleAdd"></AddCat>
+                  <AddCat></AddCat>
                 </div>
               </div>
             </div>
@@ -196,14 +195,14 @@
                     <v-tab title="Feedings">
                       <div class="table table-striped table-bordered">
                         <div class="medRow d-flex justify-content-start top-row">
-                          <div class="col-md-1">#</div>
-                          <div class="col-md-1">FT</div>
-                          <div class="col-md-1">WBF</div>
-                          <div class="col-md-1">AFT</div>
-                          <div class="col-md-1">WAF</div>
-                          <div class="col-md-1">ST</div>
-                          <div class="col-md-2">STT</div>
-                          <div class="col-md-2">Actions</div>
+                          <div class="col-sm-1">#</div>
+                          <div class="col-sm-1">FT</div>
+                          <div class="col-sm-1">WBF</div>
+                          <div class="col-sm-1">AFT</div>
+                          <div class="col-sm-1">WAF</div>
+                          <div class="col-sm-1">ST</div>
+                          <div class="col-sm-2">STT</div>
+                          <div class="col-sm-2">Actions</div>
                         </div>
                         <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
                           <form :id="'form'+fed.id" @submit.prevent="updateDeleteFeedsSubmit(fed.id, fed.name, cat.id, cat.name)">
@@ -248,8 +247,8 @@
                         <!--TODO: ADD a recorded FEEDING-->
                         <!--<form id="formaddfeed">-->
                           <div class="fedRow d-flex justify-content-start">
-                          <div class="col-md-1">&nbsp;</div>
-                          <div class="col-md-1">
+                          <div class="col-sm-1">&nbsp;</div>
+                          <div class="col-sm-1">
                             <el-select v-if="!showButton"
                                        form="formaddfeed"
                                        name="food_type"
@@ -266,7 +265,7 @@
                             </el-select>
                             <span v-if="showButton">&nbsp;</span>
                           </div>
-                          <div class="col-md-1">
+                          <div class="col-sm-1">
                             <fg-input name="weight_before_food"
                                       id="weight_before_food"
                                       v-if="!showButton && food_type !== 'MN'"
@@ -279,28 +278,28 @@
                               <div id="target_weight_after_food"></div>
                             </div>
                           </div>
-                          <div class="col-md-1">
+                          <div class="col-sm-1">
                             <fg-input v-if="!showButton"
                                       form="formaddfeed" name="amount_of_food_taken"
                                       v-validate="'required'" v-model="amount_of_food_taken"
                                       type="text" placeholder="AFT" :error="getError('amount_of_food_taken')"/>
                             <span v-if="showButton"> </span>
                           </div>
-                          <div class="col-md-1">
+                          <div class="col-sm-1">
                             <fg-input v-if="!showButton"
                                       name="weight_after_food" v-model="weight_after_food"
                                       v-validate="'required|integer'"  id="weight_after_food"
                                       placeholder="WAF" :error="getError('weight_after_food')"/>
                             <span v-if="showButton"> </span>
                           </div>
-                          <div class="col-md-1">
+                          <div class="col-sm-1">
                             <el-select v-if="!showButton" form="formaddfeed" name="stimulated" v-on:change="checkFoodType(food_type)" v-validate="'required|alpha'" v-model="stimulated"  placeholder="ST" :error="getError('stimulated')">
                               <el-option value="Choose..." selected>Choose...</el-option>
                               <el-option value="true">True</el-option>
                               <el-option value="false">False</el-option>
                             </el-select>
                             <span v-if="showButton">&nbsp;</span></div>
-                          <div class="col-md-2 form-group">
+                          <div class="col-sm-2 form-group">
                             <el-select v-if="!showButton" form="formaddfeed" name="stimulation_type" id="stimulation_type" v-model="stimulation_type" v-validate="'required|alpha'" :error="getError('stimulation_type')" placeholder="STT">
                               <el-option value="Choose..." selected>Choose...</el-option>
                               <el-option value="NA">None / Not Entered</el-option>
@@ -309,7 +308,7 @@
                               <el-option value="UF">Urine/Feces</el-option>
                             </el-select>
                             <span v-if="showButton">&nbsp;</span></div>
-                          <div class="col-md-3 fed-submit-buttons">
+                          <div class="col-sm-3 fed-submit-buttons">
                             <button class="btn btn-sm btn-info btn-outline" @click='showButton = !showButton' v-if="showButton">Add</button>
                             <button type="reset" class="btn btn-sm btn-warning" @click='showButton = !showButton' v-if="!showButton">Cancel</button>
                             <!--TODO: make default null values for when "Mom" is selected as Type Of Food taken (TFT)-->
@@ -323,13 +322,13 @@
                     <v-tab title="Medications">
                       <div class="table table-striped table-bordered" v-if="showRow">
                         <div class="medRow d-flex justify-content-start top-row">
-                          <div class="col-md-1">#</div>
-                          <div class="col-md-2">Name</div>
-                          <div class="col-md-2">Duration</div>
-                          <div class="col-md-1">Freq.</div>
-                          <div class="col-md-1">Dose</div>
-                          <div class="col-md-2">Notes</div>
-                          <div class="col-md-3">Actions</div>
+                          <div class="col-sm-1">#</div>
+                          <div class="col-sm-2">Name</div>
+                          <div class="col-sm-2">Duration</div>
+                          <div class="col-sm-1">Freq.</div>
+                          <div class="col-sm-1">Dose</div>
+                          <div class="col-sm-2">Notes</div>
+                          <div class="col-sm-3">Actions</div>
                         </div>
                         <div id="medtable" class="" v-for="med in catMedications" :key="med.id">
                           <form :id="'form'+med.id" @submit.prevent="updateDeleteMedsSubmit(med.id, med.name, cat.id, cat.name)">
@@ -370,8 +369,8 @@
                         <!--TODO: add a MEDICATION-->
                         <!--<form id="formadd">-->
                           <div class="medRow d-flex justify-content-start">
-                            <div class="col-md-1">&nbsp;</div>
-                            <div class="col-md-2">
+                            <div class="col-sm-1">&nbsp;</div>
+                            <div class="col-sm-2">
                               <fg-input v-if="!showButton2"
                                         form="formadd"
                                         name="name"
@@ -380,35 +379,35 @@
                                         :error="getError('requiredText')"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-sm-2">
                               <fg-input v-if="!showButton2"
                                         form="formadd" name="duration"
                                         v-validate="'required'" v-model="duration"
                                         type="text" placeholder="duration" :error="getError('duration')"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-sm-1">
                               <fg-input v-if="!showButton2"
                                         form="formadd" name="frequency"
                                         v-validate="'required|integer'" v-model="frequency"
                                         :error="getError('frequency')" type="text" placeholder="frequency"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-1">
+                            <div class="col-sm-1">
                               <fg-input v-if="!showButton2"
                                         form="formadd" name="dosage"
                                         v-validate="'required|integer'" v-model="dosage"
                                         :error="getError('dosage')" type="text" placeholder="dosage"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-2">
+                            <div class="col-sm-2">
                               <fg-input v-if="!showButton2"
                                         form="formadd" name="notes"
                                         v-model="notes" :error="getError('notes')"
                                         type="textarea" placeholder="notes"></fg-input>
                               <span v-if="showButton2">&nbsp;</span>
                             </div>
-                            <div class="col-md-3 fed-submit-buttons">
+                            <div class="col-sm-3 fed-submit-buttons">
                               <button class="btn btn-sm btn-info btn-outline" @click='showButton2 = !showButton2' v-if="showButton2">Add</button>
                               <button type="reset" class="btn btn-sm btn-warning" @click='showButton2 = !showButton2' v-if="!showButton2">Cancel</button>
                               <button type="submit" class="btn btn-sm btn-success" v-if="!showButton2" v-on:click="validateMedicationsBeforeSubmit(cat.id, cat.name)" @click='showButton2 = !showButton2'>Submit</button>

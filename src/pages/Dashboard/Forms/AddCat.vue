@@ -90,13 +90,11 @@
               <div>
                 <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
                   <option selected value="none">none</option>
-                  <option v-for="item in litter" :value="item.litter_name">{{item.litter_name}}</option>
+                  <option v-for="item in litter" :value="item.litter_name" :key="item.id">{{item.litter_name}}</option>
                 </select>
               </div>
             </div>
           </div>
-
-
           <div class="divTableCell col-sm-1 center">
             <div class="form-group">
               <label>Weight</label>
@@ -230,7 +228,60 @@
   export default {
     name: "AddCat",
     data () {
-      return initialStateAddaCat();
+      return {
+        profilePic: false,
+        name: '',
+        gender: '',
+        age: '',
+        cat_type: '',
+        litter: [],
+        litter_mates: null,
+        litter_name: '',
+        pickerOptions1: {
+          shortcuts: [{
+            text: 'Today',
+            onClick (picker) {
+              picker.$emit('pick', new Date())
+            }
+          },
+            {
+              text: 'Yesterday',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24)
+                picker.$emit('pick', date)
+              }
+            },
+            {
+              text: 'A week ago',
+              onClick (picker) {
+                const date = new Date()
+                date.setTime(date.getTime() - 3600 * 1000 * 24 * 7)
+                picker.$emit('pick', date)
+              }
+            }]
+        },
+        datePicker: '',
+        options: {
+          format: 'DD/MM/YYYY',
+          useCurrent: false,
+        },
+        dateTimePicker: '',
+        mom_cat: '',
+        female: false,
+        addKittens: false,
+        cat_form: true,
+        selectedFile: null,
+        singleCat: [],
+        photo: '',
+        showSuccess: false,
+        showDanger: false,
+        showSuccess_litter: false,
+        showDanger_litter: false,
+        weight: '',
+        weight_unit: '',
+        birthday: '',
+      }
     },
     methods: {
       resetWindow (){
