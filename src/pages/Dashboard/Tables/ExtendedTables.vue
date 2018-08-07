@@ -29,7 +29,7 @@
           </b-card>
         </b-collapse>
 
-        <!--NOTE: regular table begins-->
+        <!--NOTE: cat table begins-->
         <div class="col-sm-12" @load="sortedCats">
           <div class="divTable">
             <div class="divTableHeading">
@@ -60,12 +60,12 @@
                   </div>
                 </div>
                 <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
-                      <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
-                        <img class="rounded-circle" :src="fed.photo" alt="thumb">
-                      </div>
-                      <div class="img-container photo-thumb-sm" v-else>
-                        <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
-                      </div>
+                  <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
+                    <img class="rounded-circle" :src="fed.photo" alt="thumb">
+                  </div>
+                  <div class="img-container photo-thumb-sm" v-else>
+                    <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
+                  </div>
                 </div>
                 <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.name }}</div>
                 <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
@@ -114,7 +114,7 @@
                       :total="pagination.total">
         </l-pagination>
       </div>
-      <!--NOTE: cat Modal-->
+      <!--TODO: cat Modal-->
       <el-dialog
         center
         title=""
@@ -129,13 +129,13 @@
                     <table class="col-sm-12">
                       <template>
                         <div class="d-flex justify-content-start primary-cat-row" role="button">
-                          <div class="col-md-2 img-container photo-thumb" v-if="cat.photo !== null">
+                          <div class="col-sm-2 img-container photo-thumb" v-if="cat.photo !== null">
                             <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid max-width: 100%;height: auto;">
                           </div>
-                          <div class="col-md-2 img-container photo-thumb" v-else>
+                          <div class="col-sm-2 img-container photo-thumb" v-else>
                             <img src="/static/img/cat_n_mouse.png" alt="default pic">
                           </div>
-                          <div class="col-md-2 cat-name">
+                          <div class="col-sm-2 cat-name">
                             <h4 style="color: #000;text-transform: capitalize;">{{cat.name}}</h4>
                             <div class="col-sm-12" style="border: 0px solid darkgrey; display: table" >
                               <div class="d-flex justify-content-center">
@@ -153,12 +153,12 @@
                             <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                           </div>
                           <!--TODO sparkline chart goes here-->
-                          <div class="col-md-3">
+                          <div class="col-sm-3">
                             <GattoChart :message="cat.name"></GattoChart>
                             <!--<GattoChart></GattoChart>-->
                           </div>
-                          <!--<div class="col-md-3"><span></span></div>-->
-                          <div class="col-md-3 cat-litter">
+                          <!--<div class="col-sm-3"><span></span></div>-->
+                          <div class="col-sm-3 cat-litter">
                             <div class="btn-group" v-if="cat.litter_mates !== null">
                               <button type="button" class="btn btn-warning btn-outline">Litter:</button>
                               <button type="button" class="btn btn-warning btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
@@ -168,7 +168,7 @@
                               <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
                             </div>
                           </div>
-                          <div class="col-md-2 cat-actions d-flex justify-content-end">
+                          <div class="col-sm-2 cat-actions d-flex justify-content-end">
                             <div class="cell">
                               <!--<a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"-->
                               <!--@click="handleEdit(cat.id, cat.name)">-->
@@ -188,7 +188,7 @@
                 </b-btn>
                 <!--TODO: CAT big one ends here-->
               </div>
-              <!--NOTE: Sub rows START here-->
+              <!--TODO: Sub rows START here-->
               <b-collapse id="collapse3" class="collapse" visible>
                 <card>
                   <vue-tabs value="Description">
@@ -207,39 +207,48 @@
                         <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
                           <form :id="'form'+fed.id" @submit.prevent="updateDeleteFeedsSubmit(fed.id, fed.name, cat.id, cat.name)">
                             <div class="medRow d-flex justify-content-start">
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="id" :value="fed.id">{{fed.id}}</fg-input>
                                 <span v-if="fed.showRow">{{fed.id}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="food_type" v-validate="'required'" v-model="food_type" type="text" :placeholder="fed.food_type" :error="getError('food_type')"></fg-input>
                                 <span v-if="fed.showRow">{{fed.food_type}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_before_food" v-validate="'required'" v-model="weight_before_food" type="text" :placeholder="fed.weight_before_food" :error="getError('weight_before_food')"></fg-input>
                                 <span v-if="fed.showRow">{{fed.weight_before_food}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow && food_type !== 'MN'" :form="'form'+fed.id" name="amount_of_food_taken"  v-validate="'required'" v-model="amount_of_food_taken" type="text" :placeholder="fed.amount_of_food_taken" :error="getError('amount_of_food_taken')"></fg-input>
                                 <span v-if="fed.showRow">{{fed.amount_of_food_taken}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="weight_after_food" v-model="weight_after_food" v-validate="'required|integer'"  :placeholder="fed.weight_after_food":error="getError('weight_after_food')"/>
                                 <span v-if="fed.showRow">{{fed.weight_after_food}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulated" v-validate="'required'" v-model="stimulated" :error="getError('stimulated')" type="text" :placeholder="fed.stimulated"></fg-input>
                                 <span v-if="fed.showRow">{{fed.stimulated}}</span>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-sm-2">
                                 <fg-input v-if="!fed.showRow" :form="'form'+fed.id" name="stimulation_type" v-validate="'required'" v-model="stimulation_type" :error="getError('stimulation_type')" type="text" :placeholder="fed.stimulation_type"></fg-input>
                                 <span v-if="fed.showRow">{{fed.stimulation_type}}</span>
                               </div>
-                              <div class="col-md-3 d-flex align-items-center cancel-submit">
-                                <!--<button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>-->
+                              <div class="col-sm-3 d-flex align-items-center cancel-submit">
                                 <button class="btn btn-sm btn-warning" @click='fed.showRow = !fed.showRow' v-if="!fed.showRow">Cancel</button>
                                 <button type="submit" class="btn btn-sm btn-success" v-if="!fed.showRow">Submit</button>
-                                <button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>
+
+                                <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
+                                   @click='fed.showRow = !fed.showRow' v-if="fed.showRow"><i
+                                  class="fa fa-edit"></i></a>
+                                <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link" v-if="fed.showRow"
+                                   @click="handleDelete(fed.id, fed.name, 'feedingRow')">
+                                  <i class="fa fa-times"></i>
+                                </a>
+
+                                <!--<button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>-->
+                                <!--<button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>-->
                               </div>
                             </div>
                           </form>
@@ -333,35 +342,44 @@
                         <div id="medtable" class="" v-for="med in catMedications" :key="med.id">
                           <form :id="'form'+med.id" @submit.prevent="updateDeleteMedsSubmit(med.id, med.name, cat.id, cat.name)">
                             <div class="medRow d-flex justify-content-start">
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="id" :value="med.id"></fg-input>
                                 <span v-if="med.showRow">{{med.id}}</span>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-sm-2">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="name" v-validate="'required'" v-model="name" type="text" :placeholder="med.name" :error="getError('requiredText')"></fg-input>
                                 <span v-if="med.showRow">{{med.name}}</span>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-sm-2">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="duration"  v-validate="'required'" v-model="duration" type="text" :placeholder="med.duration" :error="getError('duration')"></fg-input>
                                 <span v-if="med.showRow">{{med.duration}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="frequency" v-validate="'required|integer'" v-model="frequency" :error="getError('frequency')" type="text" :placeholder="med.frequency"></fg-input>
                                 <span v-if="med.showRow">{{med.frequency}}</span>
                               </div>
-                              <div class="col-md-1">
+                              <div class="col-sm-1">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="dosage" v-validate="'required|integer'" v-model="dosage" :error="getError('dosage')" type="text" :placeholder="med.dosage"></fg-input>
                                 <span v-if="med.showRow">{{med.dosage}}</span>
                               </div>
-                              <div class="col-md-2">
+                              <div class="col-sm-2">
                                 <fg-input v-if="!med.showRow" :form="'form'+med.id" name="notes" v-model="notes" :error="getError('notes')" type="textarea" :placeholder="med.notes"></fg-input>
                                 <span v-if="med.showRow">{{med.notes}}</span>
                               </div>
-                              <div class="col-md-3 d-flex align-items-center cancel-submit">
-                                <!--<button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>-->
+                              <div class="col-sm-3 d-flex align-items-center cancel-submit">
                                 <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
                                 <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow" @click="handleAdd(med.id, med.name, 'medicationRow')">Submit</button>
-                                <button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow" @click="handleDelete(med.id, med.name, 'medicationRow')">Delete</button>
+
+                                <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
+                                   @click='med.showRow = !med.showRow' v-if="med.showRow">
+                                  <i class="fa fa-edit"></i></a>
+                                <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link" v-if="med.showRow"
+                                   @click="handleDelete(med.id, med.name, 'medicationRow')">
+                                  <i class="fa fa-times"></i>
+                                </a>
+
+                                <!--<button class="btn btn-sm btn-info" @click='med.showRow = !med.showRow' v-if="med.showRow">Edit</button>-->
+                                <!--<button type="submit" class="btn btn-sm btn-danger" v-if="med.showRow" @click="handleDelete(med.id, med.name, 'medicationRow')">Delete</button>-->
                               </div>
                             </div>
                           </form>
