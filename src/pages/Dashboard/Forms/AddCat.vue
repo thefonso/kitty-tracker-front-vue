@@ -209,7 +209,7 @@
           <button type="reset"
                   name="cat-exit"
                   value="button2"
-                  class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe">Exit</button>
+                  class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe" v-on:click="resetWindow">Exit</button>
         </div>
       </div>
     </form>
