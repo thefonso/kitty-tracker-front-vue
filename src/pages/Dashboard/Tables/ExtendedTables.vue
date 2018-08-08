@@ -124,15 +124,14 @@
             <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
-                <b-btn id="fedMed" style="width: 100%" class="btn btn-link" v-b-toggle.collapse3>
-                  <div class="table-bigboy" style="width: 100%">
-                    <table class="col-sm-12">
-                      <template>
-                        <div class="d-flex justify-content-start primary-cat-row" role="button">
-                          <div class="col-sm-2 img-container photo-thumb" v-if="cat.photo !== null">
-                            <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid max-width: 100%;height: auto;">
+                <b-btn id="fedMed" class="btn btn-link" v-b-toggle.collapse3>
+                  <div class="table-bigboy container-fluid" style="width: 100%">
+                    <table>
+                        <div class="d-flex justify-content-start primary-cat-row row" role="button">
+                          <div class="col-sm-2 photo-thumb" v-if="cat.photo !== null">
+                            <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid">
                           </div>
-                          <div class="col-sm-2 img-container photo-thumb" v-else>
+                          <div class="col-sm-2 photo-thumb" v-else>
                             <img src="/static/img/cat_n_mouse.png" alt="default pic">
                           </div>
                           <div class="col-sm-2 cat-name">
@@ -181,8 +180,6 @@
                             </div>
                           </div>
                         </div>
-
-                      </template>
                     </table>
                   </div>
                 </b-btn>
@@ -193,8 +190,8 @@
                 <card>
                   <vue-tabs value="Description">
                     <v-tab title="Feedings">
-                      <div class="table table-striped table-bordered">
-                        <div class="medRow d-flex justify-content-start top-row">
+                      <div id="fedsTable" class="table table-striped table-bordered">
+                        <div class="fedRow d-flex justify-content-start top-row">
                           <div class="col-sm-1">#</div>
                           <div class="col-sm-1">FT</div>
                           <div class="col-sm-1">WBF</div>
@@ -329,7 +326,7 @@
                       </div>
                     </v-tab>
                     <v-tab title="Medications">
-                      <div class="table table-striped table-bordered" v-if="showRow">
+                      <div id="medsTable" class="table table-striped table-bordered" v-if="showRow">
                         <div class="medRow d-flex justify-content-start top-row">
                           <div class="col-sm-1">#</div>
                           <div class="col-sm-2">Name</div>
@@ -368,7 +365,8 @@
                               </div>
                               <div class="col-sm-3 d-flex align-items-center cancel-submit">
                                 <button class="btn btn-sm btn-warning" @click='med.showRow = !med.showRow' v-if="!med.showRow">Cancel</button>
-                                <button type="submit" class="btn btn-sm btn-success" v-if="!med.showRow" @click="handleAdd(med.id, med.name, 'medicationRow')">Submit</button>
+                                <button type="submit" class="btn btn-sm btn-success"
+                                        v-if="!med.showRow" @click="handleAdd(med.id, med.name, 'medicationRow')">Submit</button>
 
                                 <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
                                    @click='med.showRow = !med.showRow' v-if="med.showRow">
@@ -1231,6 +1229,14 @@
   #medtable button{
     margin-right: 5px;
   }
+  .fedRow{
+    border-bottom: 1px solid #D4D4D4;
+  }
+  .fedRow div{
+    padding: 0;
+    margin: 0;
+    border-left: 1px solid #D4D4D4;
+  }
   .medRow{
     border-bottom: 1px solid #D4D4D4;
   }
@@ -1254,12 +1260,17 @@
     border-bottom: none;
   }
   .photo-thumb img{
-    width: 100px;
-    height: 100px;
+    width: 8.333em;
+    height: 8.333em;
+    @media screen and (max-width: 667px) {
+      width: 4.333em;
+      height: 5.333em;
+    }
+    object-fit: cover;
   }
   .photo-thumb-sm img{
-    width: 50px;
-    height: 50px;
+    width: 4.167em;
+    height: 4.167em;
     object-fit: cover;
   }
   // css transition for tabs

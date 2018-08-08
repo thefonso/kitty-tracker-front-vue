@@ -1,8 +1,10 @@
 <template>
   <!-- second chart group -->
-  <div class="chart-block" style="padding-top:50px">
-    <div ref="line" style="vertical-align: middle; display: inline-block; width: 50%; height: 30px;"></div>
-    <div ref="column" style="vertical-align: middle;display: inline-block; width: 50%; height: 30px;"></div>
+  <div class="chart-block container-fluid">
+    <div class="row">
+      <div ref="line"></div>
+      <div ref="column"></div>
+    </div>
   </div>
 </template>
 
@@ -234,9 +236,28 @@
   }
 </script>
 
-<style>
+<style lang="scss">
+  .chart-block{
+    padding-top:50px;
+    @media screen and (max-width: 375px) {
+      padding-top:10px;
+      padding-bottom:20px;
+    }
+  }
+  .chart-block div{
+    vertical-align: middle;
+    display: inline-block;
+    width: 50%;
+    height: 30px;
+  }
   .amcharts-chart-div a{
     text-indent: -9999px;
+    @media screen and (max-width: 375px) {
+      text-indent: -400px;
+    }
+    @media screen and (max-width: 667px) {
+      text-indent: 100px;
+    }
     outline: none;
   }
 </style>
