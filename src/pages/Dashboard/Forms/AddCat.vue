@@ -19,10 +19,10 @@
         <div class=""></div>
       </div>
       <!--alerts ENDS-->
-      <div class="form-group">
-        <div class="col-12 d-flex justify-content-around">
+      <div class="form-group container-fluid">
+        <div class="row">
           <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-          <div class="divTableCell col-1 center">
+          <div class="divTableCell col center">
             <div class="form-group">
               <label for="name">Name</label>
               <input id="name" onfocus="this.value=''" name="name" placeholder="name"
@@ -30,21 +30,24 @@
                      class="form-control form-control-sm name"
                      type="text"/>
             </div>
-            <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
+            <small class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</small>
           </div>
-          <div class="divTableCell col-2 center">
+          <div class="divTableCell col center">
             <label>Gender</label>
             <div class="form-group">
-              <select class="bg-copy-10 gender" id="gender" name="gender" v-model="gender" v-validate="'required'">
-                <option disabled value="">Gender</option>
-                <option value="M">Male</option>
-                <option value="F">Female</option>
-              </select>
+              <el-select class="select-primary"
+                      id="gender" name="gender"
+                      v-model="gender"
+                      v-validate="'required'">
+                <el-option disabled value="">Gender</el-option>
+                <el-option value="M">Male</el-option>
+                <el-option value="F">Female</el-option>
+              </el-select>
             </div>
-            <span class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</span>
+            <small class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</small>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col-4 center">
+          <div class="divTableCell col center">
             <div class="form-group">
               <label>BirthDate</label>
               <fg-input>
@@ -56,21 +59,22 @@
               </fg-input>
             </div>
           </div>
-          <div class="divTableCell col-1 center">
+          <div class="divTableCell col center">
             <label>Type</label>
             <div class="form-group">
-              <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
-                <option disabled value="">Type</option>
-                <option value="O">Orphan Kitten</option>
-                <option value="NK">Nursing Kitten</option>
-                <option value="NM">Nursing Mom</option>
-                <option value="P">Pregnant Mom</option>
-                <option value="A">Adult</option>
-              </select>
+              <el-select class="select-primary" name="cat_type"
+                      v-model="cat_type" v-validate="'required'">
+                <el-option disabled value="">Type</el-option>
+                <el-option value="O">Orphan Kitten</el-option>
+                <el-option value="NK">Nursing Kitten</el-option>
+                <el-option value="NM">Nursing Mom</el-option>
+                <el-option value="P">Pregnant Mom</el-option>
+                <el-option value="A">Adult</el-option>
+              </el-select>
             </div>
-            <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
+            <small class="help is-danger form-text" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</small>
           </div>
-          <div class="divTableCell col-2 center">
+          <div class="divTableCell col center">
             <div class="form-group" v-if="cat_type === 'P' || cat_type === 'NM' || cat_type === 'NK'" >
               <label>Create Litter?</label>
               <div>
@@ -86,16 +90,18 @@
               </div>
             </div>
             <div class="form-group" v-else-if="cat_type !== 'P' || cat_type !=='NM' || cat_type !=='NK'">
-              <label>Litter Name</label>
+              <label>Litter</label>
               <div>
-                <select class="bg-copy-10 litter_name" name="litter_set" v-model="litter_mates">
-                  <option selected value="none">none</option>
-                  <option v-for="item in litter" :value="item.litter_name" :key="item.id">{{item.litter_name}}</option>
-                </select>
+                <el-select class="select-primary"
+                           name="litter_set"
+                           v-model="litter_mates">
+                  <el-option selected value="none">none</el-option>
+                  <el-option v-for="item in litter" :value="item.litter_name" :key="item.id">{{item.litter_name}}</el-option>
+                </el-select>
               </div>
             </div>
           </div>
-          <div class="divTableCell col-1 center">
+          <div class="divTableCell col center">
             <div class="form-group">
               <label>Weight</label>
               <input name="weight" onfocus="this.value=''"
@@ -105,15 +111,16 @@
             </div>
             <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
           </div>
-          <div class="divTableCell col-1 center">
+          <div class="divTableCell col center">
             <label>Unit</label>
             <div class="form-group">
-              <select class="bg-copy-10 unit" name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
+              <el-select class="select-primary" name="weight_unit"
+                      v-model="weight_unit" v-validate="'required|alpha'"
                       :class="{'select': true, 'is-danger': errors.has('weight_unit')}">
-                <option disabled value="">Unit</option>
-                <option value="G">Grams</option>
-                <option value="LB">Pounds</option>
-              </select>
+                <el-option disabled value="">Unit</el-option>
+                <el-option value="G">Grams</el-option>
+                <el-option value="LB">Pounds</el-option>
+              </el-select>
               <small v-show="errors.has('weight_unit')" class="help is-danger form-text">{{ errors.first('weight_unit') }}</small>
             </div>
           </div>
@@ -124,7 +131,7 @@
               <p class="my-4"></p>
               <div class="row">
                 <div class="col-2"></div>
-                <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess_litter">
+                <b-alert class="col-8" variant="success" dismissible fade :show="showSuccess_litter">
                   <strong>Success!</strong> New litter added.
                 </b-alert>
 
@@ -183,7 +190,7 @@
           <!--NOTE: litter stuff ends here-->
         </div>
       </div>
-      <div class="form-group">
+      <div class="form-group container-fluid">
         <!--NOTE: someone decided to remove the key form field that all the complex logic was related to.-->
         <div v-if="cat_type === 'O' || cat_type === 'NK'">
           <input type="hidden" name="age" value="K" v-bind="age = 'K'" v-model="age" placeholder="K">
@@ -192,7 +199,7 @@
           <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
         </div>
 
-        <div class="col-12 d-flex justify-content-sm-center">
+        <div class="d-flex justify-content-sm-center row">
 
           <button :disabled="errors.any()"
                   type="submit"
