@@ -3,7 +3,7 @@
     <!--NOTE: paginated table-->
     <card title="">
       <div>
-        <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+        <div class="col-sm-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
           <!--NOTE search box-->
           <el-input type="search" class="select-default mb-3"
                     style="width: 100px"
@@ -18,7 +18,7 @@
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">
           <b-card>
-            <div class="col-12 no-padding">
+            <div class="col-sm-12 no-padding">
               <div class="divTable">
                 <div class="divTableHeading">
                   <!--<Wizard v-show="handleAdd"></Wizard>-->
@@ -30,51 +30,45 @@
         </b-collapse>
 
         <!--NOTE: cat table begins-->
-        <div class="col-12" @load="sortedCats">
+        <div class="col-sm-12" @load="sortedCats">
           <div class="divTable">
             <div class="divTableHeading container-fluid">
               <div class="d-flex justify-content-around row">
-                <div class="divTableHead col-1 center">ID</div>
-                <div class="divTableHead col-1 center">Photo</div>
-                <div class="divTableHead col-1 center">Name</div>
-                <div class="divTableHead col-1 center">Sex</div>
-                <div class="divTableHead col-2 center">Birthdate</div>
-                <div class="divTableHead col-2 center">Age</div>
-                <div class="divTableHead col-1 center">Type</div>
-                <div class="divTableHead col-2 center">Actions</div>
+                <div class="divTableHead col-sm-1 center">ID</div>
+                <div class="divTableHead col-sm-2 center">Photo</div>
+                <div class="divTableHead col-sm-1 center">Name</div>
+                <div class="divTableHead col-sm-1 center">Sex</div>
+                <div class="divTableHead col-sm-2 center">Birthdate</div>
+                <div class="divTableHead col-sm-2 center">Age</div>
+                <div class="divTableHead col-sm-1 center">Type</div>
+                <div class="divTableHead col-sm-2 center">Actions</div>
               </div>
             </div>
             <div class="divTableBody container-fluid">
-              <div class="divTableRow fadecontent d-flex justify-content-around row"
-                   v-for="(fed) in queriedData" :key="fed.id">
-                <div class="divTableCell col-sm-1 center hand"
-                     v-tooltip.top-center="'Open Record'" @click="openCat(fed.id)">
-                  <div style="border: 0px solid darkgrey; display: table" >
-                    <div class="d-flex justify-content-center">
-                      <div class="table-striped" style="display: table-row">
-                        <div style="display: table-cell">{{ fed.age}}</div>
-                        <div style="display: table-cell">-</div>
-                        <div style="display: table-cell">{{ fed.weight }}</div>
-                        <div style="display: table-cell">{{ fed.gender }}</div>
-                        <div style="display: table-cell">{{ fed.cat_type }}</div>
-                      </div>
-                    </div>
+              <div class="divTableRow fadecontent d-flex justify-content-around row" v-for="(fed) in queriedData" :key="fed.id">
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
+                  <div class="d-flex justify-content-center">
+                    <div style="display: table-cell">{{ fed.age}}</div>
+                    <div style="display: table-cell">-</div>
+                    <div style="display: table-cell">{{ fed.weight }}</div>
+                    <div style="display: table-cell">{{ fed.gender }}</div>
+                    <div style="display: table-cell">{{ fed.cat_type }}</div>
                   </div>
                 </div>
-                <div class="divTableCell col-1 center hand" @click="openCat(fed.id)">
+                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">
                   <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
-                    <img class="rounded-circle" :src="fed.photo" alt="thumb">
+                    <img class="rounded-circle img-fluid" :src="fed.photo" alt="thumb">
                   </div>
                   <div class="img-container photo-thumb-sm" v-else>
-                    <img class="rounded-circle" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
+                    <img class="rounded-circle img-fluid" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
                   </div>
                 </div>
-                <div class="divTableCell col-1 center hand" @click="openCat(fed.id)">{{ fed.name }}</div>
-                <div class="divTableCell col-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
-                <div class="divTableCell col-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
-                <div class="divTableCell col-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("from", "now", true) }}</div>
-                <div class="divTableCell col-1 center hand" @click="openCat(fed.id)">{{ fed.cat_type }}</div>
-                <div class="divTableCell col-2 center">
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.name }}</div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
+                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
+                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("from", "now", true) }}</div>
+                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.cat_type }}</div>
+                <div class="divTableCell col-sm-2 center">
                   <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
                      @click="handleLike(fed.id, fed.name)">
                     <i class="fa fa-heart"></i></a>
