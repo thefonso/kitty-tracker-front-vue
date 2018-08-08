@@ -8,11 +8,11 @@
       <div class="row">
         <div class=""></div>
 
-        <b-alert class="col-sm-12" variant="success" dismissible fade :show="showSuccess">
+        <b-alert class="col-12" variant="success" dismissible fade :show="showSuccess">
           <strong>Success!</strong> New kitty added.
         </b-alert>
 
-        <b-alert class="col-sm-12" variant="danger" dismissible fade :show="showDanger">
+        <b-alert class="col-12" variant="danger" dismissible fade :show="showDanger">
           <strong>Problem:</strong> Did you fill out all fields? Are you connected to the internet?
         </b-alert>
 
@@ -20,9 +20,9 @@
       </div>
       <!--alerts ENDS-->
       <div class="form-group">
-        <div class="col-sm-12 d-flex justify-content-around">
+        <div class="col-12 d-flex justify-content-around">
           <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-          <div class="divTableCell col-sm-1 center">
+          <div class="divTableCell col-1 center">
             <div class="form-group">
               <label for="name">Name</label>
               <input id="name" onfocus="this.value=''" name="name" placeholder="name"
@@ -32,7 +32,7 @@
             </div>
             <span class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</span>
           </div>
-          <div class="divTableCell col-sm-2 center">
+          <div class="divTableCell col-2 center">
             <label>Gender</label>
             <div class="form-group">
               <select class="bg-copy-10 gender" id="gender" name="gender" v-model="gender" v-validate="'required'">
@@ -44,7 +44,7 @@
             <span class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</span>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col-sm-4 center">
+          <div class="divTableCell col-4 center">
             <div class="form-group">
               <label>BirthDate</label>
               <fg-input>
@@ -56,7 +56,7 @@
               </fg-input>
             </div>
           </div>
-          <div class="divTableCell col-sm-1 center">
+          <div class="divTableCell col-1 center">
             <label>Type</label>
             <div class="form-group">
               <select class="bg-copy-10" name="cat_type" v-model="cat_type" v-validate="'required'">
@@ -70,7 +70,7 @@
             </div>
             <span class="help is-danger" v-show="errors.has('cat_type')">{{ errors.first('cat_type') }}</span>
           </div>
-          <div class="divTableCell col-sm-2 center">
+          <div class="divTableCell col-2 center">
             <div class="form-group" v-if="cat_type === 'P' || cat_type === 'NM' || cat_type === 'NK'" >
               <label>Create Litter?</label>
               <div>
@@ -95,7 +95,7 @@
               </div>
             </div>
           </div>
-          <div class="divTableCell col-sm-1 center">
+          <div class="divTableCell col-1 center">
             <div class="form-group">
               <label>Weight</label>
               <input name="weight" onfocus="this.value=''"
@@ -105,7 +105,7 @@
             </div>
             <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
           </div>
-          <div class="divTableCell col-sm-1 center">
+          <div class="divTableCell col-1 center">
             <label>Unit</label>
             <div class="form-group">
               <select class="bg-copy-10 unit" name="weight_unit" v-model="weight_unit" v-validate="'required|alpha'"
@@ -123,25 +123,25 @@
             <b-container fluid>
               <p class="my-4"></p>
               <div class="row">
-                <div class="col-sm-2"></div>
+                <div class="col-2"></div>
                 <b-alert class="col-sm-8" variant="success" dismissible fade :show="showSuccess_litter">
                   <strong>Success!</strong> New litter added.
                 </b-alert>
 
-                <b-alert class="col-sm-8" variant="danger" dismissible fade :show="showDanger_litter">
+                <b-alert class="col-8" variant="danger" dismissible fade :show="showDanger_litter">
                   <strong>Problem:</strong> Did you fill out all fields? Are you on the internet?
                 </b-alert>
-                <div class="col-sm-2"></div>
+                <div class="col-2"></div>
               </div>
               <form id="kitten-form" @submit.prevent="validateBeforeSubmitLitter">
                 <div id="kitten-content" class="form-group row">
                   <div class="col-2"></div>
 
                   <!--second column-->
-                  <div class="col-sm-4 float-left">
+                  <div class="col-4 float-left">
                     <div class="form-group">
-                      <label class="col-sm-12" for="lit_name">New Litter's Name</label>
-                      <div class="col-sm-12">
+                      <label class="col-12" for="lit_name">New Litter's Name</label>
+                      <div class="col-12">
                         <input id="lit_name"
                                name="litter_name"
                                v-model="litter_name"
@@ -154,10 +154,10 @@
                     <!--NOTE: litter stuff ends here-->
                   </div>
                   <!--third column-->
-                  <div class="col-sm-4 float-left">
+                  <div class="col-4 float-left">
                     <div class="form-group">
-                      <label class="col-sm-12">Mama cats name</label>
-                      <div class="col-sm-8">
+                      <label class="col-12">Mama cats name</label>
+                      <div class="col-8">
                         <input name="birthday"
                                onfocus="this.value=''"
                                v-model="name"
@@ -170,7 +170,7 @@
                     </div>
                     <div class="clear-fix"></div>
                     <div class="form-group">
-                      <div class="col-sm-8">
+                      <div class="col-8">
                         <button :disabled="errors.any()" type="submit" name="kitten-button" value="button2" class="btn btn-primary submit-button">Submit</button>
                       </div>
                     </div>
@@ -192,7 +192,7 @@
           <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
         </div>
 
-        <div class="col-sm-12 d-flex justify-content-sm-center">
+        <div class="col-12 d-flex justify-content-sm-center">
 
           <button :disabled="errors.any()"
                   type="submit"

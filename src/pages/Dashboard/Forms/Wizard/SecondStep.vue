@@ -47,7 +47,7 @@
         showSuccess: false,
         showDanger: false,
         visible: false,
-        singleCat: [{"photo": "/static/img/cat_n_mouse.png"}],
+        singleCat: [{photo: "/static/img/cat_n_mouse.png"}],
         catArray: [],
         rootUrl: process.env.KITTY_URL,
         selectedFile: null,
@@ -101,7 +101,7 @@
             response.status === 200 ? this.showSuccess = true : this.showDanger = true;
             this.singleCat = response.data;
             // NOTE: set a timer to run this line 2 seconds after success response
-            setTimeout(function() { this.$router.push('/login'); }, 2000)
+            setTimeout( () => this.$router.push('/login'), 4000);
           })
           .catch(error => {
             console.log(error);
