@@ -3,7 +3,7 @@
     <!--NOTE: paginated table-->
     <card title="">
       <div>
-        <div class="col-sm-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+        <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
           <!--NOTE search box-->
           <el-input type="search" class="select-default mb-3"
                     style="width: 100px"
@@ -14,6 +14,7 @@
           <b-btn v-b-toggle.collapse1 class="rectangle-255" id="rectangle-255">
             <span class="a-cat-text">+ CAT</span>
           </b-btn>
+
         </div>
         <!--TODO: install new Add-a-Cat here-->
         <b-collapse id="collapse1" class="mt-2">

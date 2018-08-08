@@ -47,7 +47,7 @@
             <small class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</small>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col center">
+          <div class="divTableCell col-4 center">
             <div class="form-group">
               <label>BirthDate</label>
               <fg-input>
@@ -209,7 +209,7 @@
           <button type="reset"
                   name="cat-exit"
                   value="button2"
-                  class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe" v-on:click="resetWindow">Exit</button>
+                  class="btn btn-primary submit-button exit-button rectangle-79 exit" @click="hideMe">Exit</button>
         </div>
       </div>
     </form>
