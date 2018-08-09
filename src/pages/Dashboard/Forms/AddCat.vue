@@ -22,15 +22,15 @@
       <div class="form-group container-fluid">
         <div class="row">
           <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-          <div class="divTableCell col center">
+          <div class="divTableCell col col-md-1 center">
             <div class="form-group">
-              <label for="name">Name</label>
-              <input id="name" onfocus="this.value=''" name="name" placeholder="name"
-                     v-validate="'required'" v-model="name" :error="getError('name')"
-                     class="form-control form-control-sm name"
-                     type="text"/>
+              <fg-input label="name" id="name"
+                        onfocus="this.value=''"
+                        name="name" placeholder="name"
+                        v-model="name" v-validate="'required'"
+                        class="name" type="text"/>
             </div>
-            <small class="help is-danger" v-show="errors.has('name')">{{ errors.first('name') }}</small>
+            <small v-show="errors.has('name')" class="help is-danger form-text">{{ errors.first('name') }}</small>
           </div>
           <div class="divTableCell col center">
             <label>Gender</label>
@@ -47,7 +47,7 @@
             <small class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</small>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col-4 center">
+          <div class="divTableCell col-3 center">
             <div class="form-group">
               <label>BirthDate</label>
               <fg-input>
@@ -101,13 +101,13 @@
               </div>
             </div>
           </div>
-          <div class="divTableCell col center">
+          <div class="divTableCell col col-md-1 center">
             <div class="form-group">
-              <label>Weight</label>
-              <input name="weight" onfocus="this.value=''"
-                     v-model="weight" v-validate="'required|integer'"
-                     :class="{'input': true, 'is-danger': errors.has('weight') }"
-                     class="form-control form-control-sm weight" type="text" placeholder="Weight">
+              <fg-input label="weight" id="weight"
+                        onfocus="this.value=''"
+                        name="weight" placeholder="Weight"
+                        v-model="weight" v-validate="'required|integer'"
+                        class="weight" type="text"/>
             </div>
             <small v-show="errors.has('weight')" class="help is-danger form-text">{{ errors.first('weight') }}</small>
           </div>

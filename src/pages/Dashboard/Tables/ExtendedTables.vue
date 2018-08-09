@@ -3,15 +3,16 @@
     <!--NOTE: paginated table-->
     <card title="">
       <div>
-        <div class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+        <div class="col-sm-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
+
           <!--NOTE search box-->
-          <el-input type="search" class="select-default mb-3"
+            <el-input type="search" class="col-12 col-sm-3 select-default mb-3"
                     style="width: 100px"
                     placeholder="Search"
                     v-model="searchQuery"
                     aria-controls="datatables"/>
           <!--NOTE: add-a-cat button-->
-          <b-btn v-b-toggle.collapse1 class="rectangle-255" id="rectangle-255">
+            <b-btn v-b-toggle.collapse1 class="rectangle-255" id="rectangle-255">
             <span class="a-cat-text">+ CAT</span>
           </b-btn>
 
