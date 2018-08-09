@@ -47,7 +47,7 @@
             <small class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</small>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col-3 center">
+          <div class="divTableCell col-sm-3 center">
             <div class="form-group">
               <label>BirthDate</label>
               <fg-input>
@@ -190,7 +190,7 @@
           <!--NOTE: litter stuff ends here-->
         </div>
       </div>
-      <div class="form-group container-fluid">
+      <div class="col form-group container-fluid">
         <!--NOTE: someone decided to remove the key form field that all the complex logic was related to.-->
         <div v-if="cat_type === 'O' || cat_type === 'NK'">
           <input type="hidden" name="age" value="K" v-bind="age = 'K'" v-model="age" placeholder="K">
@@ -199,7 +199,7 @@
           <input type="hidden" name="age" value="A" v-bind="age = 'A'" v-model="age" placeholder="A">
         </div>
 
-        <div class="d-flex justify-content-sm-center row">
+        <div class="d-flex justify-content-center row">
 
           <button :disabled="errors.any()"
                   type="submit"
