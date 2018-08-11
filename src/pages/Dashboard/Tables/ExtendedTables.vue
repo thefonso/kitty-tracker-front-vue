@@ -32,30 +32,30 @@
         </b-collapse>
 
         <!--NOTE: cat table begins-->
-        <div class="col-sm-12" @load="sortedCats">
+        <div class="col-12" @load="sortedCats">
           <el-table stripe
                     style="width: 100%;"
                     :data="queriedData"
                     border>
-            <el-table-column v-if="column.label === 'Pic' && column.prop.photo !== null"
-                             v-for="column in tableColumns"
-                             :key="column.label"
-                             :min-width="column.minWidth"
-                             :prop="column.prop"
-                             :label="column.label">
+            <el-table-column
+              v-if="column.label === 'Photo' && column.prop.photo !== null"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
               <template slot-scope="scope">
-                <a v-tooltip.top-center="'Open Record'" class="btn-info btn-simple btn-link"
-                   @click="openCat(scope.$index, scope.row)">
-                  <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
-                    <img class="rounded-circle" :src="scope.row.photo" alt="thumb">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  <div class="img-container photo-thumb-sm" v-if="scope.row.photo !== null">
+                    <img class="rounded-circle img-fluid" :src="scope.row.photo" alt="thumb">
                   </div>
-                  <div class="col-md-2 img-container photo-thumb-sm" v-else>
-                    <img class="rounded-circle" src="/static/img/bastet.png" alt="bastet">
+                  <div class="img-container photo-thumb-sm" v-else>
+                    <img class="rounded-circle img-fluid" src="/static/img/cat_n_mouse.png" alt="bastet">
                   </div>
-                </a>
+                </div>
               </template>
             </el-table-column>
-            <el-table-column v-if="column.label !== 'Pic'"
+            <el-table-column v-if="column.label !== 'Photo'"
                              v-for="column in tableColumns"
                              :key="column.label"
                              :min-width="column.minWidth"
@@ -233,7 +233,6 @@
                                    @click="handleDelete(fed.id, fed.name, 'feedingRow')">
                                   <i class="fa fa-times"></i>
                                 </a>
-
                                 <!--<button class="btn btn-sm btn-info" @click='fed.showRow = !fed.showRow' v-if="fed.showRow">Edit</button>-->
                                 <!--<button type="submit" class="btn btn-sm btn-danger" v-if="fed.showRow" @click="handleDelete(fed.id, fed.name, 'feedingRow')">Delete</button>-->
                               </div>
@@ -296,6 +295,7 @@
                             </el-select>
                             <span v-if="showButton">&nbsp;</span></div>
                           <div class="col-2 form-group">
+                            <!--TODO: move data into data area-->
                             <el-select v-if="!showButton" form="formaddfeed" name="stimulation_type" id="stimulation_type" v-model="stimulation_type" v-validate="'required|alpha'" :error="getError('stimulation_type')" placeholder="STT">
                               <el-option value="Choose..." selected>Choose...</el-option>
                               <el-option value="NA">None / Not Entered</el-option>
@@ -554,11 +554,11 @@
           {
             prop: 'id',
             label: 'ID',
-            minWidth: 100
+            minWidth: 50
           },
           {
             prop: 'photo',
-            label: 'Pic',
+            label: 'Photo',
             minWidth: 100
           },
           {
@@ -569,7 +569,7 @@
           {
             prop: 'gender',
             label: 'Sex',
-            minWidth: 100
+            minWidth: 50
           },
           {
             prop: 'age',
@@ -584,7 +584,7 @@
           {
             prop: 'cat_type',
             label: 'Type',
-            minWidth: 100
+            minWidth: 60
           }
         ],
         fuseSearch: null,
@@ -808,8 +808,11 @@
           })
           .catch(error => console.log(error));
       },
-      openCat (catID) {
-        this.getOneCat(catID)
+      // openCat (catID) {
+      //   this.getOneCat(catID)
+      // },
+      openCat (index, row) {
+        this.getOneCat(row.id)
       },
       getCats () {
         axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
