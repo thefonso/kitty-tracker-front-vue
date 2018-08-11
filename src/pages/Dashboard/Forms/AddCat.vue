@@ -23,11 +23,11 @@
       <div class="container-fluid">
         <div class="row">
           <!--<div class="divTableHead col-sm-2 center">Photo</div>-->
-          <div class="divTableCell col col-md-1 center">
+          <div class="divTableCell col center">
             <div>
               <fg-input label="name" id="name"
                         onfocus="this.value=''"
-                        name="name" placeholder="name"
+                        name="name" placeholder="Name"
                         v-model="name" v-validate="'required'"
                         class="name" type="text">
               </fg-input>
@@ -111,7 +111,7 @@
               </div>
             </div>
           </div>
-          <div class="divTableCell col col-md-1 center">
+          <div class="divTableCell col center">
             <div>
               <fg-input label="weight" id="weight"
                         onfocus="this.value=''"
@@ -123,7 +123,7 @@
           </div>
           <div class="divTableCell col center">
             <label>Unit</label>
-            <div class="form-group">
+            <div>
               <el-select class="select-primary"
                          name="weight_unit"
                          v-model="select_unit.simple"
