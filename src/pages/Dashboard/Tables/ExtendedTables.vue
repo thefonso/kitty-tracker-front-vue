@@ -200,10 +200,10 @@
             <div class="card">
               <div class="card-header" :id="'headingOne'+cat.id">
                 <!--TODO: CAT big one begins here-->
-                <b-btn id="fedMed" class="btn btn-link" v-b-toggle.collapse3>
-                  <div class="table-bigboy container-fluid" style="width: 100%">
-                    <table>
-                        <div class="d-flex justify-content-start primary-cat-row row" role="button">
+                <b-btn id="fedMed" class="col-12 btn btn-link" v-b-toggle.collapse3>
+                  <div class="table-bigboy container-fluid">
+                    <div class="divTable">
+                        <div class="d-flex justify-content-around primary-cat-row row" role="button">
                           <div class="col-2 photo-thumb" v-if="cat.photo !== null">
                             <img :src="cat.photo" alt="thumb" class="rounded-circle img-fluid">
                           </div>
@@ -228,7 +228,7 @@
                             <p style="color: black;">{{cat.birthday | moment("from", "now", true)}}</p>
                           </div>
                           <!--TODO sparkline chart goes here-->
-                          <div class="col-3">
+                          <div class="col-5">
                             <GattoChart :message="cat.name"></GattoChart>
                             <!--<GattoChart></GattoChart>-->
                           </div>
@@ -243,8 +243,8 @@
                               <button type="button" class="btn btn-default btn-outline">{{cat.litter_mates ? cat.litter_mates : 'none'}}</button>
                             </div>
                           </div>
-                          <div class="col-2 cat-actions d-flex justify-content-end">
-                            <div class="cell">
+                          <!--<div class="col-2 cat-actions d-flex justify-content-end">-->
+                            <!--<div class="cell">-->
                               <!--<a class="btn-info btn-simple btn-link" v-tooltip.top-center="'Edit'"-->
                               <!--@click="handleEdit(cat.id, cat.name)">-->
                               <!--<i class="fa fa-edit"></i>-->
@@ -253,10 +253,10 @@
                                  <!--@click="handleDelete(cat.id, cat.name, 'catRow')">-->
                                 <!--<i class="fa fa-times"></i>-->
                               <!--</a>-->
-                            </div>
-                          </div>
+                            <!--</div>-->
+                          <!--</div>-->
                         </div>
-                    </table>
+                    </div>
                   </div>
                 </b-btn>
                 <!--TODO: CAT big one ends here-->
@@ -1264,6 +1264,9 @@
 </script>
 
 <style lang="scss">
+  #fedmed{
+    width: 100%;
+  }
   .el-table th > .cell {
     text-align: center;
   }
