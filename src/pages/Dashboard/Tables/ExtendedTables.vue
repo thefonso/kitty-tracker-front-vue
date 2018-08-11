@@ -1031,8 +1031,10 @@
         if (row === 'catRow'){
           this.showSwal('basic','un gatto gone');
           this.deleteCat(id);//delete cat from database
-          let i = this.cats.map(item => item.id).indexOf(id); // find index of your object
-          this.cats.splice(i, 1) // remove it from array visually
+          let indexToDelete = this.cats.map(item => item.id).indexOf(id); // find index of your object
+          if (indexToDelete >= 0) {
+            this.cats.splice(indexToDelete, 1) // remove it from array visually
+          }
         }else if (row === 'feedingRow'){
           this.showSwal('basic', 'feeding deleted');
           this.deleteFeeding(id);
