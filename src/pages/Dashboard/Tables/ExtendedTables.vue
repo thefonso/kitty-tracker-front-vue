@@ -38,6 +38,25 @@
                     :data="queriedData"
                     border>
             <el-table-column
+              v-if="column.label === 'ID'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  <div class="d-flex justify-content-center">
+                    <div style="display: table-cell">{{ scope.row.age}}</div>
+                    <div style="display: table-cell">-</div>
+                    <div style="display: table-cell">{{ scope.row.weight }}</div>
+                    <div style="display: table-cell">{{ scope.row.gender }}</div>
+                    <div style="display: table-cell">{{ scope.row.cat_type }}</div>
+                  </div>
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
               v-if="column.label === 'Photo' && column.prop.photo !== null"
               v-for="column in tableColumns"
               :key="column.label"
@@ -55,13 +74,78 @@
                 </div>
               </template>
             </el-table-column>
-            <el-table-column v-if="column.label !== 'Photo'"
-                             v-for="column in tableColumns"
-                             :key="column.label"
-                             :min-width="column.minWidth"
-                             :prop="column.prop"
-                             :label="column.label">
+            <el-table-column
+              v-if="column.label === 'Name'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  {{ scope.row.name }}
+                </div>
+              </template>
             </el-table-column>
+            <el-table-column
+              v-if="column.label === 'Sex'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  {{ scope.row.gender }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="column.label === 'Birthdate'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  {{ scope.row.birthday | moment("MM-DD-YYYY") }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="column.label === 'Age'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  {{ scope.row.birthday | moment("from", "now", true) }}
+                </div>
+              </template>
+            </el-table-column>
+            <el-table-column
+              v-if="column.label === 'Type'"
+              v-for="column in tableColumns"
+              :key="column.label"
+              :min-width="column.minWidth"
+              :prop="column.prop"
+              :label="column.label">
+              <template slot-scope="scope">
+                <div class="center hand" @click="openCat(scope.$index, scope.row)">
+                  {{ scope.row.cat_type }}
+                </div>
+              </template>
+            </el-table-column>
+            <!--<el-table-column v-if="column.label !== 'Photo' && column.label !== 'ID' && column.label !== 'Name' && column.label !== 'Birthdate' && column.label !== 'Age'"-->
+                             <!--v-for="column in tableColumns"-->
+                             <!--:key="column.label"-->
+                             <!--:min-width="column.minWidth"-->
+                             <!--:prop="column.prop"-->
+                             <!--:label="column.label">-->
+            <!--</el-table-column>-->
             <el-table-column
               :min-width="120"
               fixed="right"
@@ -554,7 +638,7 @@
           {
             prop: 'id',
             label: 'ID',
-            minWidth: 50
+            minWidth: 90
           },
           {
             prop: 'photo',
@@ -572,12 +656,12 @@
             minWidth: 50
           },
           {
-            prop: 'age',
+            prop: 'birthday',
             label: 'Birthdate',
             minWidth: 140
           },
           {
-            prop: 'age',
+            prop: 'birthday',
             label: 'Age',
             minWidth: 100
           },
