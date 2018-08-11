@@ -33,64 +33,56 @@
 
         <!--NOTE: cat table begins-->
         <div class="col-sm-12" @load="sortedCats">
-          <div class="divTable">
-            <div class="divTableHeading container-fluid">
-              <div class="d-flex justify-content-around row">
-                <div class="divTableHead col-sm-1 center">ID</div>
-                <div class="divTableHead col-sm-2 center">Photo</div>
-                <div class="divTableHead col-sm-1 center">Name</div>
-                <div class="divTableHead col-sm-1 center">Sex</div>
-                <div class="divTableHead col-sm-2 center">Birthdate</div>
-                <div class="divTableHead col-sm-2 center">Age</div>
-                <div class="divTableHead col-sm-1 center">Type</div>
-                <div class="divTableHead col-sm-2 center">Actions</div>
-              </div>
-            </div>
-            <div class="divTableBody container-fluid">
-              <div class="divTableRow fadecontent d-flex justify-content-around row" v-for="(fed) in queriedData" :key="fed.id">
-                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">
-                  <div class="d-flex justify-content-center">
-                    <div style="display: table-cell">{{ fed.age}}</div>
-                    <div style="display: table-cell">-</div>
-                    <div style="display: table-cell">{{ fed.weight }}</div>
-                    <div style="display: table-cell">{{ fed.gender }}</div>
-                    <div style="display: table-cell">{{ fed.cat_type }}</div>
+          <el-table stripe
+                    style="width: 100%;"
+                    :data="queriedData"
+                    border>
+            <el-table-column v-if="column.label === 'Pic' && column.prop.photo !== null"
+                             v-for="column in tableColumns"
+                             :key="column.label"
+                             :min-width="column.minWidth"
+                             :prop="column.prop"
+                             :label="column.label">
+              <template slot-scope="scope">
+                <a v-tooltip.top-center="'Open Record'" class="btn-info btn-simple btn-link"
+                   @click="openCat(scope.$index, scope.row)">
+                  <div class="col-md-2 img-container photo-thumb-sm" v-if="scope.row.photo !== null">
+                    <img class="rounded-circle" :src="scope.row.photo" alt="thumb">
                   </div>
-                </div>
-                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">
-                  <div class="img-container photo-thumb-sm" v-if="fed.photo !== null">
-                    <img class="rounded-circle img-fluid" :src="fed.photo" alt="thumb">
+                  <div class="col-md-2 img-container photo-thumb-sm" v-else>
+                    <img class="rounded-circle" src="/static/img/bastet.png" alt="bastet">
                   </div>
-                  <div class="img-container photo-thumb-sm" v-else>
-                    <img class="rounded-circle img-fluid" src="/static/img/cat_n_mouse.png" alt="cat-n-mouse">
-                  </div>
-                </div>
-                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.name }}</div>
-                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.gender }}</div>
-                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("MM-DD-YYYY")}}</div>
-                <div class="divTableCell col-sm-2 center hand" @click="openCat(fed.id)">{{ fed.birthday | moment("from", "now", true) }}</div>
-                <div class="divTableCell col-sm-1 center hand" @click="openCat(fed.id)">{{ fed.cat_type }}</div>
-                <div class="divTableCell col-sm-2 center">
-                  <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
-                     @click="handleLike(fed.id, fed.name)">
-                    <i class="fa fa-heart"></i></a>
-                  <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
-                     @click="handleEdit(fed.id, fed.name)"><i
-                    class="fa fa-edit"></i></a>
-                  <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
-                     @click="handleDelete(fed.id, fed.name, 'catRow')">
-                    <i class="fa fa-times"></i>
-                  </a>
-                </div>
-              </div>
-            </div>
-          </div>
+                </a>
+              </template>
+            </el-table-column>
+            <el-table-column v-if="column.label !== 'Pic'"
+                             v-for="column in tableColumns"
+                             :key="column.label"
+                             :min-width="column.minWidth"
+                             :prop="column.prop"
+                             :label="column.label">
+            </el-table-column>
+            <el-table-column
+              :min-width="120"
+              fixed="right"
+              label="Actions">
+              <template slot-scope="props">
+                <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
+                   @click="handleLike(props.$index, props.row)">
+                  <i class="fa fa-heart"></i></a>
+                <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
+                   @click="handleEdit(props.$index, props.row)"><i
+                  class="fa fa-edit"></i></a>
+                <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
+                   @click="handleDelete(props.$index, props.row, 'catRow')"><i class="fa fa-times"></i></a>
+              </template>
+            </el-table-column>
+          </el-table>
         </div>
       </div>
       <div slot="footer" class="col-12 d-flex justify-content-center justify-content-sm-between flex-wrap">
         <div class="">
           <!--<p class="card-category">Showing {{from + 1}} to {{to}} of {{total}} entries</p>-->
-          <!--TODO: remove this el UI crap. replace with regular html-->
           <!--NOTE: pagination box-->
           <el-select
             class="select-default mb-3"
@@ -557,8 +549,13 @@
           total: 0
         },
         searchQuery: '',
-        propsToSearch: ['name', 'gender', 'age', 'photo'],
+        propsToSearch: ['name', 'gender', 'age', 'id', 'birthday', 'cat_type'],
         tableColumns: [
+          {
+            prop: 'id',
+            label: 'ID',
+            minWidth: 100
+          },
           {
             prop: 'photo',
             label: 'Pic',
@@ -571,8 +568,13 @@
           },
           {
             prop: 'gender',
-            label: 'Gender',
+            label: 'Sex',
             minWidth: 100
+          },
+          {
+            prop: 'age',
+            label: 'Birthdate',
+            minWidth: 140
           },
           {
             prop: 'age',
@@ -582,7 +584,7 @@
           {
             prop: 'cat_type',
             label: 'Type',
-            minWidth: 120
+            minWidth: 100
           }
         ],
         fuseSearch: null,
@@ -614,8 +616,18 @@
     beforeMount () {
       this.getCats();
     },
+    created () {
+      axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
+        .then((response) => {
+          console.log("before: "+ this.cats);
+          this.cats = response.data.results;
+          console.log("after: "+ this.cats);
+          this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
+        })
+        .catch(error => console.log(error));
+    },
     mounted () {
-      this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
+      console.log("mounted: " + this.cats);
     },
     events: {
       'event_name': function (data) {
@@ -1025,13 +1037,14 @@
           return fedToChange.id == medID;
         });
       },
-      handleDelete (id, name, row) {
+      handleDelete (id, propRow, row) {
         // alert(`You want to delete ${name}`);
-        this.showSwal('basic', `You want to delete ${name}`);
+        // this.showSwal('basic', `You want to delete ${name}`);
         if (row === 'catRow'){
           this.showSwal('basic','un gatto gone');
+          console.log("delete " + id);
           this.deleteCat(id);//delete cat from database
-          let indexToDelete = this.cats.map(item => item.id).indexOf(id); // find index of your object
+          let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === propRow.id);
           if (indexToDelete >= 0) {
             this.cats.splice(indexToDelete, 1) // remove it from array visually
           }
