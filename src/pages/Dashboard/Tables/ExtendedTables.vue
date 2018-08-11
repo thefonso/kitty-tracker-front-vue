@@ -1131,8 +1131,8 @@
         // this.showSwal('basic', `You want to delete ${name}`);
         if (row === 'catRow'){
           this.showSwal('basic','un gatto gone');
-          console.log("delete " + id);
-          this.deleteCat(id);//delete cat from database
+          console.log("delete " + propRow.id);
+          this.deleteCat(propRow.id);//delete cat from database
           let indexToDelete = this.cats.findIndex((tableRow) => tableRow.id === propRow.id);
           if (indexToDelete >= 0) {
             this.cats.splice(indexToDelete, 1) // remove it from array visually
