@@ -151,6 +151,7 @@
               fixed="right"
               label="Actions">
               <template slot-scope="props">
+                <div class="center">
                 <a v-tooltip.top-center="'Like'" class="btn-info btn-simple btn-link"
                    @click="handleLike(props.$index, props.row)">
                   <i class="fa fa-heart"></i></a>
@@ -159,6 +160,7 @@
                   class="fa fa-edit"></i></a>
                 <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
                    @click="handleDelete(props.$index, props.row, 'catRow')"><i class="fa fa-times"></i></a>
+                </div>
               </template>
             </el-table-column>
           </el-table>
@@ -1262,6 +1264,9 @@
 </script>
 
 <style lang="scss">
+  .el-table th > .cell {
+    text-align: center;
+  }
   /*Add-a-Cat button begins*/
   .rectangle-255 {
     height: 55px;
