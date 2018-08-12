@@ -721,6 +721,16 @@
       },
     },
     methods: {
+      updateSearch(){
+        axios.get(`${process.env.KITTY_URL}/api/v1/cats/`)
+          .then((response) => {
+            console.log("update-before: "+ this.cats);
+            this.cats = response.data.results;
+            console.log("update-after: "+ this.cats);
+            this.fuseSearch = new Fuse(this.cats, {keys: ['name', 'gender']})
+          })
+          .catch(error => console.log(error));
+      },
       foodName(food){
         console.log(food);
         switch (food){
@@ -907,7 +917,11 @@
       },
       deleteCat (catID) {
         axios.delete(`${process.env.KITTY_URL}/api/v1/cats/${catID}/`)
-          .then(response => {console.log("un Gatto gone:");this.cat = response.data.results})
+          .then(response => {
+            console.log("un Gatto gone:");
+            // this.cat = response.data.results // NOTE: this line caused pagination on catlist page to hault when deleting a cat
+            this.updateSearch();
+          })
           .catch(error => console.log(error));
       },
       deleteFeeding (feedID) {
