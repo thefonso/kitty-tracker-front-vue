@@ -156,7 +156,7 @@
                    @click="handleLike(props.$index, props.row)">
                   <i class="fa fa-heart"></i></a>
                 <a v-tooltip.top-center="'Edit'" class="btn-warning btn-simple btn-link"
-                   @click="handleEdit(props.$index, props.row)"><i
+                   @click="handleEditCatList(props.$index, props.row)"><i
                   class="fa fa-edit"></i></a>
                 <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
                    @click="handleDelete(props.$index, props.row, 'catRow')"><i class="fa fa-times"></i></a>
@@ -1109,6 +1109,12 @@
       handleEdit (bool) {
         // map / filter / reduce
         // alert(`You want to edit ${row.name}`)
+        this.showRow = bool;
+        console.log(this.showRow);
+      },
+      handleEditCatList (index, row) {
+        // map / filter / reduce
+        alert(`You want to edit ${row.name}`)
         this.showRow = bool;
         console.log(this.showRow);
       },
