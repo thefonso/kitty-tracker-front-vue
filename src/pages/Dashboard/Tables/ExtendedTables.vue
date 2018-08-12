@@ -537,6 +537,7 @@
   Vue.prototype.$confirm = MessageBox.confirm;
   export default{
     components: {
+      AddCat,
       GattoChart,
       ElSelectDropdown,
       LSwitch,
@@ -1547,5 +1548,8 @@
   }
   .divTableBody {
     display: table-row-group;
+  }
+  .birthday{
+    padding-top: 11px !important;
   }
 </style>

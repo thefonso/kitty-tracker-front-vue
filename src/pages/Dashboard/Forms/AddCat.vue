@@ -39,13 +39,13 @@
           <div class="divTableCell col center">
             <label>Gender</label>
             <div>
-              <el-select class="select-primary"
+              <el-select class="select-secondary"
                       id="gender" name="gender"
                       v-model="select_gender.simple"
                       v-validate="'required'"
                       placeholder="Gender">
                 <el-option v-for="option in select_gender.gender"
-                           class="select-primary"
+                           class="select-secondary"
                            :value="option.value"
                            :label="option.label"
                            :key="option.label">
@@ -55,7 +55,7 @@
             <small class="help is-danger" v-show="errors.has('gender')">{{ errors.first('gender') }}</small>
           </div>
           <!--TODO: DATE PICKER SIZE-->
-          <div class="divTableCell col-sm-3 center">
+          <div class="divTableCell col-sm-3 center birthday">
             <div>
               <label>BirthDate</label>
               <fg-input>
@@ -70,12 +70,12 @@
           <div class="divTableCell col center">
             <label>Type</label>
             <div>
-              <el-select class="select-primary"
+              <el-select class="select-secondary"
                          id="cat_type" name="cat_type"
                          v-model="selects.simple"
                          v-validate="'required'">
                 <el-option v-for="option in selects.cat_type"
-                           class="select-primary"
+                           class="select-secondary"
                            :value="option.value"
                            :label="option.label"
                            :key="option.label">
@@ -102,7 +102,7 @@
             <div v-else-if="cat_type !== 'P' || cat_type !=='NM' || cat_type !=='NK'">
               <label>Litter</label>
               <div>
-                <el-select class="select-primary"
+                <el-select class="select-secondary"
                            name="litter_set"
                            v-model="litter_mates">
                   <el-option selected value="none">none</el-option>
@@ -124,12 +124,12 @@
           <div class="divTableCell col center">
             <label>Unit</label>
             <div>
-              <el-select class="select-primary"
+              <el-select class="select-secondary"
                          name="weight_unit"
                          v-model="select_unit.simple"
                          v-validate="'required|alpha'">
                 <el-option v-for="option in select_unit.weight_unit"
-                           class="select-primary"
+                           class="select-secondary"
                            :value="option.value"
                            :label="option.label"
                            :key="option.label">
