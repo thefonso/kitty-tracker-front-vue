@@ -54,6 +54,7 @@
       },
       backgroundImage: {
         type: String,
+        // TODO: change to babby image
         default: 'static/img/sidebar-5.jpg'
       },
       activeColor: {
