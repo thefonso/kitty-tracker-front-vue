@@ -22,8 +22,11 @@
         <div class="col-sm-6 align-center" :singleCat="singleCat" v-if="singleCat">
           <!--photo upload-->
           <div id="catID" class="panel-body" :singleCat="singleCat" v-if="singleCat">
-            <div class="pet-image-box">
+            <div class="pet-image-box" v-if="singleCat.photo">
               <img v-bind:src="singleCat.photo" alt="" class="pet-image">
+            </div>
+            <div class="pet-image-box" v-else>
+              <img src="static/img/cat_butt.png" alt="" class="pet-image">
             </div>
           </div>
           <div class="pet-name">{{singleCat.name}}</div>
@@ -47,7 +50,11 @@
         showSuccess: false,
         showDanger: false,
         visible: false,
-        singleCat: [{photo: "/static/img/cat_n_mouse.png"}],
+        singleCat: [],
+        defaultImage: {
+          type: String,
+          default: 'static/img/cat_butt.png'
+        },
         catArray: [],
         rootUrl: process.env.KITTY_URL,
         selectedFile: null,
