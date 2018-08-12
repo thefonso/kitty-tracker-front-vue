@@ -229,8 +229,9 @@
                           </div>
                           <!--TODO sparkline chart goes here-->
                           <div class="col-5">
-                            <GattoChart :message="cat.name"></GattoChart>
-                            <!--<GattoChart></GattoChart>-->
+                            <div v-if="modals['custom']">
+                              <GattoChart :message="cat.name"></GattoChart>
+                            </div>
                           </div>
                           <!--<div class="col-sm-3"><span></span></div>-->
                           <div class="col-3 cat-litter">
@@ -770,7 +771,6 @@
       },
       openModal (name) {
         this.modals[name] = true;
-        // document.getElementById("fedMed").click()
       },
       closeModal (name) {
         this.modals[name] = false
@@ -936,7 +936,8 @@
       },
       getFeedings(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/feedings/?cat__slug&cat__name=${value}`)
-          .then(response => {console.log(response.data.results); this.catFeedings = response.data.results})
+          .then(response => {console.log("getFeedings: ");
+          console.log(response.data.results); this.catFeedings = response.data.results})
           .catch(error => console.log(error));
       },
       postFeedings(catID, catName) {
@@ -988,7 +989,7 @@
       },
       getMedications(value) {
         axios.get(`${process.env.KITTY_URL}/api/v1/medications/?cat__slug=&cat__name=${value}`)
-          .then(response => {console.log("catMedications: ");
+          .then(response => {console.log("getMedications: ");
           console.log(response.data.results); this.catMedications = response.data.results})
           .catch(error => console.log(error));
       },
