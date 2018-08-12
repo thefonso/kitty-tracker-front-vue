@@ -1552,4 +1552,7 @@
   .birthday{
     padding-top: 11px !important;
   }
+  .swal2-container{
+    z-index: 9000 !important;
+  }
 </style>
