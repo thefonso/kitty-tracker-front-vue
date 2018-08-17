@@ -1038,7 +1038,8 @@
           })
       },
       editFeedings(medID, medName, catID, catName) {
-        axios.put(`${process.env.KITTY_URL}/api/v1/feedings/${medID}/`,{
+        // TODO: PUT and PATCH will not work...something is wrong on millers code
+        axios.patch(`${process.env.KITTY_URL}/api/v1/feedings/${medID}/`,{
           cat: {id: catID, name: catName},
           weight_unit_measure: 'G',
           weight_before_food: this.weight_before_food,
