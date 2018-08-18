@@ -38,7 +38,7 @@
                    :fields="tableColumns"
                    :items="queriedData">
             <template slot="id" slot-scope="scope">
-              <div class="hand" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
                 <div class="d-flex justify-content-start">
                   <div style="display: table-cell">{{ scope.item.age}}</div>
                   <div style="display: table-cell">-</div>
@@ -49,7 +49,7 @@
               </div>
             </template>
             <template slot="photo" slot-scope="scope">
-              <div class="hand" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
                 <div class="img-container photo-thumb-sm" v-if="scope.value !== null">
                   <img class="rounded-circle img-fluid" :src="scope.value" alt="thumb">
                 </div>
@@ -58,14 +58,29 @@
                 </div>
               </div>
             </template>
+            <template slot="name" slot-scope="scope">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+                {{ scope.item.name }}
+              </div>
+            </template>
+            <template slot="gender" slot-scope="scope">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+                {{ scope.item.gender }}
+              </div>
+            </template>
             <template slot="birthday" slot-scope="scope">
-              <div class="hand" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
                 {{ scope.value | moment("MM-DD-YYYY") }}
               </div>
             </template>
             <template slot="age" slot-scope="scope">
-              <div class="hand" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
                 {{ scope.item.birthday | moment("from", "now", true) }}
+              </div>
+            </template>
+            <template slot="cat_type" slot-scope="scope">
+              <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
+                {{ scope.item.cat_type }}
               </div>
             </template>
             <template slot="actions" slot-scope="scope">
@@ -79,9 +94,9 @@
                 <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
                    @click="handleDelete(scope.$index, scope.row, 'catRow')"><i class="fa fa-times"></i></a>
               </div>
-              <b-button size="sm" @click.stop="scope.toggleDetails">
-                {{ scope.detailsShowing ? 'Hide' : 'Show' }} Details
-              </b-button>
+              <!--<b-button size="sm" @click.stop="scope.toggleDetails">-->
+                <!--{{ scope.detailsShowing ? 'Hide' : 'Show' }} Details-->
+              <!--</b-button>-->
             </template>
             <template slot="row-details" slot-scope="scope">
               <b-card>
