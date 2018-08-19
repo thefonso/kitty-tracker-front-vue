@@ -36,7 +36,14 @@
                    stacked="md"
                    style="width: 100%;"
                    :fields="tableColumns"
-                   :items="queriedData">
+                   :items="queriedData"
+                   :current-page="pagination.currentPage"
+                   :per-page="pagination.perPage"
+                   :filter="filter"
+                   :sort-by.sync="sortBy"
+                   :sort-desc.sync="sortDesc"
+                   :sort-direction="sortDirection"
+                   @filtered="onFiltered">
             <template slot="id" slot-scope="scope">
               <div class="hand" @click.stop="scope.toggleDetails" @click="getFeedings(scope.item.name),getMedications(scope.item.name)">
                 <div class="d-flex justify-content-start">
@@ -94,28 +101,24 @@
                 <a v-tooltip.top-center="'Delete'" class="btn-danger btn-simple btn-link"
                    @click="handleDelete(scope.$index, scope.row, 'catRow')"><i class="fa fa-times"></i></a>
               </div>
-              <!--<b-button size="sm" @click.stop="scope.toggleDetails">-->
-                <!--{{ scope.detailsShowing ? 'Hide' : 'Show' }} Details-->
-              <!--</b-button>-->
             </template>
             <template slot="row-details" slot-scope="scope">
-              <b-card>
-                <div class="table-responsive">
+              <div class="table-responsive">
                   <div id="accordion">
                     <div class="card">
                     <div class="card-header">
                       <!--TODO: CAT big one begins here-->
                       <b-btn id="fedMed" class="col btn btn-link" v-b-toggle.collapse3>
-                        <div class="table-bigboy container-fluid">
+                        <div class="container-fluid col-12">
                           <div class="divTable">
                             <div class="d-flex justify-content-around primary-cat-row row" role="button">
-                              <div class="col-2 photo-thumb" v-if="scope.item.photo !== null">
+                              <div class="col-auto img-container-lg photo-thumb-sm" v-if="scope.item.photo !== null">
                                 <img :src="scope.item.photo" alt="thumb" class="rounded-circle img-fluid">
                               </div>
-                              <div class="col-2 photo-thumb" v-else>
-                                <img src="/static/img/cat_n_mouse.png" alt="default pic">
+                              <div class="col-auto img-container-lg photo-thumb-sm" v-else>
+                                <img src="/static/img/cat_n_mouse.png" alt="default pic" class="rounded-circle img-fluid">
                               </div>
-                              <div class="col-2 cat-name">
+                              <div class="col-auto cat-name">
                                 <h4 style="color: #000;text-transform: capitalize;">{{scope.item.name}}</h4>
                                 <div class="col-12" style="border: 0px solid darkgrey; display: table" >
                                   <div class="d-flex justify-content-center">
@@ -133,12 +136,12 @@
                                 <p style="color: black;">{{scope.item.birthday | moment("from", "now", true)}}</p>
                               </div>
                               <!--TODO sparkline chart goes here-->
-                              <div class="col-5">
+                              <div class="col-sm-4 col-md-5">
                                 <!--<div v-if="modals['custom']">-->
                                 <GattoChart :message="scope.item.name"></GattoChart>
                                 <!--</div>-->
                               </div>
-                              <div class="col-3 cat-litter">
+                              <div class="col-auto cat-litter">
                                 <div class="btn-group" v-if="scope.item.litter_mates !== null">
                                   <button type="button" class="btn btn-warning btn-outline">Litter:</button>
                                   <button type="button" class="btn btn-warning btn-outline">
@@ -166,12 +169,12 @@
                             <div id="fedsTable" class="table table-striped table-bordered">
                               <div class="fedRow d-flex justify-content-start top-row">
                                 <div class="col-1">#</div>
-                                <div class="col-1">FT</div>
-                                <div class="col-1">WBF</div>
-                                <div class="col-1">AFT</div>
-                                <div class="col-1">WAF</div>
-                                <div class="col-1">ST</div>
-                                <div class="col-2">STT</div>
+                                <div class="col-1" v-tooltip.top-center="'food type'">FT</div>
+                                <div class="col-1" v-tooltip.top-center="'weight before food'">WBF</div>
+                                <div class="col-1" v-tooltip.top-center="'amount of food taken'">AFT</div>
+                                <div class="col-1" v-tooltip.top-center="'weight after food'">WAF</div>
+                                <div class="col-1" v-tooltip.top-center="'stimulated'">ST</div>
+                                <div class="col-2" v-tooltip.top-center="'stimulation type'">STT</div>
                                 <div class="col-2">Actions</div>
                               </div>
                               <div id="feedtable" class="" v-for="fed in catFeedings" :key="fed.id">
@@ -411,7 +414,6 @@
                   </div>
                   </div>
                 </div>
-              </b-card>
             </template>
           </b-table>
         </div>
@@ -571,6 +573,10 @@
           perPageOptions: [5, 10, 25, 50],
           total: 0
         },
+        sortBy: null,
+        sortDesc: false,
+        sortDirection: 'asc',
+        filter: null,
         searchQuery: '',
         propsToSearch: ['name', 'gender', 'age', 'id', 'birthday', 'cat_type'],
         tableColumns: [
@@ -590,31 +596,36 @@
             key: 'name',
             prop: 'name',
             label: 'Name',
-            minWidth: 100
+            minWidth: 100,
+            sortable: true
           },
           {
             key: 'gender',
             prop: 'gender',
             label: 'Sex',
-            minWidth: 50
+            minWidth: 50,
+            sortable: true
           },
           {
             key: 'birthday',
             prop: 'birthday',
             label: 'Birthdate',
             minWidth: 140,
+            sortable: true
           },
           {
             key: 'age',
             prop: 'birthday',
             label: 'Age',
-            minWidth: 100
+            minWidth: 100,
+            sortable: true
           },
           {
             key: 'cat_type',
             prop: 'cat_type',
             label: 'Type',
-            minWidth: 60
+            minWidth: 60,
+            sortable: true
           },
           {
             key: 'actions',
@@ -1342,11 +1353,13 @@
   .photo-thumb img{
     width: 8.333em;
     height: 8.333em;
-    @media screen and (max-width: 667px) {
-      width: 4.333em;
-      height: 5.333em;
-    }
     object-fit: cover;
+    @media screen and (max-width: 667px) {
+      width: 4.167em;
+      height: 4.167em;
+      object-fit: cover;
+    }
+
   }
   .photo-thumb-sm img{
     width: 4.167em;
