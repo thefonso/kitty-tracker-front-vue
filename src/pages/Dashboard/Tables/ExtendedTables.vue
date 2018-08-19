@@ -618,7 +618,7 @@
             prop: 'birthday',
             label: 'Age',
             minWidth: 100,
-            sortable: true
+            sortable: false
           },
           {
             key: 'cat_type',
